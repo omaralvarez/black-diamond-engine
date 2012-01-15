@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		607EF30314C33BAA00D801C9 /* scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 607EF30214C33BAA00D801C9 /* scene.cpp */; };
 		60EA722214B76B2100D2F3B3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60EA722114B76B2100D2F3B3 /* main.cpp */; };
 		60EA722414B76B2100D2F3B3 /* black_diamond_engine.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60EA722314B76B2100D2F3B3 /* black_diamond_engine.1 */; };
 /* End PBXBuildFile section */
@@ -25,6 +26,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		607EF30214C33BAA00D801C9 /* scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scene.cpp; sourceTree = "<group>"; };
 		60EA721D14B76B2100D2F3B3 /* black-diamond-engine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "black-diamond-engine"; sourceTree = BUILT_PRODUCTS_DIR; };
 		60EA722114B76B2100D2F3B3 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		60EA722314B76B2100D2F3B3 /* black_diamond_engine.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = black_diamond_engine.1; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				60EA722114B76B2100D2F3B3 /* main.cpp */,
+				607EF30214C33BAA00D801C9 /* scene.cpp */,
 				60EA722314B76B2100D2F3B3 /* black_diamond_engine.1 */,
 			);
 			path = "black-diamond-engine";
@@ -118,6 +121,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				60EA722214B76B2100D2F3B3 /* main.cpp in Sources */,
+				607EF30314C33BAA00D801C9 /* scene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,6 +208,7 @@
 				60EA722914B76B2100D2F3B3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
