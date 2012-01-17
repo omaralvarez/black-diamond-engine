@@ -10,6 +10,7 @@
 #include <vector>
 #include <fstream>
 #include "parser.h"
+#include "camera.h"
 
 int main (int argc, const char * argv[])
 {
@@ -21,6 +22,8 @@ int main (int argc, const char * argv[])
     vector<Point> datos = new_parser.parse_data_file(filePath);
     
     cout << "x = " << datos[1].x << " y = " << datos[1].y << " z = " << datos[1].z << endl;
+    
+    Camera(1,2,3,3,4,60,Vector(1,2,3));
     
     return 0;
 }

@@ -12,9 +12,10 @@
 class Point {
     
 public:
-    float x,y,z;
-    float color; 
+    float x,y,z;    //Point position.
+    float color;    //Point color.
     
+    //Constructor.
     Point(float _x=0, float _y=0, float _z=0)
         : x(_x), y(_y), z(_z) {}
     

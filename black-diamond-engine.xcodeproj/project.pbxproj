@@ -13,6 +13,7 @@
 		60105DFC14C59DED0007540B /* light_source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105DFB14C59DED0007540B /* light_source.cpp */; };
 		60105E0114C59EAD0007540B /* render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105E0014C59EAD0007540B /* render.cpp */; };
 		60105E0414C59EDE0007540B /* image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105E0314C59EDE0007540B /* image.cpp */; };
+		60105E0914C5DAC30007540B /* vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105E0814C5DAC30007540B /* vector.cpp */; };
 		607EF30314C33BAA00D801C9 /* scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 607EF30214C33BAA00D801C9 /* scene.cpp */; };
 		60EA722214B76B2100D2F3B3 /* bde.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60EA722114B76B2100D2F3B3 /* bde.cpp */; };
 		60EA722414B76B2100D2F3B3 /* black_diamond_engine.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60EA722314B76B2100D2F3B3 /* black_diamond_engine.1 */; };
@@ -45,6 +46,8 @@
 		60105E0014C59EAD0007540B /* render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = render.cpp; sourceTree = "<group>"; };
 		60105E0314C59EDE0007540B /* image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
 		60105E0514C59EE80007540B /* image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
+		60105E0714C5DAB40007540B /* vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
+		60105E0814C5DAC30007540B /* vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vector.cpp; sourceTree = "<group>"; };
 		607EF30214C33BAA00D801C9 /* scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scene.cpp; sourceTree = "<group>"; };
 		60EA721D14B76B2100D2F3B3 /* black-diamond-engine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "black-diamond-engine"; sourceTree = BUILT_PRODUCTS_DIR; };
 		60EA722114B76B2100D2F3B3 /* bde.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bde.cpp; sourceTree = "<group>"; };
@@ -125,6 +128,15 @@
 			name = image;
 			sourceTree = "<group>";
 		};
+		60105E0614C5DA990007540B /* vector */ = {
+			isa = PBXGroup;
+			children = (
+				60105E0714C5DAB40007540B /* vector.h */,
+				60105E0814C5DAC30007540B /* vector.cpp */,
+			);
+			name = vector;
+			sourceTree = "<group>";
+		};
 		60EA721214B76B2100D2F3B3 = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +159,7 @@
 				60EA722114B76B2100D2F3B3 /* bde.cpp */,
 				60105E0214C59ED00007540B /* image */,
 				60105DFE14C59E960007540B /* render */,
+				60105E0614C5DA990007540B /* vector */,
 				60105DFA14C59DD00007540B /* light_source */,
 				60105DF614C59D750007540B /* camera */,
 				60105DF214C59D3C0007540B /* point */,
@@ -216,6 +229,7 @@
 				60105DFC14C59DED0007540B /* light_source.cpp in Sources */,
 				60105E0114C59EAD0007540B /* render.cpp in Sources */,
 				60105E0414C59EDE0007540B /* image.cpp in Sources */,
+				60105E0914C5DAC30007540B /* vector.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
