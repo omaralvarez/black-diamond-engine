@@ -9,6 +9,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include "parser.h"
 
 int main (int argc, const char * argv[])
 {
@@ -16,29 +17,10 @@ int main (int argc, const char * argv[])
     using namespace std;
     
     char filePath[200] = "/Users/osurfer3/Dropbox/PFC/Datasets/urban_scenes_sketchup/urban_scenes_sketchup/3d_man1/3d_man1-1.txt";
+    Parser new_parser;
+    vector<Point> datos = new_parser.parse_data_file(filePath);
     
-    ifstream inputFile;
-    
-    inputFile.open(filePath);
-    
-    vector<float> data(0);
-    float temp,temp2,temp3;
-    
-    while (inputFile.good()){
-        
-        inputFile >> temp >> temp2 >> temp3;
-        
-        cout << temp << " " << temp2 << " " << temp3 << endl;
-        
-        data.push_back(temp);
-        
-    }
-    
-    cout << "Primera lectura: " << temp << endl;
-    
-    for (int i=0; i<data.size(); i++) {
-        //cout << i << ". " << data[i] << endl;
-    }
+    cout << "x = " << datos[1].x << " y = " << datos[1].y << " z = " << datos[1].z << endl;
     
     return 0;
 }
