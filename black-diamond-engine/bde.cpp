@@ -11,6 +11,7 @@
 #include <fstream>
 #include "parser.h"
 #include "camera.h"
+#include "transform.h"
 
 int main (int argc, const char * argv[])
 {
@@ -23,7 +24,15 @@ int main (int argc, const char * argv[])
     
     cout << "x = " << datos[1].x << " y = " << datos[1].y << " z = " << datos[1].z << endl;
     
-    Camera(1,2,3,3,4,60,Vector(1,2,3));
+    Transform world_to_cam;
+    Transform world_to_cam2 = world_to_cam.look_at(Point(4,0,6),Point(4,0,7),Vector(0,1,0));
+    
+    Point punto = Point(6,3,11);
+    //Point punto = Point(4,0,6);
+    
+    Point punto_trans = world_to_cam2(punto);
+    
+    std::cout << punto_trans.x << " " << punto_trans.y << " " << punto_trans.z << std::endl;
     
     return 0;
 }

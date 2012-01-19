@@ -14,6 +14,8 @@
 		60105E0114C59EAD0007540B /* render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105E0014C59EAD0007540B /* render.cpp */; };
 		60105E0414C59EDE0007540B /* image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105E0314C59EDE0007540B /* image.cpp */; };
 		60105E0914C5DAC30007540B /* vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105E0814C5DAC30007540B /* vector.cpp */; };
+		60105E0C14C6CB9C0007540B /* transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105E0B14C6CB9C0007540B /* transform.cpp */; };
+		605DBC2F14C6D20A000A7CFD /* matrix4x4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 605DBC2E14C6D20A000A7CFD /* matrix4x4.cpp */; };
 		607EF30314C33BAA00D801C9 /* scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 607EF30214C33BAA00D801C9 /* scene.cpp */; };
 		60EA722214B76B2100D2F3B3 /* bde.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60EA722114B76B2100D2F3B3 /* bde.cpp */; };
 		60EA722414B76B2100D2F3B3 /* black_diamond_engine.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60EA722314B76B2100D2F3B3 /* black_diamond_engine.1 */; };
@@ -48,6 +50,10 @@
 		60105E0514C59EE80007540B /* image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
 		60105E0714C5DAB40007540B /* vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
 		60105E0814C5DAC30007540B /* vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vector.cpp; sourceTree = "<group>"; };
+		60105E0B14C6CB9C0007540B /* transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = transform.cpp; sourceTree = "<group>"; };
+		60105E0D14C6CBB90007540B /* transform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transform.h; sourceTree = "<group>"; };
+		605DBC2C14C6D1FB000A7CFD /* matrix4x4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrix4x4.h; sourceTree = "<group>"; };
+		605DBC2E14C6D20A000A7CFD /* matrix4x4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = matrix4x4.cpp; sourceTree = "<group>"; };
 		607EF30214C33BAA00D801C9 /* scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scene.cpp; sourceTree = "<group>"; };
 		60EA721D14B76B2100D2F3B3 /* black-diamond-engine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "black-diamond-engine"; sourceTree = BUILT_PRODUCTS_DIR; };
 		60EA722114B76B2100D2F3B3 /* bde.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bde.cpp; sourceTree = "<group>"; };
@@ -137,6 +143,17 @@
 			name = vector;
 			sourceTree = "<group>";
 		};
+		60105E0A14C6CB830007540B /* transform */ = {
+			isa = PBXGroup;
+			children = (
+				60105E0B14C6CB9C0007540B /* transform.cpp */,
+				60105E0D14C6CBB90007540B /* transform.h */,
+				605DBC2C14C6D1FB000A7CFD /* matrix4x4.h */,
+				605DBC2E14C6D20A000A7CFD /* matrix4x4.cpp */,
+			);
+			name = transform;
+			sourceTree = "<group>";
+		};
 		60EA721214B76B2100D2F3B3 = {
 			isa = PBXGroup;
 			children = (
@@ -157,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				60EA722114B76B2100D2F3B3 /* bde.cpp */,
+				60105E0A14C6CB830007540B /* transform */,
 				60105E0214C59ED00007540B /* image */,
 				60105DFE14C59E960007540B /* render */,
 				60105E0614C5DA990007540B /* vector */,
@@ -230,6 +248,8 @@
 				60105E0114C59EAD0007540B /* render.cpp in Sources */,
 				60105E0414C59EDE0007540B /* image.cpp in Sources */,
 				60105E0914C5DAC30007540B /* vector.cpp in Sources */,
+				60105E0C14C6CB9C0007540B /* transform.cpp in Sources */,
+				605DBC2F14C6D20A000A7CFD /* matrix4x4.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
