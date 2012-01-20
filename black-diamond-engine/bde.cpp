@@ -26,7 +26,7 @@ int main (int argc, const char * argv[])
     char filePath[200] = "/Users/osurfer3/Dropbox/PFC/Datasets/urban_scenes_sketchup/urban_scenes_sketchup/3d_man1/3d_man1-1.txt";
     Parser new_parser;
     vector<Point> datos = new_parser.parse_data_file(filePath);
-    datos.push_back(Point(-1.77,3,16.1));
+    datos.push_back(Point(0,0,9.5));
     
     Scene new_scene = Scene(datos,Camera(Point(4,0,6),Point(4,0,7),Vector(0,1,0),10,30,60*PI/180,60*PI/180));
     
