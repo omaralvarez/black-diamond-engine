@@ -31,11 +31,11 @@ public:
     }
     
     Vector operator-(Point p){
-        return Vector(x - p.x, y + p.y, z + p.z);
+        return Vector(x - p.x, y - p.y, z - p.z);
     }
     
     Point operator-(Vector v){
-        return Point(x - v.x, y + v.y, z + v.z);
+        return Point(x - v.x, y - v.y, z - v.z);
     }
     
     Point operator-=(Vector v){

@@ -24,7 +24,15 @@ public:
     Transform(Matrix4x4 mat, Matrix4x4 minv);
     Transform get_inverse();
     Transform look_at(Point pos, Point look, Vector up);
-    Point operator()(Point pt);    
+    Point operator()(Point pt);  
+    Transform operator*(Transform t2) {
+        
+        Matrix4x4 m1 = m*t2.m;
+        Matrix4x4 m2 = t2.mInv*mInv;
+        
+        return Transform(m1,m2);
+        
+    }
 };
 
 #endif
