@@ -24,6 +24,9 @@ public:
     Transform(Matrix4x4 mat, Matrix4x4 minv);
     Transform get_inverse();
     Transform look_at(Point pos, Point look, Vector up);
+    Transform scale(float x, float y, float z);
+    Transform translate(Vector delta);
+    Transform orthographic(float znear, float zfar);
     Point operator()(Point pt);  
     Transform operator*(Transform t2) {
         

@@ -279,7 +279,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
+				WARNING_CFLAGS = "$(OTHER_CFLAGS)";
 			};
 			name = Debug;
 		};
@@ -299,13 +301,18 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
+				WARNING_CFLAGS = "$(OTHER_CFLAGS)";
 			};
 			name = Release;
 		};
 		60EA722814B76B2100D2F3B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_LDFLAGS = "-lpng";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -313,6 +320,9 @@
 		60EA722914B76B2100D2F3B3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_LDFLAGS = "-lpng";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

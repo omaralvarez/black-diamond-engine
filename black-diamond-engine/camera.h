@@ -14,6 +14,7 @@
 #include "transform.h"
 //#include <iostream>
 
+#define PI 3.14159265f
 
 class Camera {
     
@@ -51,8 +52,8 @@ public:
         up = u;
         hither = hith;
         yon = y;
-        angle_x = ang_x;
-        angle_y = ang_y;
+        angle_x = ang_x*PI/180;
+        angle_y = ang_y*PI/180;
         Transform wtc = wtc.look_at(origin,orientation,up);
         world_to_cam = wtc;
         cam_to_world = wtc.get_inverse();

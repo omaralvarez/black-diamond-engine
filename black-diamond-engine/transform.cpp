@@ -61,21 +61,59 @@ Transform Transform::look_at(Point pos, Point look, Vector up){
     mat[0][0] = right.x;
     mat[1][0] = right.y;
     mat[2][0] = right.z;
-    mat[3][0] = 0.;
+    mat[3][0] = 0.f;
     
     mat[0][1] = new_up.x;
     mat[1][1] = new_up.y;
     mat[2][1] = new_up.z;
-    mat[3][1] = 0.;
+    mat[3][1] = 0.f;
     
     mat[0][2] = dir.x;
     mat[1][2] = dir.y;
     mat[2][2] = dir.z;
-    mat[3][2] = 0.;
+    mat[3][2] = 0.f;
     
     Matrix4x4 cam_to_world = Matrix4x4(mat);
     
     return Transform(cam_to_world.inverse(),cam_to_world);
+    
+}
+
+Transform Transform::scale(float x, float y, float z){
+    
+    Matrix4x4 mat = Matrix4x4(x, 0, 0, 0,
+                              0, y, 0, 0,
+                              0, 0, z, 0,
+                              0, 0, 0, 1);
+    
+    Matrix4x4 mat_inv = Matrix4x4(1.f/x, 0, 0, 0,
+                                  0, 1.f/y, 0, 0,
+                                  0, 0, 1.f/z, 0,
+                                  0, 0, 0, 1);
+    
+    return Transform(mat,mat_inv);
+    
+}
+
+Transform Transform::translate(Vector delta){
+    
+    Matrix4x4 mat = Matrix4x4(1, 0, 0, delta.x,
+                              0, 1, 0, delta.y,
+                              0, 0, 1, delta.z,
+                              0, 0, 0, 1);
+    
+    Matrix4x4 mat_inv = Matrix4x4(1, 0, 0, -delta.x,
+                                  0, 1, 0, -delta.y,
+                                  0, 0, 1, -delta.z,
+                                  0, 0, 0, 1);
+    
+    return Transform(mat,mat_inv);
+    
+}
+
+Transform Transform::orthographic(float znear, float zfar){
+    
+    return scale(1.f, 1.f, 1.f/(zfar-znear)) * translate(Vector(0.f,0.f,-znear));
     
 }
 

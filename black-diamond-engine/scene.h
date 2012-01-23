@@ -17,14 +17,20 @@ class Scene {
 public:
     std::vector<Point> cloud;
     Camera cam; 
+    
     Scene(){
         std::vector<Point> data(0);
         cloud = data;
         cam = Camera();
     }
+    
     Scene(std::vector<Point> data,Camera c) {
         cloud = data;
         cam = c;
+    }
+    
+    ~Scene(){
+        
     }
     
 };

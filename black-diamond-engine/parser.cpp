@@ -34,7 +34,6 @@ std::vector<Point> Parser::parse_data_file(std::string filePath) {
     while (inputFile.good()){
         
         inputFile >> temp_x >> temp_y >> temp_z;
-        
         data.push_back(Point(temp_x,temp_y,temp_z));
         
     }

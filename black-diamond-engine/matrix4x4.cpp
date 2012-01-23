@@ -14,7 +14,7 @@ Matrix4x4::Matrix4x4(){
     
     for (int i = 0; i < 4; i++) 
         for (int j = 0; j < 4; j++) 
-            if (i == j) m[i][j] = 1.;
+            if (i == j) m[i][j] = 1.f;
             else m[i][j] = 0;
     
 }
@@ -63,7 +63,7 @@ Matrix4x4 Matrix4x4::inverse() {
     memcpy(minv, m, 4*4*sizeof(float));
     for (int i = 0; i < 4; i++) {
         int irow = -1, icol = -1;
-        float big = 0.;
+        float big = 0.f;
         // Choose pivot
         for (int j = 0; j < 4; j++) {
             if (ipiv[j] != 1) {
