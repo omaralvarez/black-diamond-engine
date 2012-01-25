@@ -24,37 +24,11 @@ void Image::write_png_file(char* file_name,float image[1440][900]){
         if (!fp)
             std::cout << "[write_png_file] File %s could not be opened for writing" << std::endl;
         
-        /*png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, (png_voidp)user_error_ptr,user_error_fn, user_warning_fn); 
-         if (!png_ptr)
-         return (ERROR);
-         png_infop info_ptr = png_create_info_struct(png_ptr); 
-         if (!info_ptr)
-         {
-         png_destroy_write_struct(&png_ptr,(png_infopp)NULL);
-         return (ERROR); 
-         }*/
-        
         png_structp png_ptr;
         png_infop info_ptr;
         
-        //std::cout << "**x: " << 711 << " y: " << 455 <<  " value: "  << image[711][455] << std::endl;
-        
+        //Init image data.
         int width = 1440;int height = 900; int bit_depth = 8;int color_type = 2;
-        
-        /*png_ptr = malloc(sizeof (png_struct));
-         if (!png_ptr)
-         {
-         fclose(fp);
-         return;
-         }
-         
-         info_ptr = malloc(sizeof (png_info));
-         if (!info_ptr)
-         {
-         fclose(fp);
-         free(png_ptr);
-         return;
-         }*/
         
         /* initialize stuff */
         png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
@@ -89,28 +63,29 @@ void Image::write_png_file(char* file_name,float image[1440][900]){
             std::cout << "[write_png_file] File %s could not be opened for writing" << std::endl;
         
         png_bytep row_pointers[height];
-        png_bytep row;// = (png_bytep) malloc(3 * width * sizeof(png_byte));
+        png_bytep row;
         
         for (int y=0; y<height; y++) {
             row_pointers[y] = (png_bytep) malloc(3 * width * sizeof(png_byte));
             row = row_pointers[y];
             for (int x=0; x<width; x++) {
                 png_byte* ptr = &(row[x*3]);
-                //printf("Pixel at position [ %d - %d ] has RGBA values: %d - %d - %d - %d\n",
-                //x, y, ptr[0], ptr[1], ptr[2], ptr[3]);
+
+                float rgb = image[x][y];
+
+                uint32_t rgbi = *(uint32_t*)&rgb; // magia de punteros. No preguntes...
+                uint8_t r,g,b;
                 
-                /* set red value to 0 and green value to the blue one */
-                ptr[0] = image[x][y];
-                ptr[1] = image[x][y];
-                ptr[2] = image[x][y];
-                
-                //std::cout << image[x][y] << std::endl;
+                r = (rgbi & 0xFF0000) >> 16;
+                g = (rgbi & 0x00FF00) >> 8;
+                b = (rgbi & 0x0000FF);
+                ptr[0] = r;
+                ptr[1] = g;
+                ptr[2] = b;
                 
             }
         }
-        
-        //png_bytep row_pointers = (png_bytep*) malloc(sizeof(png_bytep) * height);
-        
+                
         png_write_image(png_ptr, row_pointers);
         
         
@@ -123,7 +98,6 @@ void Image::write_png_file(char* file_name,float image[1440][900]){
         /* cleanup heap allocation */
         for (int y=0; y<height; y++)
             free(row_pointers[y]);
-        //free(row);
         
         fclose(fp);
     

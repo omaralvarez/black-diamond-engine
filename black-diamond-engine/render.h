@@ -15,9 +15,9 @@ class Render {
     
     int x_res;
     int y_res;
-    Scene s;
     
 public:
+    Scene s;
     Render(){
         x_res = 0; y_res = 0; s = Scene();
     }

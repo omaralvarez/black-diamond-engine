@@ -46,13 +46,16 @@ void Render::get_pixel_info_ortho(){
     float world_max_x = fabsf(tanf(s.cam.angle_x/2)*s.cam.yon);
     float world_max_y = fabsf(tanf(s.cam.angle_y/2)*s.cam.yon);
     float pixels[1440][900];//Recordar que hay que usar x_res y y_res.
+    for (int i = 0; i < x_res; i++) 
+        for (int j = 0; j < y_res; j++) 
+            pixels[i][j] = 0;
     //pngwriter png(1440,900,0,"test.png");
     
     //int color = 50; 
     
     for (int i = 0; i < s.cloud.size(); i++) {
         
-        Transform scales = scales.scale(30,30,30);
+        Transform scales = scales.scale(150,150,150);
         Point point = scales(s.cloud[i]); 
         //std::cout << "x = " << point.x << " y = " << point.y << " z = " << point.z << std::endl;
         point = ortho_trans(point);
@@ -60,7 +63,8 @@ void Render::get_pixel_info_ortho(){
         //std::cout << "----------------------- " << std::endl;
         int screen_x = roundf((x_res/(world_max_x*2))*(point.x+world_max_x));
         int screen_y = roundf((y_res/(world_max_y*2))*(point.y+world_max_y));
-        pixels[screen_x][screen_y] = 255;
+        pixels[screen_x][screen_y] = point.color;
+        //std::cout << pixels[screen_x][screen_y] << std::endl;
         s.cloud[i] = point;
         
     }

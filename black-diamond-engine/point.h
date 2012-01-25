@@ -18,11 +18,11 @@ public:
     float color;    //Point color.
     
     //Constructor.
-    Point(float _x=0, float _y=0, float _z=0)
-        : x(_x), y(_y), z(_z) {}
+    Point(float _x=0, float _y=0, float _z=0, float _color=0)
+        : x(_x), y(_y), z(_z), color(_color) {}
     
     Point operator+(Vector v){
-        return Point(x + v.x, y + v.y, z + v.z);
+        return Point(x + v.x, y + v.y, z + v.z,color);
     }
     
     Point operator+=(Vector v){
@@ -35,7 +35,7 @@ public:
     }
     
     Point operator-(Vector v){
-        return Point(x - v.x, y - v.y, z - v.z);
+        return Point(x - v.x, y - v.y, z - v.z,color);
     }
     
     Point operator-=(Vector v){
@@ -46,7 +46,7 @@ public:
     Point operator/(float f) {
         assert(f!=0);
         float inv = 1.f / f;
-        return Point(x * inv, y * inv, z * inv);
+        return Point(x * inv, y * inv, z * inv,color);
     }
     
     Point operator/=(float f) {
