@@ -79,6 +79,7 @@ void Image::write_png_file(char* file_name,float image[1440][900]){
                 r = (rgbi & 0xFF0000) >> 16;
                 g = (rgbi & 0x00FF00) >> 8;
                 b = (rgbi & 0x0000FF);
+                   
                 ptr[0] = r;
                 ptr[1] = g;
                 ptr[2] = b;

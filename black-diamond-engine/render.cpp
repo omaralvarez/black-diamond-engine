@@ -55,15 +55,18 @@ void Render::get_pixel_info_ortho(){
     
     for (int i = 0; i < s.cloud.size(); i++) {
         
-        Transform scales = scales.scale(150,150,150);
+        Transform scales = scales.scale(50,50,50);
         Point point = scales(s.cloud[i]); 
         //std::cout << "x = " << point.x << " y = " << point.y << " z = " << point.z << std::endl;
         point = ortho_trans(point);
-        //std::cout << "x = " << point.x << " y = " << point.y << " z = " << point.z << std::endl;
+        
+        
         //std::cout << "----------------------- " << std::endl;
         int screen_x = roundf((x_res/(world_max_x*2))*(point.x+world_max_x));
         int screen_y = roundf((y_res/(world_max_y*2))*(point.y+world_max_y));
-        pixels[screen_x][screen_y] = point.color;
+        //std::cout << i << " x = " << screen_x << " y = " << screen_y << " z = " << point.z << std::endl;
+        pixels[x_res-screen_x][y_res-screen_y] = point.color;
+        //pixels[screen_x][screen_y] =point.color
         //std::cout << pixels[screen_x][screen_y] << std::endl;
         s.cloud[i] = point;
         

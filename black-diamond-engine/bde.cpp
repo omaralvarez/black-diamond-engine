@@ -9,58 +9,33 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <math.h>
 #include "parser.h"
 #include "camera.h"
 #include "transform.h"
 #include "scene.h"
 #include "render.h"
-#include <math.h>
 
 int main (int argc, const char * argv[])
 {
-    
+
     using namespace std;
     
     //char filePath[200] = "/Users/osurfer3/Dropbox/PFC/Datasets/urban_scenes_sketchup/urban_scenes_sketchup/3d_man1/3d_man1-1.txt";
-    char filePath[200] = "/Users/osurfer3/Dropbox/PFC/Datasets/apple_rgb/apple_1.txt";
+    //char filePath[200] = "/Users/osurfer3/Dropbox/PFC/Datasets/apple_rgb/apple_1.txt";
+    char config_path[200] = "/Users/osurfer3/Dropbox/PFC/black-diamond-engine/config.xml";
+    
     Parser *new_parser;
-    vector<Point> datos = new_parser->parse_data_file(filePath);
-    //datos.push_back(Point(1,0,0));
-    //datos.push_back(Point(0,1,0));
-    //datos.push_back(Point(0,0,1));
+    Render renderer = new_parser->parse_config(config_path);
     
-    //Recuerda poner f en los float con decimales.
-    Scene *new_scene = new Scene(datos,Camera(Point(10,80,-30),Point(0,0,0),Vector(0,0,-1),10,100,70.f,70.f));
-    //Scene new_scene = Scene(datos,Camera(Point(-213.093f, 228.631f, 146.275f),Point(8.57638f, 6.96166f, 35.44f),Vector(0.235702f, -0.235702f, 0.942809f),10,100,80,80));
+    cout << "Tamaño: " << renderer.s.cloud.size() << " tan: " << tanf(45) << endl;
     
-    cout << "x = " << new_scene->cloud[0].x << " y = " << new_scene->cloud[0].y << " z = " << new_scene->cloud[0].color << endl;
+    renderer.trans_world_to_cam(); 
+    renderer.filter_frustum();
     
-    Render *renderer = new Render(*new_scene,1440,900);
-    //cout << "x = " << renderer->s.cloud[0].x << " y = " << renderer->s.cloud[0].y << " z = " << renderer->s.cloud[0].color << endl;
-
-    //delete new_scene;
+    cout << "Tamaño: " << renderer.s.cloud.size() << " tan: " << tanf(45) << endl;
     
-    cout << "Tamaño: " << new_scene->cloud.size() << " tan: " << tanf(45) << endl;
-    
-    renderer->trans_world_to_cam(); 
-    //cout << "x = " << renderer->s.cloud[0].x << " y = " << renderer->s.cloud[0].y << " z = " << renderer->s.cloud[0].color << endl;
-    //cout << "x = " << new_scene->cloud[0].x << " y = " << new_scene->cloud[0].y << " z = " << new_scene->cloud[0].z << endl;
-    //Render debe tener scene como componente en vez de pasarselo.
-    renderer->filter_frustum();
-    //cout << "x = " << renderer->s.cloud[0].x << " y = " << renderer->s.cloud[0].y << " z = " << renderer->s.cloud[0].color << endl;
-    renderer->get_pixel_info_ortho();
-    //cout << "x = " << renderer->s.cloud[0].x << " y = " << renderer->s.cloud[0].y << " z = " << renderer->s.cloud[0].color << endl;
-    //cout << "Tamaño: " << new_scene->cloud.size() << " tan: " << tanf(45) << endl;
-    
-    //Transform world_to_cam;
-    //Transform world_to_cam2 = world_to_cam.look_at(Point(1,2,1),Point(1.33333,2.666666,1.666666),Vector(2,1,-2));
-    
-    //Point punto = Point(8,7,6);
-    //Point punto = Point(4,0,6);
-    
-    //Point punto_trans = world_to_cam2(punto);
-    
-    //std::cout << punto_trans.x << " " << punto_trans.y << " " << punto_trans.z << std::endl;
+    renderer.get_pixel_info_ortho();
     
     return 0;
     
