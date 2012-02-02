@@ -1,0 +1,254 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		60E8BCAE14DAF6C700FC9E57 /* matrix4x4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E8BCA614DAF6C700FC9E57 /* matrix4x4.cpp */; };
+		60E8BCAF14DAF6C700FC9E57 /* matrix4x4.h in Headers */ = {isa = PBXBuildFile; fileRef = 60E8BCA714DAF6C700FC9E57 /* matrix4x4.h */; };
+		60E8BCB014DAF6C700FC9E57 /* point.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E8BCA814DAF6C700FC9E57 /* point.cpp */; };
+		60E8BCB114DAF6C700FC9E57 /* point.h in Headers */ = {isa = PBXBuildFile; fileRef = 60E8BCA914DAF6C700FC9E57 /* point.h */; };
+		60E8BCB214DAF6C700FC9E57 /* transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E8BCAA14DAF6C700FC9E57 /* transform.cpp */; };
+		60E8BCB314DAF6C700FC9E57 /* transform.h in Headers */ = {isa = PBXBuildFile; fileRef = 60E8BCAB14DAF6C700FC9E57 /* transform.h */; };
+		60E8BCB414DAF6C700FC9E57 /* vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E8BCAC14DAF6C700FC9E57 /* vector.cpp */; };
+		60E8BCB514DAF6C700FC9E57 /* vector.h in Headers */ = {isa = PBXBuildFile; fileRef = 60E8BCAD14DAF6C700FC9E57 /* vector.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		60E8BC8314DAF23D00FC9E57 /* libblack-diamond-math.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libblack-diamond-math.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		60E8BCA614DAF6C700FC9E57 /* matrix4x4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = matrix4x4.cpp; sourceTree = "<group>"; };
+		60E8BCA714DAF6C700FC9E57 /* matrix4x4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrix4x4.h; sourceTree = "<group>"; };
+		60E8BCA814DAF6C700FC9E57 /* point.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = point.cpp; sourceTree = "<group>"; };
+		60E8BCA914DAF6C700FC9E57 /* point.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = point.h; sourceTree = "<group>"; };
+		60E8BCAA14DAF6C700FC9E57 /* transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = transform.cpp; sourceTree = "<group>"; };
+		60E8BCAB14DAF6C700FC9E57 /* transform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transform.h; sourceTree = "<group>"; };
+		60E8BCAC14DAF6C700FC9E57 /* vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vector.cpp; sourceTree = "<group>"; };
+		60E8BCAD14DAF6C700FC9E57 /* vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		60E8BC8014DAF23D00FC9E57 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		60E8BC7814DAF23D00FC9E57 = {
+			isa = PBXGroup;
+			children = (
+				60E8BCB814DAF75D00FC9E57 /* vector */,
+				60E8BCB614DAF71000FC9E57 /* transform */,
+				60E8BCB714DAF74300FC9E57 /* point */,
+				60E8BC8414DAF23D00FC9E57 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		60E8BC8414DAF23D00FC9E57 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				60E8BC8314DAF23D00FC9E57 /* libblack-diamond-math.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		60E8BCB614DAF71000FC9E57 /* transform */ = {
+			isa = PBXGroup;
+			children = (
+				60E8BCAB14DAF6C700FC9E57 /* transform.h */,
+				60E8BCAA14DAF6C700FC9E57 /* transform.cpp */,
+				60E8BCA714DAF6C700FC9E57 /* matrix4x4.h */,
+				60E8BCA614DAF6C700FC9E57 /* matrix4x4.cpp */,
+			);
+			name = transform;
+			sourceTree = "<group>";
+		};
+		60E8BCB714DAF74300FC9E57 /* point */ = {
+			isa = PBXGroup;
+			children = (
+				60E8BCA914DAF6C700FC9E57 /* point.h */,
+				60E8BCA814DAF6C700FC9E57 /* point.cpp */,
+			);
+			name = point;
+			sourceTree = "<group>";
+		};
+		60E8BCB814DAF75D00FC9E57 /* vector */ = {
+			isa = PBXGroup;
+			children = (
+				60E8BCAC14DAF6C700FC9E57 /* vector.cpp */,
+				60E8BCAD14DAF6C700FC9E57 /* vector.h */,
+			);
+			name = vector;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		60E8BC8114DAF23D00FC9E57 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				60E8BCAF14DAF6C700FC9E57 /* matrix4x4.h in Headers */,
+				60E8BCB114DAF6C700FC9E57 /* point.h in Headers */,
+				60E8BCB314DAF6C700FC9E57 /* transform.h in Headers */,
+				60E8BCB514DAF6C700FC9E57 /* vector.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		60E8BC8214DAF23D00FC9E57 /* black-diamond-math */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 60E8BC8714DAF23D00FC9E57 /* Build configuration list for PBXNativeTarget "black-diamond-math" */;
+			buildPhases = (
+				60E8BC7F14DAF23D00FC9E57 /* Sources */,
+				60E8BC8014DAF23D00FC9E57 /* Frameworks */,
+				60E8BC8114DAF23D00FC9E57 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "black-diamond-math";
+			productName = "black-diamond-math";
+			productReference = 60E8BC8314DAF23D00FC9E57 /* libblack-diamond-math.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		60E8BC7A14DAF23D00FC9E57 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = UDC;
+			};
+			buildConfigurationList = 60E8BC7D14DAF23D00FC9E57 /* Build configuration list for PBXProject "black-diamond-math" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 60E8BC7814DAF23D00FC9E57;
+			productRefGroup = 60E8BC8414DAF23D00FC9E57 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				60E8BC8214DAF23D00FC9E57 /* black-diamond-math */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		60E8BC7F14DAF23D00FC9E57 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				60E8BCAE14DAF6C700FC9E57 /* matrix4x4.cpp in Sources */,
+				60E8BCB014DAF6C700FC9E57 /* point.cpp in Sources */,
+				60E8BCB214DAF6C700FC9E57 /* transform.cpp in Sources */,
+				60E8BCB414DAF6C700FC9E57 /* vector.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		60E8BC8514DAF23D00FC9E57 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		60E8BC8614DAF23D00FC9E57 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		60E8BC8814DAF23D00FC9E57 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		60E8BC8914DAF23D00FC9E57 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		60E8BC7D14DAF23D00FC9E57 /* Build configuration list for PBXProject "black-diamond-math" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				60E8BC8514DAF23D00FC9E57 /* Debug */,
+				60E8BC8614DAF23D00FC9E57 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		60E8BC8714DAF23D00FC9E57 /* Build configuration list for PBXNativeTarget "black-diamond-math" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				60E8BC8814DAF23D00FC9E57 /* Debug */,
+				60E8BC8914DAF23D00FC9E57 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 60E8BC7A14DAF23D00FC9E57 /* Project object */;
+}

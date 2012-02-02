@@ -28,12 +28,12 @@ int main (int argc, const char * argv[])
     Parser *new_parser;
     Render renderer = new_parser->parse_config(config_path);
     
-    cout << "Tamaño: " << renderer.s.cloud.size() << " tan: " << tanf(45) << endl;
+    cout << "Tamaño: " << renderer.s.cloud.size() << endl;
     
     renderer.trans_world_to_cam(); 
     renderer.filter_frustum();
     
-    cout << "Tamaño: " << renderer.s.cloud.size() << " tan: " << tanf(45) << endl;
+    cout << "Tamaño: " << renderer.s.cloud.size() << endl;
     
     renderer.get_pixel_info_ortho();
     

@@ -17,7 +17,7 @@
 
 #define PNG_DEBUG 3
 
-void Image::write_png_file(char* file_name,float image[1440][900]){
+void Image::write_png_file(char* file_name){
     
         /* create file */
         FILE *fp = fopen(file_name, "wb");
@@ -28,7 +28,7 @@ void Image::write_png_file(char* file_name,float image[1440][900]){
         png_infop info_ptr;
         
         //Init image data.
-        int width = 1440;int height = 900; int bit_depth = 8;int color_type = 2;
+        int width = x_res;int height = y_res; int bit_depth = 8;int color_type = 2;
         
         /* initialize stuff */
         png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
@@ -71,9 +71,10 @@ void Image::write_png_file(char* file_name,float image[1440][900]){
             for (int x=0; x<width; x++) {
                 png_byte* ptr = &(row[x*3]);
 
-                float rgb = image[x][y];
-
-                uint32_t rgbi = *(uint32_t*)&rgb; // magia de punteros. No preguntes...
+                float rgb = pixels[x][y];
+                if (rgb == 1337) rgb = 0;
+                
+                uint32_t rgbi = *(uint32_t*)&rgb; 
                 uint8_t r,g,b;
                 
                 r = (rgbi & 0xFF0000) >> 16;

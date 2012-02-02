@@ -88,8 +88,10 @@ Matrix4x4 Matrix4x4::inverse() {
         }
         indxr[i] = irow;
         indxc[i] = icol;
-        if (minv[icol][icol] == 0.)
+        if (minv[icol][icol] == 0.){
             std::cout << "Singular matrix in MatrixInvert" << std::endl;
+            return Matrix4x4();
+        }
         
         // Set $m[icol][icol]$ to one by scaling row _icol_ appropriately
         float pivinv = 1.f / minv[icol][icol];

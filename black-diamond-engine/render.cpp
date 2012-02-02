@@ -12,6 +12,7 @@
 #include "image.h"
 #include <math.h>
 #include <iostream>
+#include <vector>
 
 void Render::trans_world_to_cam() {
     
@@ -39,46 +40,80 @@ void Render::filter_frustum() {
 }
 
 void Render::get_pixel_info_ortho(){
-    
-    //std::cout << "Peta aqui?" << std::endl;
-    
+        
     Transform ortho_trans = ortho_trans.orthographic(s.cam.hither, s.cam.yon);
     float world_max_x = fabsf(tanf(s.cam.angle_x/2)*s.cam.yon);
     float world_max_y = fabsf(tanf(s.cam.angle_y/2)*s.cam.yon);
-    float pixels[1440][900];//Recordar que hay que usar x_res y y_res.
+    std::vector<std::vector<float> > pix_vec;
+    std::vector<Point> clones(0);
+    
+    // Set up sizes. (HEIGHT x WIDTH)
+    pix_vec.resize(x_res);
+    for (int i = 0; i < x_res; ++i)
+        pix_vec[i].resize(y_res);
+    
     for (int i = 0; i < x_res; i++) 
         for (int j = 0; j < y_res; j++) 
-            pixels[i][j] = 0;
-    //pngwriter png(1440,900,0,"test.png");
-    
-    //int color = 50; 
-    
+            pix_vec[i][j] = 1337;
+        
     for (int i = 0; i < s.cloud.size(); i++) {
         
-        Transform scales = scales.scale(50,50,50);
+        Transform scales = scales.scale(80,80,80);
         Point point = scales(s.cloud[i]); 
-        //std::cout << "x = " << point.x << " y = " << point.y << " z = " << point.z << std::endl;
         point = ortho_trans(point);
         
-        
-        //std::cout << "----------------------- " << std::endl;
         int screen_x = roundf((x_res/(world_max_x*2))*(point.x+world_max_x));
         int screen_y = roundf((y_res/(world_max_y*2))*(point.y+world_max_y));
-        //std::cout << i << " x = " << screen_x << " y = " << screen_y << " z = " << point.z << std::endl;
-        pixels[x_res-screen_x][y_res-screen_y] = point.color;
-        //pixels[screen_x][screen_y] =point.color
-        //std::cout << pixels[screen_x][screen_y] << std::endl;
+        
+        if (pix_vec[x_res-screen_x][y_res-screen_y] == 1337) {
+            
+            pix_vec[x_res-screen_x][y_res-screen_y] = point.color;
+            
+        } else {
+            
+            int j=0;
+            while (j < clones.size() && clones[j].x != point.x && clones[j].y != point.y) j++; //Search for point in clones.
+            
+            //If there is no point (x,y) in clones yet, we look for the z and add it.
+            if (clones.size() == 0 || (clones[j].x != point.x && clones[j].y != point.y)) { 
+                
+                j=0;
+                while (j < i && s.cloud[j].x != point.x && s.cloud[j].y != point.y) j++;
+                
+                if (s.cloud[j].z < point.z) clones.push_back(s.cloud[j]);
+                else {
+                    
+                    clones.push_back(point);
+                    pix_vec[x_res-screen_x][y_res-screen_y] = point.color;
+                    
+                }
+                                
+            } else {
+                                
+                if (clones[j].z > point.z) {
+                    clones[j] = point;
+                    pix_vec[x_res-screen_x][y_res-screen_y] = point.color;
+                }
+                
+            }
+            
+        }
+        //pix_vec[x_res-screen_x][y_res-screen_y] = point.color;
         s.cloud[i] = point;
         
     }
     
+    /*for (int it=0; it<clones.size(); it++) {
+        std::cout << "x: " << clones[it].x << " y: " << clones[it].y << " z: " << clones[it].z << " color: " << clones[it].color << std::endl;
+    }*/
+    std::cout << clones.size() << std::endl;
     
     char f_name[200] = "/Users/osurfer3/Desktop/test.png";
 
     //Recordar que casi me he quedado sin stack. Y ademas tengo que devolver pixels con puntero.
-    Image *im = new Image(f_name,1440,900,pixels);
+    Image *im = new Image(f_name,x_res,y_res,pix_vec);
     
-    im->write_png_file(f_name, pixels);
+    im->write_png_file(f_name);
     
 }
 
