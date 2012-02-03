@@ -12,17 +12,16 @@
 #include "point.h"
 #include "vector.h"
 #include "transform.h"
-//#include <iostream>
 
 #define PI 3.14159265f
 
 class Camera {
     
-    Point origin;
-    Point orientation; 
-    Vector up;
-    Transform world_to_cam;
-    Transform cam_to_world;
+    bdm::Point origin;
+    bdm::Point orientation; 
+    bdm::Vector up;
+    bdm::Transform world_to_cam;
+    bdm::Transform cam_to_world;
     
 public:
     float hither;
@@ -31,18 +30,18 @@ public:
     float angle_y;
     
     Camera(){
-        origin = Point();
-        orientation = Point();
-        up = Vector();
+        origin = bdm::Point();
+        orientation = bdm::Point();
+        up = bdm::Vector();
         hither = 0;
         yon = 0;
         angle_x = 0;
         angle_y = 0;
-        world_to_cam = Transform();
-        cam_to_world = Transform();
+        world_to_cam = bdm::Transform();
+        cam_to_world = bdm::Transform();
     }
     
-    Camera(Point ori, Point orient, Vector u, float hith, float y, float ang_x, float ang_y){
+    Camera(bdm::Point ori, bdm::Point orient, bdm::Vector u, float hith, float y, float ang_x, float ang_y){
         
         //std::cout << "x = " << origin.x << " y = " << origin.y << " z = " << origin.z << std::endl;
         //std::cout << "x = " << orientation.x << " y = " << orientation.y << " z = " << orientation.z << std::endl;
@@ -54,17 +53,17 @@ public:
         yon = y;
         angle_x = ang_x*PI/180;
         angle_y = ang_y*PI/180;
-        Transform wtc = wtc.look_at(origin,orientation,up);
+        bdm::Transform wtc = wtc.look_at(origin,orientation,up);
         world_to_cam = wtc;
         cam_to_world = wtc.get_inverse();
         
     }
     
-    Point get_camera_point(Point p) {
+    bdm::Point get_camera_point(bdm::Point p) {
         return world_to_cam(p);
     }
     
-    Point get_world_point(Point p) {
+    bdm::Point get_world_point(bdm::Point p) {
         return cam_to_world(p);
     }
     

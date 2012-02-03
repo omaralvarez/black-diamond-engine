@@ -17,7 +17,7 @@
 void Render::trans_world_to_cam() {
     
     for (int i = 0; i < s.cloud.size(); i++) {
-        Point new_point = s.cam.get_camera_point(s.cloud[i]); 
+        bdm::Point new_point = s.cam.get_camera_point(s.cloud[i]); 
         s.cloud[i] = new_point;
     }
     
@@ -25,7 +25,7 @@ void Render::trans_world_to_cam() {
 
 void Render::filter_frustum() {
     
-    std::vector<Point> frustum_cloud(0); 
+    std::vector<bdm::Point> frustum_cloud(0); 
     
     for (int i = 0; i < s.cloud.size(); i++) {
         if ((s.cloud[i].z >= s.cam.hither && s.cloud[i].z <= s.cam.yon) &&
@@ -41,11 +41,11 @@ void Render::filter_frustum() {
 
 void Render::get_pixel_info_ortho(){
         
-    Transform ortho_trans = ortho_trans.orthographic(s.cam.hither, s.cam.yon);
+    bdm::Transform ortho_trans = ortho_trans.orthographic(s.cam.hither, s.cam.yon);
     float world_max_x = fabsf(tanf(s.cam.angle_x/2)*s.cam.yon);
     float world_max_y = fabsf(tanf(s.cam.angle_y/2)*s.cam.yon);
     std::vector<std::vector<float> > pix_vec;
-    std::vector<Point> clones(0);
+    std::vector<bdm::Point> clones(0);
     
     // Set up sizes. (HEIGHT x WIDTH)
     pix_vec.resize(x_res);
@@ -58,8 +58,8 @@ void Render::get_pixel_info_ortho(){
         
     for (int i = 0; i < s.cloud.size(); i++) {
         
-        Transform scales = scales.scale(80,80,80);
-        Point point = scales(s.cloud[i]); 
+        bdm::Transform scales = scales.scale(80,80,80);
+        bdm::Point point = scales(s.cloud[i]); 
         point = ortho_trans(point);
         
         int screen_x = roundf((x_res/(world_max_x*2))*(point.x+world_max_x));

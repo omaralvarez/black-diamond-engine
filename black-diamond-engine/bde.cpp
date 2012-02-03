@@ -1,5 +1,5 @@
 //
-//  main.cpp
+//  bde.cpp
 //  black-diamond-engine
 //
 //  Created by Luis Omar Alvarez Mures on 1/6/12.

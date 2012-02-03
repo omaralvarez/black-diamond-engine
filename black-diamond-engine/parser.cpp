@@ -76,9 +76,9 @@ Render Parser::parse_config(char* config_path){
             
         }
         
-        std::vector<Point> data = parse_data_file(d_path);
+        std::vector<bdm::Point> data = parse_data_file(d_path);
         
-        return Render(Scene(data,Camera(Point(cam[0],cam[1],cam[2]),Point(cam[3],cam[4],cam[5]),Vector(cam[6],cam[7],cam[8]),cam[9],cam[10],cam[11],cam[12])),ren[0],ren[1]);
+        return Render(Scene(data,Camera(bdm::Point(cam[0],cam[1],cam[2]),bdm::Point(cam[3],cam[4],cam[5]),bdm::Vector(cam[6],cam[7],cam[8]),cam[9],cam[10],cam[11],cam[12])),ren[0],ren[1]);
         
 	} else {
 		printf("Failed to load file \"%s\"\n", config_path);
@@ -90,7 +90,7 @@ Render Parser::parse_config(char* config_path){
 }
 
 //Function that parses a file with x,y and z values of each point.
-std::vector<Point> Parser::parse_data_file(std::string filePath) {
+std::vector<bdm::Point> Parser::parse_data_file(std::string filePath) {
     
     using namespace std;   
     
@@ -100,7 +100,7 @@ std::vector<Point> Parser::parse_data_file(std::string filePath) {
     inputFile.open(filePath.c_str());
     
     //Creates vector, initially with 0 points.
-    vector<Point> data(0);
+    vector<bdm::Point> data(0);
     float temp_x,temp_y,temp_z,discard_1=0,discard_2=0;
     double rgb=0;
 
@@ -108,7 +108,7 @@ std::vector<Point> Parser::parse_data_file(std::string filePath) {
     while (inputFile.good()){
         
         inputFile >> temp_x >> temp_y >> temp_z >> rgb >> discard_1 >> discard_2;
-        data.push_back(Point(temp_x,temp_y,temp_z,float(rgb)));
+        data.push_back(bdm::Point(temp_x,temp_y,temp_z,float(rgb)));
         
     }
     

@@ -12,7 +12,6 @@
 #include <string>
 #include <vector>
 #include "point.h"
-//#include "scene.h"
 #include "render.h"
 #include "tinyxml.h"
 
@@ -21,7 +20,7 @@ class Parser {
 public:
     Parser();
     Render parse_config(char* config_path);
-    std::vector<Point> parse_data_file(std::string file_name);
+    std::vector<bdm::Point> parse_data_file(std::string file_name);
     
 };
 

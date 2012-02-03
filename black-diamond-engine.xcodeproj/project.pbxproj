@@ -13,19 +13,19 @@
 		60105E0114C59EAD0007540B /* render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105E0014C59EAD0007540B /* render.cpp */; };
 		60105E0414C59EDE0007540B /* image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105E0314C59EDE0007540B /* image.cpp */; };
 		607EF30314C33BAA00D801C9 /* scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 607EF30214C33BAA00D801C9 /* scene.cpp */; };
+		60A22A3D14DB0A5300D2ABBC /* libblack-diamond-math.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60A22A3C14DB0A4700D2ABBC /* libblack-diamond-math.a */; };
 		60E8BC4A14D02CCB00FC9E57 /* tinystr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E8BC4414D02CCB00FC9E57 /* tinystr.cpp */; };
 		60E8BC4B14D02CCB00FC9E57 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E8BC4614D02CCB00FC9E57 /* tinyxml.cpp */; };
 		60E8BC4C14D02CCB00FC9E57 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E8BC4814D02CCB00FC9E57 /* tinyxmlerror.cpp */; };
 		60E8BC4D14D02CCB00FC9E57 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E8BC4914D02CCB00FC9E57 /* tinyxmlparser.cpp */; };
-		60E8BCA414DAF63400FC9E57 /* libblack-diamond-math.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60E8BCA214DAF4B600FC9E57 /* libblack-diamond-math.a */; };
 		60EA722214B76B2100D2F3B3 /* bde.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60EA722114B76B2100D2F3B3 /* bde.cpp */; };
 		60EA722414B76B2100D2F3B3 /* black_diamond_engine.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60EA722314B76B2100D2F3B3 /* black_diamond_engine.1 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		60E8BCA114DAF4B600FC9E57 /* PBXContainerItemProxy */ = {
+		60A22A3B14DB0A4700D2ABBC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 60E8BC9A14DAF4B500FC9E57 /* black-diamond-math.xcodeproj */;
+			containerPortal = 60A22A3414DB0A4600D2ABBC /* black-diamond-math.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 60E8BC8314DAF23D00FC9E57;
 			remoteInfo = "black-diamond-math";
@@ -58,13 +58,13 @@
 		60105E0314C59EDE0007540B /* image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
 		60105E0514C59EE80007540B /* image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
 		607EF30214C33BAA00D801C9 /* scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scene.cpp; sourceTree = "<group>"; };
+		60A22A3414DB0A4600D2ABBC /* black-diamond-math.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "black-diamond-math.xcodeproj"; path = "black-diamond-math/black-diamond-math.xcodeproj"; sourceTree = "<group>"; };
 		60E8BC4414D02CCB00FC9E57 /* tinystr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinystr.cpp; sourceTree = "<group>"; };
 		60E8BC4514D02CCB00FC9E57 /* tinystr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinystr.h; sourceTree = "<group>"; };
 		60E8BC4614D02CCB00FC9E57 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
 		60E8BC4714D02CCB00FC9E57 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
 		60E8BC4814D02CCB00FC9E57 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
 		60E8BC4914D02CCB00FC9E57 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
-		60E8BC9A14DAF4B500FC9E57 /* black-diamond-math.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "black-diamond-math.xcodeproj"; path = "black-diamond-math/black-diamond-math.xcodeproj"; sourceTree = "<group>"; };
 		60EA721D14B76B2100D2F3B3 /* black-diamond-engine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "black-diamond-engine"; sourceTree = BUILT_PRODUCTS_DIR; };
 		60EA722114B76B2100D2F3B3 /* bde.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bde.cpp; sourceTree = "<group>"; };
 		60EA722314B76B2100D2F3B3 /* black_diamond_engine.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = black_diamond_engine.1; sourceTree = "<group>"; };
@@ -75,7 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				60E8BCA414DAF63400FC9E57 /* libblack-diamond-math.a in Frameworks */,
+				60A22A3D14DB0A5300D2ABBC /* libblack-diamond-math.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,6 +137,14 @@
 			name = image;
 			sourceTree = "<group>";
 		};
+		60A22A3514DB0A4600D2ABBC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				60A22A3C14DB0A4700D2ABBC /* libblack-diamond-math.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		60E8BC4314D02CCA00FC9E57 /* tools */ = {
 			isa = PBXGroup;
 			children = (
@@ -150,19 +158,10 @@
 			path = tools;
 			sourceTree = "<group>";
 		};
-		60E8BC9B14DAF4B500FC9E57 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				60E8BCA214DAF4B600FC9E57 /* libblack-diamond-math.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		60EA721214B76B2100D2F3B3 = {
 			isa = PBXGroup;
 			children = (
 				60EA722014B76B2100D2F3B3 /* black-diamond-engine */,
-				60E8BC9A14DAF4B500FC9E57 /* black-diamond-math.xcodeproj */,
 				60EA721E14B76B2100D2F3B3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -186,6 +185,7 @@
 				60105DEE14C59CCF0007540B /* parser */,
 				60105DED14C59C200007540B /* scene */,
 				60EA722314B76B2100D2F3B3 /* black_diamond_engine.1 */,
+				60A22A3414DB0A4600D2ABBC /* black-diamond-math.xcodeproj */,
 			);
 			path = "black-diamond-engine";
 			sourceTree = "<group>";
@@ -231,8 +231,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 60E8BC9B14DAF4B500FC9E57 /* Products */;
-					ProjectRef = 60E8BC9A14DAF4B500FC9E57 /* black-diamond-math.xcodeproj */;
+					ProductGroup = 60A22A3514DB0A4600D2ABBC /* Products */;
+					ProjectRef = 60A22A3414DB0A4600D2ABBC /* black-diamond-math.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -243,11 +243,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		60E8BCA214DAF4B600FC9E57 /* libblack-diamond-math.a */ = {
+		60A22A3C14DB0A4700D2ABBC /* libblack-diamond-math.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libblack-diamond-math.a";
-			remoteRef = 60E8BCA114DAF4B600FC9E57 /* PBXContainerItemProxy */;
+			remoteRef = 60A22A3B14DB0A4700D2ABBC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -329,9 +329,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
-				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				HEADER_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CPLUSPLUSFLAGS = (
+					"-H",
+					"$(OTHER_CFLAGS)",
+				);
 				OTHER_LDFLAGS = "-lpng";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "/Users/osurfer3/Dropbox/PFC/black-diamond-engine/black-diamond-engine/black-diamond-math/";
 			};
 			name = Debug;
 		};
@@ -339,9 +345,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
-				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				HEADER_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CPLUSPLUSFLAGS = (
+					"-H",
+					"$(OTHER_CFLAGS)",
+				);
 				OTHER_LDFLAGS = "-lpng";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "/Users/osurfer3/Dropbox/PFC/black-diamond-engine/black-diamond-engine/black-diamond-math/";
 			};
 			name = Release;
 		};

@@ -15,16 +15,16 @@
 class Scene {
     
 public:
-    std::vector<Point> cloud;
+    std::vector<bdm::Point> cloud;
     Camera cam; 
     
     Scene(){
-        std::vector<Point> data(0);
+        std::vector<bdm::Point> data(0);
         cloud = data;
         cam = Camera();
     }
     
-    Scene(std::vector<Point> data,Camera c) {
+    Scene(std::vector<bdm::Point> data,Camera c) {
         cloud = data;
         cam = c;
     }
