@@ -10,9 +10,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <vector>
 #include "parser.h"
-#include "point.h"
 #include "tinyxml.h"
 #include "scene.h"
 #include "vector.h"
@@ -76,7 +74,7 @@ Render Parser::parse_config(char* config_path){
             
         }
         
-        std::vector<bdm::Point> data = parse_data_file(d_path);
+        std::vector<Surfel> data = parse_data_file(d_path);
         
         return Render(Scene(data,Camera(bdm::Point(cam[0],cam[1],cam[2]),bdm::Point(cam[3],cam[4],cam[5]),bdm::Vector(cam[6],cam[7],cam[8]),cam[9],cam[10],cam[11],cam[12])),ren[0],ren[1]);
         
@@ -90,7 +88,7 @@ Render Parser::parse_config(char* config_path){
 }
 
 //Function that parses a file with x,y and z values of each point.
-std::vector<bdm::Point> Parser::parse_data_file(std::string filePath) {
+std::vector<Surfel> Parser::parse_data_file(std::string filePath) {
     
     using namespace std;   
     
@@ -100,15 +98,25 @@ std::vector<bdm::Point> Parser::parse_data_file(std::string filePath) {
     inputFile.open(filePath.c_str());
     
     //Creates vector, initially with 0 points.
-    vector<bdm::Point> data(0);
-    float temp_x,temp_y,temp_z,discard_1=0,discard_2=0;
-    double rgb=0;
+    vector<Surfel> data(0);
+    float temp_x,temp_y,temp_z,discard_1=0,discard_2=0,radius=5,rgbf=0;
+    double rgbd=0;
 
     //Read contents of file till EOF.
     while (inputFile.good()){
         
-        inputFile >> temp_x >> temp_y >> temp_z >> rgb >> discard_1 >> discard_2;
-        data.push_back(bdm::Point(temp_x,temp_y,temp_z,float(rgb)));
+        inputFile >> temp_x >> temp_y >> temp_z >> rgbd >> discard_1 >> discard_2;
+        
+        //Aqui lectura color.!!!! ====TODO=====
+        rgbf = float(rgbd);
+        uint32_t rgbi = *(uint32_t*)&rgbf; 
+        uint8_t r,g,b;
+        
+        r = (rgbi & 0xFF0000) >> 16;
+        g = (rgbi & 0x00FF00) >> 8;
+        b = (rgbi & 0x0000FF);
+        
+        data.push_back(Surfel(temp_x,temp_y,temp_z,r,g,b,radius));
         
     }
     
@@ -120,6 +128,7 @@ std::vector<bdm::Point> Parser::parse_data_file(std::string filePath) {
     inputFile.close();
     
     return data;
+    
 }
 
 

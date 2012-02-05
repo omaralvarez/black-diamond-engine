@@ -11,20 +11,21 @@
 
 #include <vector>
 #include "camera.h"
+#include "surfel.h"
 
 class Scene {
     
 public:
-    std::vector<bdm::Point> cloud;
+    std::vector<Surfel> cloud;
     Camera cam; 
     
     Scene(){
-        std::vector<bdm::Point> data(0);
+        std::vector<Surfel> data(0);
         cloud = data;
         cam = Camera();
     }
     
-    Scene(std::vector<bdm::Point> data,Camera c) {
+    Scene(std::vector<Surfel> data,Camera c) {
         cloud = data;
         cam = c;
     }

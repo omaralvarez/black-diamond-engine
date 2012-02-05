@@ -59,11 +59,11 @@ public:
         
     }
     
-    bdm::Point get_camera_point(bdm::Point p) {
+    bdm::Point get_camera_point(bdm::Point &p) {
         return world_to_cam(p);
     }
     
-    bdm::Point get_world_point(bdm::Point p) {
+    bdm::Point get_world_point(bdm::Point &p) {
         return cam_to_world(p);
     }
     

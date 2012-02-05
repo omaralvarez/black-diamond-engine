@@ -128,8 +128,8 @@ namespace bdm {
         float wp = m.m[3][0]*x + m.m[3][1]*y + m.m[3][2]*z + m.m[3][3];
         
         assert(wp!=0);
-        if(wp == 1.) return Point(xp,yp,zp,pt.color);
-        else return Point(xp,yp,zp,pt.color)/wp;
+        if(wp == 1.) return Point(xp,yp,zp);
+        else return Point(xp,yp,zp)/wp;
         
     }
 

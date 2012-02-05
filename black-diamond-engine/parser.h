@@ -14,13 +14,14 @@
 #include "point.h"
 #include "render.h"
 #include "tinyxml.h"
+#include "surfel.h"
 
 class Parser {
     
 public:
     Parser();
     Render parse_config(char* config_path);
-    std::vector<bdm::Point> parse_data_file(std::string file_name);
+    std::vector<Surfel> parse_data_file(std::string file_name);
     
 };
 

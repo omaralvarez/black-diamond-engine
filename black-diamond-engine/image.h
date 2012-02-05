@@ -13,7 +13,7 @@
 
 class Image {
     
-    std::vector<std::vector<float> > pixels;
+    std::vector<std::vector<std::vector<short> > > pixels;
     char* im_name;
     int x_res;
     int y_res;
@@ -23,7 +23,7 @@ public:
         char blank[5] = ""; im_name = blank; x_res = 0; y_res = 0;
     }
     
-    Image(char* file_name, int xres, int yres, std::vector<std::vector<float> > p){
+    Image(char* file_name, int xres, int yres, std::vector<std::vector<std::vector<short> > > p){
         im_name = file_name; x_res = xres; y_res = yres; pixels = p;
     }
     

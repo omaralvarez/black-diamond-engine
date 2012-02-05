@@ -71,20 +71,27 @@ void Image::write_png_file(char* file_name){
             for (int x=0; x<width; x++) {
                 png_byte* ptr = &(row[x*3]);
 
-                float rgb = pixels[x][y];
-                if (rgb == 1337) rgb = 0;
+                if (pixels[x][y][0] == 1337) {  //If R is 1337 we draw black, because the pixel is untouched.
+                    
+                    ptr[0] = 0;
+                    ptr[1] = 0;
+                    ptr[2] = 0;
+                    
+                } else {
+                    
+                    ptr[0] = pixels[x][y][0];
+                    ptr[1] = pixels[x][y][1];
+                    ptr[2] = pixels[x][y][2];
+                    
+                }
                 
-                uint32_t rgbi = *(uint32_t*)&rgb; 
+                /*uint32_t rgbi = *(uint32_t*)&rgb; 
                 uint8_t r,g,b;
                 
                 r = (rgbi & 0xFF0000) >> 16;
                 g = (rgbi & 0x00FF00) >> 8;
-                b = (rgbi & 0x0000FF);
-                   
-                ptr[0] = r;
-                ptr[1] = g;
-                ptr[2] = b;
-                
+                b = (rgbi & 0x0000FF);*/
+    
             }
         }
                 

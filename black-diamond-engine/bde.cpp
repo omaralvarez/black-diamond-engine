@@ -15,6 +15,7 @@
 #include "transform.h"
 #include "scene.h"
 #include "render.h"
+#include "surfel.h"
 
 int main (int argc, const char * argv[])
 {
