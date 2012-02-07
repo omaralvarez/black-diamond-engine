@@ -17,17 +17,14 @@ class Scene {
     
 public:
     std::vector<Surfel> cloud;
-    Camera cam; 
     
     Scene(){
         std::vector<Surfel> data(0);
         cloud = data;
-        cam = Camera();
     }
     
-    Scene(std::vector<Surfel> data,Camera c) {
+    Scene(std::vector<Surfel> data) {
         cloud = data;
-        cam = c;
     }
     
     ~Scene(){

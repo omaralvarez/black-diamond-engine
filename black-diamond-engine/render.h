@@ -10,20 +10,24 @@
 #define black_diamond_engine_render_h
 
 #include "scene.h"
+#include "ray.h"
+#include <vector>
 
 class Render {
     
     int x_res;
     int y_res;
+    Camera cam;
+    std::vector<std::vector<Ray> > rays;
     
 public:
     Scene s;
     Render(){
-        x_res = 0; y_res = 0; s = Scene();
+        x_res = 0; y_res = 0; s = Scene(); cam = Camera();
     }
     
-    Render(Scene sc, float x, float y){
-        s = sc; x_res = x; y_res = y;
+    Render(Scene sc, Camera c, float x, float y){
+        s = sc; cam = c; x_res = x; y_res = y;
     }
     
     void trans_world_to_cam();
@@ -31,6 +35,8 @@ public:
     void filter_frustum();
     
     void get_pixel_info_ortho();
+    
+    void get_rays();
     
 };
 

@@ -36,7 +36,9 @@ int main (int argc, const char * argv[])
     
     cout << "Tamaño: " << renderer.s.cloud.size() << endl;
     
-    renderer.get_pixel_info_ortho();
+    //renderer.get_pixel_info_ortho();
+    
+    renderer.get_rays();
     
     return 0;
     

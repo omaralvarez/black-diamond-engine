@@ -47,10 +47,17 @@ namespace bdm {
             return *this/length();
         }
         
+        Vector operator*(float f) {
+            return Vector(f*x, f*y, f*z);
+        }
+        
+        Vector operator*=(float f) {
+            x *= f; y *= f; z *= f;
+            return *this;
+        }
+        
         Vector cross(Vector v2){
-            
             return Vector((y * v2.z) - (z * v2.y), (z * v2.x) - (x * v2.z), (x * v2.y) - (y * v2.x));
-            
         }
         
     };

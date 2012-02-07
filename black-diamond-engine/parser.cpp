@@ -76,7 +76,7 @@ Render Parser::parse_config(char* config_path){
         
         std::vector<Surfel> data = parse_data_file(d_path);
         
-        return Render(Scene(data,Camera(bdm::Point(cam[0],cam[1],cam[2]),bdm::Point(cam[3],cam[4],cam[5]),bdm::Vector(cam[6],cam[7],cam[8]),cam[9],cam[10],cam[11],cam[12])),ren[0],ren[1]);
+        return Render(Scene(data),Camera(bdm::Point(cam[0],cam[1],cam[2]),bdm::Point(cam[3],cam[4],cam[5]),bdm::Vector(cam[6],cam[7],cam[8]),cam[9],cam[10],cam[11],cam[12]),ren[0],ren[1]);
         
 	} else {
 		printf("Failed to load file \"%s\"\n", config_path);
