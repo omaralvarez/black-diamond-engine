@@ -27,7 +27,16 @@ public:
         cloud = data;
     }
     
-    ~Scene(){
+    ~Scene() {
+        
+    }
+    
+    void trans_scene(bdm::Transform t) {
+        
+        for (int i = 0; i < cloud.size(); i++) {
+            bdm::Point new_p = t(cloud[i]);
+            cloud[i].x = new_p.x; cloud[i].y = new_p.y; cloud[i].z = new_p.z;
+        }
         
     }
     

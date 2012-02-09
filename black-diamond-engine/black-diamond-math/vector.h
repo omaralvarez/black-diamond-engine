@@ -60,6 +60,10 @@ namespace bdm {
             return Vector((y * v2.z) - (z * v2.y), (z * v2.x) - (x * v2.z), (x * v2.y) - (y * v2.x));
         }
         
+        float dot(Vector v2) {
+            return x * v2.x + y * v2.y + z * v2.z;
+        }
+        
     };
     
 }

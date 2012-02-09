@@ -99,7 +99,7 @@ std::vector<Surfel> Parser::parse_data_file(std::string filePath) {
     
     //Creates vector, initially with 0 points.
     vector<Surfel> data(0);
-    float temp_x,temp_y,temp_z,discard_1=0,discard_2=0,radius=5,rgbf=0;
+    float temp_x,temp_y,temp_z,discard_1=0,discard_2=0,radius=0.5f,rgbf=0;
     double rgbd=0;
 
     //Read contents of file till EOF.

@@ -68,7 +68,7 @@ void Render::get_pixel_info_ortho(){
         
     for (int i = 0; i < s.cloud.size(); i++) {
         
-        bdm::Transform scales = scales.scale(80,80,80);//80
+        bdm::Transform scales = scales.scale(1,1,1);//80
         bdm::Point point = scales(s.cloud[i]); 
         point = ortho_trans(point);
         
@@ -169,3 +169,65 @@ void Render::get_rays() {
     
 }
 
+void Render::get_ray_hits() {
+    
+    for (int i = 0; i < x_res; i++) 
+        for (int j = 0; j < y_res; j++) 
+            for (int k = 0; k < s.cloud.size(); k++) {
+                
+                float A = rays[i][j].d.dot(rays[i][j].d);
+                float B = (rays[i][j].o - s.cloud[k]).dot(rays[i][j].d);
+                float C = (rays[i][j].o - s.cloud[k]).dot(rays[i][j].o - s.cloud[k]) - powf(s.cloud[k].radius,2.f);
+                
+                float disc = B*B - A*C;
+                
+                if (disc < 0.f) {
+                    //std::cout << "Ray miss" << std::endl;
+                } else {
+                    
+                    float root = sqrtf(disc);
+                    float t;
+                    
+                    if (root >=0 && root < 0.0000001) t = -B/A;
+                    else {
+                        t = (-B - root)/A; //En principio la t mas pequeña deberia ser siempre esta. Pero hay que comprobarlo.
+                        
+                        //float t2 = (-B + root)/A; 
+                        
+                        //std::cout << t1 << " " << t2 << std::endl;
+                    }
+                    
+                    if (t < rays[i][j].t_hit) {
+                        rays[i][j].hit = s.cloud[k];
+                        rays[i][j].t_hit = t;
+                    }
+                    
+                }
+                    
+            }
+    
+    std::vector<std::vector<std::vector<short> > > pix_vec;
+    
+    pix_vec.resize(x_res);                     //Fors are faster than the direct declaration of the array with constructor.
+    for (int i = 0; i < x_res; ++i)
+        pix_vec[i].resize(y_res);
+    for (int i = 0; i < x_res; ++i)
+        for (int j = 0; j < y_res; j++)
+            pix_vec[i][j].resize(3);
+    
+    
+    for (int i = 0; i < x_res; i++) 
+        for (int j = 0; j < y_res; j++) {
+            pix_vec[x_res-i-1][y_res-j-1][0] = rays[i][j].hit.r; //Cuidao en get pixel res!!! falta el menos 1. Y puede dar bad_Acces en el extremo.
+            pix_vec[x_res-i-1][y_res-j-1][1] = rays[i][j].hit.g;
+            pix_vec[x_res-i-1][y_res-j-1][2] = rays[i][j].hit.b;
+        }   
+    
+    char f_name[200] = "/Users/osurfer3/Desktop/test2.png";
+    
+    //Recordar que casi me he quedado sin stack. Y ademas tengo que devolver pixels con puntero.
+    Image *im = new Image(f_name,x_res,y_res,pix_vec);
+    
+    im->write_png_file(f_name);
+    
+}

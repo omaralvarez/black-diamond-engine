@@ -38,6 +38,8 @@ public:
     
     void get_rays();
     
+    void get_ray_hits();
+    
 };
 
 #endif
