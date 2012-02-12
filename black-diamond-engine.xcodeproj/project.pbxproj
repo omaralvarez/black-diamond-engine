@@ -71,7 +71,7 @@
 		60E8BC4914D02CCB00FC9E57 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
 		60EA721D14B76B2100D2F3B3 /* black-diamond-engine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "black-diamond-engine"; sourceTree = BUILT_PRODUCTS_DIR; };
 		60EA722114B76B2100D2F3B3 /* bde.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bde.cpp; sourceTree = "<group>"; };
-		60EA722314B76B2100D2F3B3 /* black_diamond_engine.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = black_diamond_engine.1; sourceTree = "<group>"; };
+		60EA722314B76B2100D2F3B3 /* black_diamond_engine.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; name = black_diamond_engine.1; path = "black-diamond-engine/black_diamond_engine.1"; sourceTree = "<group>"; };
 		60F7A43614E02A6E0026075E /* ray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ray.h; sourceTree = "<group>"; };
 		60F7A43714E02A790026075E /* ray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ray.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -178,6 +178,7 @@
 			children = (
 				60EA722014B76B2100D2F3B3 /* black-diamond-engine */,
 				60EA721E14B76B2100D2F3B3 /* Products */,
+				60EA722314B76B2100D2F3B3 /* black_diamond_engine.1 */,
 			);
 			sourceTree = "<group>";
 		};
@@ -202,7 +203,6 @@
 				60105DED14C59C200007540B /* scene */,
 				60A22A4A14DC374400D2ABBC /* surfel */,
 				60A22A3414DB0A4600D2ABBC /* black-diamond-math.xcodeproj */,
-				60EA722314B76B2100D2F3B3 /* black_diamond_engine.1 */,
 			);
 			path = "black-diamond-engine";
 			sourceTree = "<group>";

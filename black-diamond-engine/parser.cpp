@@ -24,7 +24,9 @@ Render Parser::parse_config(char* config_path){
     int ren[2];      //Render data.
     float cam[13];   //Camera data.
     char d_path[200];//Data file name.
+    float radius=0;    //Surfel radius.
     int node=0;      //Render, camera or filename switch.
+    std::string opt("surfel_radius"); 
     
     TiXmlDocument doc(config_path); //Load config file.
 	bool loadOkay = doc.LoadFile();
@@ -54,7 +56,8 @@ Render Parser::parse_config(char* config_path){
                             if (pAttrib->QueryDoubleValue(&val)==TIXML_SUCCESS) cam[i] = float(val);    //Camera data.
                             break;
                         case 1:
-                            if (pAttrib->QueryIntValue(&ival)==TIXML_SUCCESS) ren[i] = ival;            //Render data.
+                            if (opt.compare(pAttrib->Name()) && pAttrib->QueryIntValue(&ival)==TIXML_SUCCESS) ren[i] = ival; //Render data.
+                            else if (pAttrib->QueryDoubleValue(&val)==TIXML_SUCCESS) radius = float(val);
                             break;
                         case 2:
                             strcpy(d_path, pAttrib->Value());                                           //Data file.
@@ -74,7 +77,7 @@ Render Parser::parse_config(char* config_path){
             
         }
         
-        std::vector<Surfel> data = parse_data_file(d_path);
+        std::vector<Surfel> data = parse_data_file(d_path,radius);
         
         return Render(Scene(data),Camera(bdm::Point(cam[0],cam[1],cam[2]),bdm::Point(cam[3],cam[4],cam[5]),bdm::Vector(cam[6],cam[7],cam[8]),cam[9],cam[10],cam[11],cam[12]),ren[0],ren[1]);
         
@@ -88,7 +91,7 @@ Render Parser::parse_config(char* config_path){
 }
 
 //Function that parses a file with x,y and z values of each point.
-std::vector<Surfel> Parser::parse_data_file(std::string filePath) {
+std::vector<Surfel> Parser::parse_data_file(std::string filePath, float radius) {
     
     using namespace std;   
     
@@ -99,13 +102,15 @@ std::vector<Surfel> Parser::parse_data_file(std::string filePath) {
     
     //Creates vector, initially with 0 points.
     vector<Surfel> data(0);
-    float temp_x,temp_y,temp_z,discard_1=0,discard_2=0,radius=0.5f,rgbf=0;
+    float temp_x,temp_y,temp_z,discard_1=0,discard_2=0,rgbf=0;
     double rgbd=0;
 
     //Read contents of file till EOF.
     while (inputFile.good()){
         
-        inputFile >> temp_x >> temp_y >> temp_z >> rgbd >> discard_1 >> discard_2;
+        //inputFile >> temp_x >> temp_y >> temp_z >> rgbd >> discard_1 >> discard_2;//Original.
+        
+        inputFile >> temp_x >> temp_z >> temp_y >> rgbd >> discard_1 >> discard_2;//Dataset RGB-D
         
         //Aqui lectura color.!!!! ====TODO=====
         rgbf = float(rgbd);
