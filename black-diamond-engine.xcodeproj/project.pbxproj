@@ -24,6 +24,7 @@
 		60F7A43814E02A790026075E /* ray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60F7A43714E02A790026075E /* ray.cpp */; };
 		60F7A43C14E9804F0026075E /* aggregate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60F7A43B14E9804F0026075E /* aggregate.cpp */; };
 		60F7A44014E9822F0026075E /* bbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60F7A43F14E9822F0026075E /* bbox.cpp */; };
+		60F7A44214E993990026075E /* kdtreeaccel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60F7A44114E993990026075E /* kdtreeaccel.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,8 @@
 		60F7A43D14E9805D0026075E /* aggregate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aggregate.h; sourceTree = "<group>"; };
 		60F7A43E14E9821F0026075E /* bbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bbox.h; sourceTree = "<group>"; };
 		60F7A43F14E9822F0026075E /* bbox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bbox.cpp; sourceTree = "<group>"; };
+		60F7A44114E993990026075E /* kdtreeaccel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kdtreeaccel.cpp; sourceTree = "<group>"; };
+		60F7A44314E993A80026075E /* kdtreeaccel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kdtreeaccel.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,6 +231,8 @@
 			children = (
 				60F7A43E14E9821F0026075E /* bbox.h */,
 				60F7A43F14E9822F0026075E /* bbox.cpp */,
+				60F7A44314E993A80026075E /* kdtreeaccel.h */,
+				60F7A44114E993990026075E /* kdtreeaccel.cpp */,
 				60F7A43D14E9805D0026075E /* aggregate.h */,
 				60F7A43B14E9804F0026075E /* aggregate.cpp */,
 			);
@@ -316,6 +321,7 @@
 				60F7A43814E02A790026075E /* ray.cpp in Sources */,
 				60F7A43C14E9804F0026075E /* aggregate.cpp in Sources */,
 				60F7A44014E9822F0026075E /* bbox.cpp in Sources */,
+				60F7A44214E993990026075E /* kdtreeaccel.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
