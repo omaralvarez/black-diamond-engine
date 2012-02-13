@@ -22,14 +22,14 @@ int main (int argc, const char * argv[])
 
     using namespace std;
     
+    //Remember parser axis order when reading different formats.
     char config_path[200] = "/Users/osurfer3/Dropbox/PFC/black-diamond-engine/config.xml";
     
     Parser *new_parser;
     Render renderer = new_parser->parse_config(config_path);
     //cout << "x: " << renderer.s.cloud[1].x << " y: " << renderer.s.cloud[1].y << " z: " << renderer.s.cloud[1].z << endl;
     //cout << "x: " << renderer.s.cloud[2].x << " y: " << renderer.s.cloud[2].y << " z: " << renderer.s.cloud[2].z << endl;
-
-
+    
     bdm::Transform scaler = scaler.scale(20,20,20);
     renderer.s.trans_scene(scaler);
     cout << "x: " << renderer.s.cloud[1].radius << " y: " << renderer.s.cloud[1].y << " z: " << renderer.s.cloud[1].z << endl;
@@ -52,9 +52,9 @@ int main (int argc, const char * argv[])
     
     //renderer.get_pixel_info_ortho();
     
-    renderer.get_rays();
+    //renderer.get_rays();
     
-    renderer.get_ray_hits();
+    //renderer.get_ray_hits();
     cout << "Tamaño: " << renderer.s.cloud.size() << endl;
     
     return 0;

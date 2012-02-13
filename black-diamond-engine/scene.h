@@ -12,6 +12,7 @@
 #include <vector>
 #include "camera.h"
 #include "surfel.h"
+#include "aggregate.h"
 
 class Scene {
     

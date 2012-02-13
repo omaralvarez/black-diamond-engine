@@ -21,6 +21,15 @@ namespace bdm {
         Point(float _x=0, float _y=0, float _z=0)
         : x(_x), y(_y), z(_z) {}
         
+        Point operator+(Point p){
+            return Point(x + p.x, y + p.y, z + p.z);
+        }
+        
+        Point operator+=(Point p){
+            x += p.x; y += p.y; z += p.z;
+            return *this;
+        }
+        
         Point operator+(Vector v){
             return Point(x + v.x, y + v.y, z + v.z);
         }
@@ -55,6 +64,16 @@ namespace bdm {
             x *= inv; y *= inv; z *= inv;
             return *this;
         }
+        
+        Point operator*(float f) {
+            return Point(f*x, f*y, f*z);
+        }
+        
+        Point operator*=(float f) {
+            x *= f; y *= f; z *= f;
+            return *this;
+        }
+
         
     };
     

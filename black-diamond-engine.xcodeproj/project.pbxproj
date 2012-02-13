@@ -22,6 +22,8 @@
 		60EA722214B76B2100D2F3B3 /* bde.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60EA722114B76B2100D2F3B3 /* bde.cpp */; };
 		60EA722414B76B2100D2F3B3 /* black_diamond_engine.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60EA722314B76B2100D2F3B3 /* black_diamond_engine.1 */; };
 		60F7A43814E02A790026075E /* ray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60F7A43714E02A790026075E /* ray.cpp */; };
+		60F7A43C14E9804F0026075E /* aggregate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60F7A43B14E9804F0026075E /* aggregate.cpp */; };
+		60F7A44014E9822F0026075E /* bbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60F7A43F14E9822F0026075E /* bbox.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +76,10 @@
 		60EA722314B76B2100D2F3B3 /* black_diamond_engine.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; name = black_diamond_engine.1; path = "black-diamond-engine/black_diamond_engine.1"; sourceTree = "<group>"; };
 		60F7A43614E02A6E0026075E /* ray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ray.h; sourceTree = "<group>"; };
 		60F7A43714E02A790026075E /* ray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ray.cpp; sourceTree = "<group>"; };
+		60F7A43B14E9804F0026075E /* aggregate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = aggregate.cpp; sourceTree = "<group>"; };
+		60F7A43D14E9805D0026075E /* aggregate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aggregate.h; sourceTree = "<group>"; };
+		60F7A43E14E9821F0026075E /* bbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bbox.h; sourceTree = "<group>"; };
+		60F7A43F14E9822F0026075E /* bbox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bbox.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				60EA722114B76B2100D2F3B3 /* bde.cpp */,
+				60F7A43A14E980240026075E /* aggregate */,
 				60F7A43914E02A7E0026075E /* ray */,
 				60105E0214C59ED00007540B /* image */,
 				60105DFE14C59E960007540B /* render */,
@@ -214,6 +221,17 @@
 				60F7A43714E02A790026075E /* ray.cpp */,
 			);
 			name = ray;
+			sourceTree = "<group>";
+		};
+		60F7A43A14E980240026075E /* aggregate */ = {
+			isa = PBXGroup;
+			children = (
+				60F7A43E14E9821F0026075E /* bbox.h */,
+				60F7A43F14E9822F0026075E /* bbox.cpp */,
+				60F7A43D14E9805D0026075E /* aggregate.h */,
+				60F7A43B14E9804F0026075E /* aggregate.cpp */,
+			);
+			name = aggregate;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -296,6 +314,8 @@
 				60E8BC4D14D02CCB00FC9E57 /* tinyxmlparser.cpp in Sources */,
 				60A22A4C14DC375F00D2ABBC /* surfel.cpp in Sources */,
 				60F7A43814E02A790026075E /* ray.cpp in Sources */,
+				60F7A43C14E9804F0026075E /* aggregate.cpp in Sources */,
+				60F7A44014E9822F0026075E /* bbox.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
