@@ -49,6 +49,10 @@ int main (int argc, const char * argv[])
     
     renderer.filter_frustum();
     
+    /*for (int i=0; i<renderer.s.cloud.size(); i++) {
+        cout  << renderer.s.cloud[i].x << " " << renderer.s.cloud[i].y << " " << renderer.s.cloud[i].z << endl;
+    }*/
+    cout << "Tamaño: " << renderer.s.cloud.size() << endl;
     //Def call: int icost = 80, int scost = 1,  float ebonus = 0.5f, int maxp = 1,int maxDepth = -1
     KdTreeAccel kd_tree = KdTreeAccel(renderer.s.cloud, 80, 1, 0.5f, 1, -1);
     
@@ -56,7 +60,8 @@ int main (int argc, const char * argv[])
     
     renderer.get_rays();
     cout << "Before tracing." << endl;
-    //renderer.get_kd_ray_hits(kd_tree);
+    renderer.get_kd_ray_hits(kd_tree);
+    //renderer.get_ray_hits();
     cout << "After tracing." << endl;
     
     

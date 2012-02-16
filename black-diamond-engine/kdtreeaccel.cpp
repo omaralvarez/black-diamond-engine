@@ -24,8 +24,16 @@ struct KdAccelNode {
         else if (ns == 1) one_surfel = &s[0];
         else {
             
-            surfels = (Surfel **) arena.c_alloc(int(ns * sizeof(Surfel *)));
-            for (int i = 0; i < ns; ++i) surfels[i] = &s[surfel_nums[i]];//Possible problem. 
+            m_surfels = (Surfel **) arena.c_alloc(int(ns * sizeof(Surfel *))); //Problema, coincidencia de nombres con vector clase.
+            
+            for (int i = 0; i < ns; ++i) {
+                //std::cout << "surfel_nums: " << surfel_nums[i] << " i: " << i << std::endl;
+                m_surfels[i] = &s[surfel_nums[i]];//Possible problem. 
+                //std::cout << "Surfel num: " << surfel_nums[i] << std::endl;
+                //std::cout << "Surfel info vector: " << s[surfel_nums[i]].x << " " << s[surfel_nums[i]].y << " " << s[surfel_nums[i]].z << std::endl;
+                //std::cout << "Surfel info pointer: " << m_surfels[i]->x << " " << m_surfels[i]->y << " " << m_surfels[i]->z << std::endl;
+                
+            }
             
         }
         
@@ -35,9 +43,7 @@ struct KdAccelNode {
     void init_interior(int axis, float s) {
         
         split = s;
-        std::cout << std::hex << flags << std::endl;
-        flags &= -3;
-        std::cout << std::hex << flags << std::endl;
+        flags &= ~3;
         flags |= axis;
         
     }
@@ -56,7 +62,7 @@ struct KdAccelNode {
     union {
         u_int32_t above_child;
         Surfel *one_surfel;//Ask pointer size ¿32bits?
-        Surfel **surfels;
+        Surfel **m_surfels;
     };
     
 };
@@ -163,11 +169,24 @@ void KdTreeAccel::build_tree(int node_num, BBox node_bounds, std::vector<BBox> a
     }
     
     ++next_free_node;
-    
+    //std::cout << "Node num: " << node_num << std::endl;
     //Init leaf node if termination criteria met. Either sufficiently small number of surfels in the region o max depth reached.
     //std::cout << "n_surfels,max_surfels: " << n_surfels <<"," <<max_surfels <<","<<depth << std::endl;
     if (n_surfels <= max_surfels || depth == 0) {   //We create a leaf if we reach max depth or small number of surfels in the region.
-        nodes[node_num].init_leaf(surfel_nums,n_surfels, surfels,arena);
+        nodes[node_num].init_leaf(surfel_nums, n_surfels, surfels,arena);
+        //std::cout << "Leaf surf 1: " << n_surfels << std::endl;
+        /*if (n_surfels == 1) {
+            Surfel *ms = nodes[node_num].one_surfel;
+            std::cout << "Surfel info 1: " << ms->x << " " << ms->y << " " << ms->z << std::endl;
+        } else {
+            Surfel **m_surfels = nodes[node_num].m_surfels;
+            for (u_int32_t i = 0; i < n_surfels; ++i) {
+                Surfel *ms = m_surfels[i];
+                //std::cout<< "Loop value: " << i << std::endl;
+                std::cout << "Surfel info 2: " << ms->x << " " << ms->y << " " << ms->z << std::endl;//Same ray always. ERROR
+                
+            }
+        }*/
         return;
     }
     
@@ -249,6 +268,7 @@ retry_split:
     if (best_cost > old_cost) ++bad_refines;
     if ((best_cost > 4.f * old_cost && n_surfels < 16) || best_axis == -1 || bad_refines == 3) {
         nodes[node_num].init_leaf(surfel_nums, n_surfels, surfels, arena);
+        //std::cout << "Leaf surf 2: " << n_surfels << std::endl;
         return;
     }
     
@@ -266,7 +286,7 @@ retry_split:
     //Recursively initialize children nodes.
     float tsplit = edges[best_axis][best_offset].t;
     nodes[node_num].init_interior(best_axis, tsplit);
-    std::cout << nodes[node_num].is_leaf() << std::endl;
+    //std::cout << nodes[node_num].is_leaf() << std::endl;
     BBox bounds0 = node_bounds, bounds1 = node_bounds;
     bounds0.p_max[best_axis] = bounds1.p_min[best_axis] = tsplit;
     build_tree(node_num + 1, bounds0, all_surfel_bounds, surfels0, n0, depth - 1, edges, surfels0, surfels1 + n_surfels, bad_refines);
@@ -340,14 +360,15 @@ bool KdTreeAccel::intersect(Ray ray) {
                 Surfel *ms = node->one_surfel;
                 
                 //Check one surfel inside leaf.
+                //std::cout << "Surfel info1: " << ms->x << " " << ms->y << " " << ms->z << std::endl;
                 if (ms->intersect(ray)) hit = true;
                 
             } else {
-                Surfel **surfels = node->surfels;
+                Surfel **m_surfels = node->m_surfels;
                 for (u_int32_t i = 0; i < n_surfels; ++i) {
-                    Surfel *ms = surfels[i];
+                    Surfel *ms = m_surfels[i];
                     //std::cout<< "Loop value: " << i << std::endl;
-                    //std::cout << "Surfel info: " << ms->x << " " << ms->y << " " << ms->z << std::endl;//Same ray always. ERROR
+                    //std::cout << "Surfel info2: " << ms->x << " " << ms->y << " " << ms->z << std::endl;//Same ray always. ERROR
                     //Check one primitive inside leaf node.
                     if (ms->intersect(ray)) hit = true; 
                     
