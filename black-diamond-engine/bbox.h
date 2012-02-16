@@ -10,8 +10,7 @@
 #define black_diamond_engine_bbox_h
 
 #include "point.h"
-//#include <iostream>
-//#include <algorithm>
+#include "ray.h"
 
 class BBox {
     
@@ -28,12 +27,19 @@ public:
         p_max = p;
     }
     
+    BBox(bdm::Point p,float r){
+        p_min = bdm::Point(p.x - r,p.y - r,p.z - r);
+        p_max = bdm::Point(p.x + r,p.y + r,p.z + r);
+    }
+    
     BBox(bdm::Point p1, bdm::Point p2){
         p_min = bdm::Point(fminf(p1.x,p2.x),fminf(p1.y,p2.y),fminf(p1.z,p2.z));
         p_max = bdm::Point(fmaxf(p1.x,p2.x),fmaxf(p1.y,p2.y),fmaxf(p1.z,p2.z));
     }
     
     BBox uni(bdm::Point p);
+    
+    BBox uni(BBox b2);
     
     bool overlaps (BBox b);
     
@@ -68,6 +74,8 @@ public:
         *rad = (*c-p_max).length();
         
     }
+    
+    bool intersect_p(Ray ray, float *hit1, float *hit2);
     
 };
 

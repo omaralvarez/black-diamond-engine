@@ -11,6 +11,7 @@
 
 #include "scene.h"
 #include "ray.h"
+#include "kdtreeaccel.h"
 #include <vector>
 
 class Render {
@@ -39,6 +40,8 @@ public:
     void get_rays();
     
     void get_ray_hits();
+    
+    void get_kd_ray_hits(KdTreeAccel kd_tree);
     
 };
 

@@ -10,6 +10,9 @@
 #define black_diamond_engine_surfel_h
 
 #include "point.h"
+//#include "ray.h"
+
+class Ray;
 
 class Surfel : public bdm::Point {
   
@@ -35,6 +38,7 @@ public:
         
     }
     
+    bool intersect(Ray ray);
     
 };
 

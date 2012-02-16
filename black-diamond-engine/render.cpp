@@ -231,3 +231,38 @@ void Render::get_ray_hits() {
     im->write_png_file(f_name);
     
 }
+
+void Render::get_kd_ray_hits(KdTreeAccel kd_tree) {
+    
+    for (int i = 0; i < x_res; i++) 
+        for (int j = 0; j < y_res; j++) {
+            bool hit = kd_tree.intersect(rays[i][j]);
+            //std::cout << "Ray info: " << rays[i][j].hit.x << " " << rays[i][j].hit.y << " " << rays[i][j].hit.z << " " << hit << std::endl;
+        }
+            
+    
+    std::vector<std::vector<std::vector<short> > > pix_vec;
+    
+    pix_vec.resize(x_res);                     //Fors are faster than the direct declaration of the array with constructor.
+    for (int i = 0; i < x_res; ++i)
+        pix_vec[i].resize(y_res);
+    for (int i = 0; i < x_res; ++i)
+        for (int j = 0; j < y_res; j++)
+            pix_vec[i][j].resize(3);
+    
+    
+    for (int i = 0; i < x_res; i++) 
+        for (int j = 0; j < y_res; j++) {
+            pix_vec[x_res-i-1][y_res-j-1][0] = rays[i][j].hit.r; //Cuidao en get pixel res!!! falta el menos 1. Y puede dar bad_Acces en el extremo.
+            pix_vec[x_res-i-1][y_res-j-1][1] = rays[i][j].hit.g;
+            pix_vec[x_res-i-1][y_res-j-1][2] = rays[i][j].hit.b;
+        }   
+    
+    char f_name[200] = "/Users/osurfer3/Desktop/test2.png";
+    
+    //Recordar que casi me he quedado sin stack. Y ademas tengo que devolver pixels con puntero.
+    Image *im = new Image(f_name,x_res,y_res,pix_vec);
+    
+    im->write_png_file(f_name);
+    
+}

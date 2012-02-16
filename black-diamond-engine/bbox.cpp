@@ -25,6 +25,22 @@ BBox BBox::uni(bdm::Point p){
     
 }
 
+BBox BBox::uni(BBox b2) {
+    
+    BBox ret = BBox(); //Remember this used to be called with a BBox, not creating one.
+    
+    ret.p_min.x = fminf(p_min.x, b2.p_min.x);
+    ret.p_min.y = fminf(p_min.y, b2.p_min.y);
+    ret.p_min.z = fminf(p_min.z, b2.p_min.z);
+    
+    ret.p_max.x = fmaxf(p_max.x, b2.p_max.x);
+    ret.p_max.y = fmaxf(p_max.y, b2.p_max.y);
+    ret.p_max.z = fmaxf(p_max.z, b2.p_max.z);
+    
+    return ret;
+    
+}
+
 bool BBox::overlaps (BBox b) {
     
     bool x = (p_max.x >= b.p_min.x) && (p_min.x <= b.p_max.x);
@@ -42,5 +58,29 @@ int BBox::maximum_extent() {
     if (diag.x > diag.y && diag.x > diag.z) return 0;
     else if(diag.y > diag.z) return 1;
          else return 2;
+    
+}
+
+bool BBox::intersect_p(Ray ray, float *hit0, float *hit1) {
+    
+    float t0 = ray.mint, t1 = ray.maxt;
+    
+    for (int i = 0; i < 3; i++) {
+        
+        float inv_ray_dir = 1.f / ray.d[i];
+        float tnear = (p_min[i] - ray.o[i]) * inv_ray_dir;
+        float tfar  = (p_max[i] - ray.o[i]) * inv_ray_dir;
+        
+        if (tnear > tfar) std::swap(tnear,tfar);
+        t0 = tnear > t0 ? tnear : t0;
+        t1 = tfar < t1 ? tfar : t1;
+        if (t0 > t1) return false;
+        
+    }
+    
+    if (hit0) *hit0 = t0;
+    if (hit1) *hit1 = t1;
+    
+    return true;
     
 }

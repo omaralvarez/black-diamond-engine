@@ -64,6 +64,11 @@ namespace bdm {
             return x * v2.x + y * v2.y + z * v2.z;
         }
         
+        float operator[](int i) {
+            assert(i >= 0 && i <= 2);
+            return (&x)[i];
+        }
+                
     };
     
 }
