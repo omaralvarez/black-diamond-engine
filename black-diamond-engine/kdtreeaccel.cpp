@@ -15,17 +15,17 @@
 struct KdAccelNode {
     
     //Init leaf node.
-    void init_leaf(int *surfel_nums,int ns, std::vector<Surfel> s, MemoryArena &arena) { 
+    void init_leaf(int *surfel_nums,int ns, std::vector<Surfel> &s, MemoryArena &arena) { 
         
         n_surfels = ns << 2;
         flags |= 3;
         
         if (ns == 0) one_surfel = NULL;
-        else if (ns == 1) one_surfel = &s[0];
+        else if (ns == 1) one_surfel = &s[surfel_nums[0]];
         else {
             
-            m_surfels = (Surfel **) arena.c_alloc(int(ns * sizeof(Surfel *))); //Problema, coincidencia de nombres con vector clase.
-            
+            //m_surfels = (Surfel **) arena.c_alloc(int(ns * sizeof(Surfel *))); //Problema, coincidencia de nombres con vector clase.
+            m_surfels = (Surfel **) arena.c_alloc(int(ns * sizeof(Surfel *)));
             for (int i = 0; i < ns; ++i) {
                 //std::cout << "surfel_nums: " << surfel_nums[i] << " i: " << i << std::endl;
                 m_surfels[i] = &s[surfel_nums[i]];//Possible problem. 
@@ -61,7 +61,7 @@ struct KdAccelNode {
     
     union {
         u_int32_t above_child;
-        Surfel *one_surfel;//Ask pointer size ¿32bits?
+        Surfel *one_surfel;     //Ask pointer size ¿32bits?
         Surfel **m_surfels;
     };
     
@@ -173,8 +173,12 @@ void KdTreeAccel::build_tree(int node_num, BBox node_bounds, std::vector<BBox> a
     //Init leaf node if termination criteria met. Either sufficiently small number of surfels in the region o max depth reached.
     //std::cout << "n_surfels,max_surfels: " << n_surfels <<"," <<max_surfels <<","<<depth << std::endl;
     if (n_surfels <= max_surfels || depth == 0) {   //We create a leaf if we reach max depth or small number of surfels in the region.
+
         nodes[node_num].init_leaf(surfel_nums, n_surfels, surfels,arena);
         //std::cout << "Leaf surf 1: " << n_surfels << std::endl;
+        //std::cout << "&surfels[0]: " << std::hex << &surfels[8] << std::endl;
+        //std::cout << "puntero a &surfels[0]: " << std::hex << nodes[node_num].m_surfels[0] << std::endl;
+        
         /*if (n_surfels == 1) {
             Surfel *ms = nodes[node_num].one_surfel;
             std::cout << "Surfel info 1: " << ms->x << " " << ms->y << " " << ms->z << std::endl;

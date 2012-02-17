@@ -2,5 +2,6 @@
 <scene>
 	<camera p_x="40" p_y="4" p_z="13" d_x="4" d_y="2" d_z="14" up_x="0" up_y="1" up_z="0"  hither="10" yon="60" angle_x="70" angle_y="70"/>
 	<resolution width="720" height="720" surfel_radius="0.05"/>
-	<data d_path="/Users/osurfer3/Dropbox/PFC/Datasets/apple_rgb/test4.txt"/>
+	<data d_path="/Users/osurfer3/Dropbox/PFC/Datasets/apple_rgb/test.txt"/>
 </scene>
+ 

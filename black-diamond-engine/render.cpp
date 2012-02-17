@@ -237,6 +237,7 @@ void Render::get_kd_ray_hits(KdTreeAccel kd_tree) {
     for (int i = 0; i < x_res; i++) 
         for (int j = 0; j < y_res; j++) {
             bool hit = kd_tree.intersect(rays[i][j]);
+            //std::cout << "Ray:" << i << " " << j << std::endl;
             //std::cout << "Ray info: " << rays[i][j].hit.x << " " << rays[i][j].hit.y << " " << rays[i][j].hit.z << " " << hit << std::endl;
             if (hit) {
                 rays[i][j].hit.r = 255;
