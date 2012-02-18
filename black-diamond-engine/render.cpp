@@ -142,7 +142,7 @@ void Render::get_pixel_info_ortho(){
     
 }
 
-void Render::get_rays() {
+void Render::get_rays() { //Tema fallo de yon puede estar al crear rayos. Utiliza yon.
     
     float hither_max_x = fabsf(tanf(cam.angle_x/2)*cam.hither);
     float hither_max_y = fabsf(tanf(cam.angle_y/2)*cam.hither);
@@ -171,7 +171,8 @@ void Render::get_rays() {
 
 void Render::get_ray_hits() {
     
-    for (int i = 0; i < x_res; i++) 
+    for (int i = 0; i < x_res; i++){ 
+        //std::cout << i << std::endl;
         for (int j = 0; j < y_res; j++) 
             for (int k = 0; k < s.cloud.size(); k++) {
                 
@@ -205,7 +206,7 @@ void Render::get_ray_hits() {
                 }
                     
             }
-    
+    }
     std::vector<std::vector<std::vector<short> > > pix_vec;
     
     pix_vec.resize(x_res);                     //Fors are faster than the direct declaration of the array with constructor.
@@ -234,18 +235,20 @@ void Render::get_ray_hits() {
 
 void Render::get_kd_ray_hits(KdTreeAccel kd_tree) {
     
-    for (int i = 0; i < x_res; i++) 
+    for (int i = 0; i < x_res; i++){ 
+        //std::cout << i << std::endl;
         for (int j = 0; j < y_res; j++) {
             bool hit = kd_tree.intersect(rays[i][j]);
-            //std::cout << "Ray:" << i << " " << j << std::endl;
+            
             //std::cout << "Ray info: " << rays[i][j].hit.x << " " << rays[i][j].hit.y << " " << rays[i][j].hit.z << " " << hit << std::endl;
             if (hit) {
+                //std::cout << "Ray:" << i << " " << j << std::endl;
                 rays[i][j].hit.r = 255;
                 rays[i][j].hit.g = 255;
                 rays[i][j].hit.b = 255;
             }
         }
-            
+    }      
     
     std::vector<std::vector<std::vector<short> > > pix_vec;
     

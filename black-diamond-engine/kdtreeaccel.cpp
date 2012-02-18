@@ -24,14 +24,10 @@ struct KdAccelNode {
         else if (ns == 1) one_surfel = &s[surfel_nums[0]];
         else {
             
-            //m_surfels = (Surfel **) arena.c_alloc(int(ns * sizeof(Surfel *))); //Problema, coincidencia de nombres con vector clase.
             m_surfels = (Surfel **) arena.c_alloc(int(ns * sizeof(Surfel *)));
             for (int i = 0; i < ns; ++i) {
-                //std::cout << "surfel_nums: " << surfel_nums[i] << " i: " << i << std::endl;
-                m_surfels[i] = &s[surfel_nums[i]];//Possible problem. 
-                //std::cout << "Surfel num: " << surfel_nums[i] << std::endl;
-                //std::cout << "Surfel info vector: " << s[surfel_nums[i]].x << " " << s[surfel_nums[i]].y << " " << s[surfel_nums[i]].z << std::endl;
-                //std::cout << "Surfel info pointer: " << m_surfels[i]->x << " " << m_surfels[i]->y << " " << m_surfels[i]->z << std::endl;
+        
+                m_surfels[i] = &s[surfel_nums[i]];
                 
             }
             
@@ -95,7 +91,7 @@ struct KdToDo {
     
 };
 
-KdTreeAccel::KdTreeAccel(std::vector<Surfel> p, int icost, int tcost, float ebonus, int maxs, int max_depth) {
+KdTreeAccel::KdTreeAccel(std::vector<Surfel> &p, int icost, int tcost, float ebonus, int maxs, int max_depth) {
     
     isect_cost = icost; traversal_cost = tcost; empty_bonus = ebonus; max_surfels = maxs; 
     surfels=p;
@@ -103,6 +99,7 @@ KdTreeAccel::KdTreeAccel(std::vector<Surfel> p, int icost, int tcost, float ebon
     next_free_node = n_alloced_nodes = 0;
     cur_surf_id = 0; 
     
+    //If no max depth is given.
     if (max_depth <= 0){
         float v = float(surfels.size());
         int log = ((*(int *) &v) >> 23) - 127;
@@ -120,23 +117,50 @@ KdTreeAccel::KdTreeAccel(std::vector<Surfel> p, int icost, int tcost, float ebon
         surfel_bounds.push_back(b);
     }
     
+    //std::cout << bounds.p_min.x << " "  << bounds.p_min.y << " " << bounds.p_min.z << " " << bounds.p_max.x << " " << bounds.p_max.y << " " << bounds.p_max.z << std::endl;
+    
     //Allocate work mem here.
     BoundEdge *edges[3];
-    for (int i = 0; i < 3; ++i) {
-        edges[i] = new BoundEdge[2*surfels.size()];
+    for (int i = 0; i < 3; ++i) {   //For each axis 0, 1 and 2. (4.11,209)
+        edges[i] = new BoundEdge[2*surfels.size()]; //Each tree node needs 2*number of surfel, bbox faces (left and right) per axis.
     }
     
     int *surfels0 = new int[surfels.size()];
     int *surfels1 = new int[(max_depth+1) * surfels.size()];
     
     //All surfels are in the first node, because it covers the whole world.
-    int *surfel_nums = new int[surfels.size()]; 
+    int *surfel_nums = new int[surfels.size()];  //Create an array with surfel numbers to indicate which surfels overlap the node.
     for (u_int32_t i = 0; i < surfels.size(); ++i) surfel_nums[i] = i;
     
     //Build tree recursively.
+    //Responsible for deciding if is interior node or leaf updating everything that needs to be updated.
     build_tree(0,bounds,surfel_bounds,surfel_nums,int(surfels.size()),max_depth,edges,surfels0,surfels1,0); //Careful bad refinements.
     
-    //std::cout << "Tree size: " << nodes[0].is_leaf() << std::endl;
+    std::cout << "Tree size: " << next_free_node << std::endl;
+    
+    /*for (int i = 0; i < next_free_node; i++) {
+        //std::cout << "Is leaf: " << nodes[i].is_leaf() << std::endl;
+        if (nodes[i].is_leaf()){
+            std::cout << "Num surf: " << nodes[i].num_surfels() << std::endl;
+            int n_surfels = nodes[i].num_surfels();
+            if (n_surfels == 1) {
+                std::cout << nodes[i].one_surfel->x << " " << nodes[i].one_surfel->y << " " << nodes[i].one_surfel->z << std::endl;
+                
+            } else {
+                
+                for (u_int32_t j = 0; j < n_surfels; ++j) {
+                    
+                    std::cout << nodes[i].m_surfels[j]->x << " " << nodes[i].m_surfels[j]->y << " " << nodes[i].m_surfels[j]->z << std::endl;
+                    
+                }
+            }
+        }
+        
+        if (!nodes[i].is_leaf()){
+            
+            std::cout << "childs: " << i << " " << nodes[i].above_child << std::endl;
+        }
+    }*/
     
     // Free working memory for kd-tree construction
     delete[] surfel_nums;
@@ -156,7 +180,7 @@ void KdTreeAccel::build_tree(int node_num, BBox node_bounds, std::vector<BBox> a
     //Get initial block of tree nodes.
     if (next_free_node == n_alloced_nodes){ 
         
-        int n_alloc = std::max(2 * n_alloced_nodes, 512);
+        int n_alloc = std::max(2 * n_alloced_nodes, 512); //If everything is used allocate memory with twice as many entries.
         KdAccelNode *n = (KdAccelNode *)malloc(n_alloc * sizeof(KdAccelNode));
         
         if (n_alloced_nodes > 0) {
@@ -169,9 +193,11 @@ void KdTreeAccel::build_tree(int node_num, BBox node_bounds, std::vector<BBox> a
     }
     
     ++next_free_node;
+    
     //std::cout << "Node num: " << node_num << std::endl;
-    //Init leaf node if termination criteria met. Either sufficiently small number of surfels in the region o max depth reached.
     //std::cout << "n_surfels,max_surfels: " << n_surfels <<"," <<max_surfels <<","<<depth << std::endl;
+    
+    //Init leaf node if termination criteria met. Either sufficiently small number of surfels in the region o max depth reached.
     if (n_surfels <= max_surfels || depth == 0) {   //We create a leaf if we reach max depth or small number of surfels in the region.
 
         nodes[node_num].init_leaf(surfel_nums, n_surfels, surfels,arena);
@@ -197,17 +223,19 @@ void KdTreeAccel::build_tree(int node_num, BBox node_bounds, std::vector<BBox> a
     //Init interior node and continue recursion.
     
     //Choose split axis position for inferior node.
-    int best_axis = -1, best_offset = -1;
-    float best_cost = INFINITY;
+    int best_axis = -1, best_offset = -1; //Record which axis and bounding box that gave the best cost so far.
+    float best_cost = INFINITY;     //Best cost so far.
     float old_cost = isect_cost * float(n_surfels);
     bdm::Vector d = node_bounds.p_max - node_bounds.p_min;
-    float total_sa = (2.f * (d.x*d.y + d.x*d.z + d.y*d.z));
+    //std::cout << node_bounds.p_max.x << " " << node_bounds.p_max.y << " " << node_bounds.p_max.z << std::endl;
+    float total_sa = (2.f * (d.x*d.y + d.x*d.z + d.y*d.z)); //Superficie cubo grande(no es cubo). Node surface area.
+    //std::cout << total_sa << std::endl;
     float inv_total_sa = 1.f/total_sa;
     
     //Choose axis to split along.
     int axis;
-    if (d.x > d.y && d.x > d.z) axis = 0;
-    else axis = (d.y > d.z) ? 1 : 2;
+    if (d.x > d.y && d.x > d.z) axis = 0; //Choose axis with largest spatial extent, hepls getting square regions of space.
+    else axis = (d.y > d.z) ? 1 : 2;    //Coge la arista mas grande ya sea x, y o z. Si no le gusta la que escogio luego prueba el resto.
     
     //std::cout << "Axis: " << axis << std::endl;
     
@@ -216,39 +244,42 @@ retry_split:
     
     //Init edges for axis.
     for (int i = 0; i < n_surfels; ++i) {
-        int sn = surfel_nums[i];
-        const BBox &bbox = all_surfel_bounds[sn]; //Possible issue.
-        edges[axis][2*i] = BoundEdge(bbox.p_min[axis],sn,true);
-        edges[axis][2*i+1] = BoundEdge(bbox.p_max[axis], sn, false);
+        int sn = surfel_nums[i];    //Choose numbers of surfels inside of the node.
+        const BBox &bbox = all_surfel_bounds[sn]; //Get the bounding boxes.
+        edges[axis][2*i] = BoundEdge(bbox.p_min[axis],sn,true); //Create one edge in the left face of the bounding box.
+        edges[axis][2*i+1] = BoundEdge(bbox.p_max[axis], sn, false); //Create another to the right of the bounding box.
     }
     
-    std::sort(&edges[axis][0],&edges[axis][2*n_surfels]);
+    std::sort(&edges[axis][0],&edges[axis][2*n_surfels]); //Sort the bboxes to sweep them from first in the axis to last.
+    //====== TODO ====== see if sort works.
     
     //Compute cost of all splits for axis to find best.
-    int n_below = 0, n_above = n_surfels;
-    for (int i = 0; i < 2*n_surfels; ++i) {
-        if (edges[axis][i].type == BoundEdge::END) --n_above;
+    int n_below = 0, n_above = n_surfels; //Number of primitives on each side of the split.
+    for (int i = 0; i < 2*n_surfels; ++i) { //From 0 to total splits(2*number of surfels in node).
+        if (edges[axis][i].type == BoundEdge::END) --n_above; //Si se hace el split en este punto la que hace el split ya no pertenece.
         float edget = edges[axis][i].t;
         //std::cout << "edget,node_bounds_min,node_bounds_max,i: " << edget<<"," << node_bounds.p_min[axis] << "," << node_bounds.p_max[axis] <<"," <<i << std::endl;//<----- Resume bug correct here.
-        if (edget > node_bounds.p_min[axis] && edget < node_bounds.p_max[axis]) {
+        if (edget > node_bounds.p_min[axis] && edget < node_bounds.p_max[axis]) { //Si el punto de corte esta dentro de la BBox del nodo.
             
             //Compute cost for a split in the ith edge.
-            int other_axis[3][2] = { {1,2}, {0,2}, {0,1} };
+            int other_axis[3][2] = { {1,2}, {0,2}, {0,1} }; //Herramienta para calcular las SA. Tiene los indices de las otras dos ejes.
             int other_axis0 = other_axis[axis][0];
             int other_axis1 = other_axis[axis][1];
             
             float below_sa = 2 * (d[other_axis0] * d[other_axis1] + 
                                   (edget - node_bounds.p_min[axis]) * 
-                                  (d[other_axis0] + d[other_axis1]));
+                                  (d[other_axis0] + d[other_axis1])); //Area de cubo a un lado.
             float above_sa = 2 * (d[other_axis0] * d[other_axis1] + 
                                   (node_bounds.p_max[axis] - edget) * 
-                                  (d[other_axis0] + d[other_axis1]));
+                                  (d[other_axis0] + d[other_axis1])); //Area del otro lado.
             
-            float s_below = below_sa * inv_total_sa;
-            float s_above = above_sa * inv_total_sa;
+            float s_below = below_sa * inv_total_sa; //Probabilidad de un lado.
+            float s_above = above_sa * inv_total_sa; //Probabilidad de otro.
             
-            float eb = (n_above == 0 || n_below == 0) ? empty_bonus : 0.f;
-            float cost = traversal_cost + isect_cost * (1.f - eb) * (s_below * n_below + s_above * n_above);
+            float eb = (n_above == 0 || n_below == 0) ? empty_bonus : 0.f; //Si en uno de los lados no quedan puntos bonificacion.
+            float cost = traversal_cost + isect_cost * (1.f - eb) * (s_below * n_below + s_above * n_above); //Formula coste total.
+            
+            //std::cout << "eb: " << eb << " sbelow: " << s_below << " n_below: " << n_below << " s_above: " << s_above << " n_above: " << n_above << std::endl;
             //std::cout << "cost: " << cost << std::endl;
             //Update best split if is the lowest cost so far.
             if (cost < best_cost) {
@@ -258,18 +289,19 @@ retry_split:
             }
             
         }
-        if (edges[axis][i].type == BoundEdge::START) --n_below;
+        if (edges[axis][i].type == BoundEdge::START) ++n_below; //Si al contrario que arriba se hace en el punto de la izda. si pert.
     }
     
-    //Create leaf if no good splits were found.
+    //Create leaf if no good splits were found. (4.12,213)
     //std::cout << "Best_axis,retries: " << best_axis << "," << retries << std::endl;
     if (best_axis == -1 && retries < 2) {
         ++retries;
-        axis = (axis+1) % 3;
+        axis = (axis+1) % 3; //Siguiente eje a probar.
         goto retry_split; //Ask if goto is allowed...
     }
     
-    if (best_cost > old_cost) ++bad_refines;
+    if (best_cost > old_cost) ++bad_refines; //Si nuevo coste dividiendo es peor que el coste 
+                                            //sin se aumenta bad refines que lleva la cuenta de cuantos splits malos se han hecho.
     if ((best_cost > 4.f * old_cost && n_surfels < 16) || best_axis == -1 || bad_refines == 3) {
         nodes[node_num].init_leaf(surfel_nums, n_surfels, surfels, arena);
         //std::cout << "Leaf surf 2: " << n_surfels << std::endl;
@@ -288,13 +320,14 @@ retry_split:
             surfels1[n1++] = edges[best_axis][i].surfel_num;
     
     //Recursively initialize children nodes.
-    float tsplit = edges[best_axis][best_offset].t;
-    nodes[node_num].init_interior(best_axis, tsplit);
+    float tsplit = edges[best_axis][best_offset].t; //Coge el punto de split con mejores resultados en el mejor eje.
+    nodes[node_num].init_interior(best_axis, tsplit); //Crea nodo interno.
     //std::cout << nodes[node_num].is_leaf() << std::endl;
     BBox bounds0 = node_bounds, bounds1 = node_bounds;
     bounds0.p_max[best_axis] = bounds1.p_min[best_axis] = tsplit;
     build_tree(node_num + 1, bounds0, all_surfel_bounds, surfels0, n0, depth - 1, edges, surfels0, surfels1 + n_surfels, bad_refines);
     nodes[node_num].above_child = next_free_node;
+    //std::cout << "above: " << nodes[node_num].above_child << " " << next_free_node << std::endl;
     build_tree(nodes[node_num].above_child, bounds1, all_surfel_bounds, surfels1, n1, depth - 1, edges, surfels0, surfels1+n_surfels, bad_refines);
     
 }
@@ -304,33 +337,36 @@ bool KdTreeAccel::intersect(Ray ray) {
     //Compute initial parametric range of ray inside kd-tree extent.
     float tmin, tmax;
     
-    if (!bounds.intersect_p(ray, &tmin, &tmax)) return false;
+    if (!bounds.intersect_p(ray, &tmin, &tmax)) return false; //Obtenemos tmin y tmax que son donde el rayo corta la bounding box de la sc.
+    
+    
+    //std::cout<< "Surfels in each node: " << std::endl;
     
     //Prepare to traverse the kd-tree for ray.
-    int ray_id = cur_surf_id++;
-    bdm::Vector inv_dir(1.f/ray.d.x, 1.f/ray.d.y, 1.f/ray.d.z); //Why invert?
+    //int ray_id = cur_surf_id++;//Para mailbox.
+    bdm::Vector inv_dir(1.f/ray.d.x, 1.f/ray.d.y, 1.f/ray.d.z); //Se hace la inversion para poder multiplicar en vez de dividir y ahorrar.
     
     #define MAX_TODO 64
-    KdToDo todo[MAX_TODO];
+    KdToDo todo[MAX_TODO]; //Define array de recorrido de arbol, con maximo de profundidad como tamaño de array. 64 deberia sobrar.
     int todo_pos = 0;
     
     //Traverse nodes in order for ray.
-    bool hit = false;
+    bool hit = false; //Inicialmente no corta el rayo.
     const KdAccelNode *node = &nodes[0];
     
     while (node != NULL) {
         
         //Bail out if we found a hit closer than the current node.
-        if (ray.maxt < tmin) break; //Recap ray creation being careful with tmin and tmax.
-        if (!node->is_leaf()) {
+        if (ray.maxt < tmin) break; //Recap ray creation being careful with tmin and tmax. //======== TODO ========= tema del yon 40.
+        if (!node->is_leaf()) { //No es hoja?
             //Process interior node.
             //Compute parametric distance along ray to split plane.
-            int axis = node->split_axis();
-            float tplane = (node->split_pos() - ray.o[axis]) * inv_dir[axis];
+            int axis = node->split_axis(); //Saca eje en el que divide el nodo.
+            float tplane = (node->split_pos() - ray.o[axis]) * inv_dir[axis]; //Saca la distancia parametrica al plano de corte.
             
             //Get node children pointers for ray.
-            const KdAccelNode *first_child, *second_child;
-            int below_first = ray.o[axis] <= node->split_pos();
+            const KdAccelNode *first_child, *second_child; //Init hijos.
+            int below_first = ray.o[axis] <= node->split_pos(); //Orden en que recorre los hijos.
             if (below_first) {
                 first_child = node + 1;
                 second_child = &nodes[node->above_child];
@@ -359,7 +395,8 @@ bool KdTreeAccel::intersect(Ray ray) {
             
             //Check for intersections inside leaf node.
             u_int32_t n_surfels = node->num_surfels();
-            //std::cout<< "Surfels in each node: " << n_surfels << std::endl;
+            //std::cout << " n_surfels: " << n_surfels << std::endl;
+            
             if (n_surfels == 1) {
                 Surfel *ms = node->one_surfel;
                 
@@ -391,7 +428,7 @@ bool KdTreeAccel::intersect(Ray ray) {
             
         }
     }
-    
+    //std::cout << "---------------------" << std::endl;
     return hit;
     
 }

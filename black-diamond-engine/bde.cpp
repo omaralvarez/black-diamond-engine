@@ -26,7 +26,7 @@ int main (int argc, const char * argv[])
     //Remember parser axis order when reading different formats.
     char config_path[200] = "/Users/osurfer3/Dropbox/PFC/black-diamond-engine/config.xml";
     
-    Parser *new_parser;
+    Parser *new_parser = new Parser();
     Render renderer = new_parser->parse_config(config_path);
     //cout << "x: " << renderer.s.cloud[1].x << " y: " << renderer.s.cloud[1].y << " z: " << renderer.s.cloud[1].z << endl;
     //cout << "x: " << renderer.s.cloud[2].x << " y: " << renderer.s.cloud[2].y << " z: " << renderer.s.cloud[2].z << endl;
@@ -48,13 +48,13 @@ int main (int argc, const char * argv[])
     }*/
     
     renderer.filter_frustum();
-    
+     
     /*for (int i=0; i<renderer.s.cloud.size(); i++) {
         cout  << renderer.s.cloud[i].x << " " << renderer.s.cloud[i].y << " " << renderer.s.cloud[i].z << endl;
     }*/
     cout << "Tamaño: " << renderer.s.cloud.size() << endl;
     //Def call: int icost = 80, int scost = 1,  float ebonus = 0.5f, int maxp = 1,int maxDepth = -1
-    KdTreeAccel kd_tree = KdTreeAccel(renderer.s.cloud, 80, 1, 0.5f, 1, -1);
+    KdTreeAccel kd_tree = KdTreeAccel(renderer.s.cloud, 80, 1, 0.5f, 200, -1);
     
     //renderer.get_pixel_info_ortho();
     
