@@ -41,7 +41,7 @@ public:
     
     void get_ray_hits();
     
-    void get_kd_ray_hits(KdTreeAccel kd_tree);
+    void get_kd_ray_hits();
     
 };
 

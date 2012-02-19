@@ -12,23 +12,34 @@
 #include <vector>
 #include "camera.h"
 #include "surfel.h"
-#include "aggregate.h"
+#include "kdtreeaccel.h"
 
 class Scene {
     
 public:
+    KdTreeAccel *kd_tree;
     std::vector<Surfel> cloud;
     
     Scene(){
+        kd_tree = NULL;
         std::vector<Surfel> data(0);
         cloud = data;
     }
     
     Scene(std::vector<Surfel> data) {
+        kd_tree = NULL;
         cloud = data;
     }
     
     ~Scene() {
+        
+        delete kd_tree;
+        
+    }
+    
+    void create_kd_tree(int icost, int tcost, float ebonus, int maxs, int max_depth) {
+        
+        kd_tree = new KdTreeAccel(cloud, icost, tcost, ebonus, maxs, max_depth);
         
     }
     

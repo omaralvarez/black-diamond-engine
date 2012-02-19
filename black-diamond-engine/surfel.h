@@ -38,7 +38,7 @@ public:
         
     }
     
-    bool intersect(Ray ray);
+    bool intersect(Ray *ray);
     
 };
 

@@ -10,11 +10,11 @@
 #include "ray.h"
 #include "surfel.h"
 
-bool Surfel::intersect(Ray ray) {
+bool Surfel::intersect(Ray *ray) {
     
-    float A = ray.d.dot(ray.d);
-    float B = (ray.o - *this).dot(ray.d);
-    float C = (ray.o - *this).dot(ray.o - *this) - powf(radius,2.f);
+    float A = ray->d.dot(ray->d);
+    float B = (ray->o - *this).dot(ray->d);
+    float C = (ray->o - *this).dot(ray->o - *this) - powf(radius,2.f);
     
     float disc = B*B - A*C;
     
@@ -31,12 +31,11 @@ bool Surfel::intersect(Ray ray) {
             
             //float t2 = (-B + root)/A; 
             
-            //std::cout << t1 << " " << t2 << std::endl;
         }
         
-        if (t < ray.t_hit) {
-            ray.hit = *this;
-            ray.t_hit = t;
+        if (t < ray->t_hit) {
+            ray->hit = *this;
+            ray->t_hit = t;
         }
         
         return true;

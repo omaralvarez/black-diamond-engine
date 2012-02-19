@@ -64,7 +64,7 @@ int BBox::maximum_extent() {
 bool BBox::intersect_p(Ray ray, float *hit0, float *hit1) {
     
     float t0 = ray.mint, t1 = ray.maxt;
-    
+        
     for (int i = 0; i < 3; i++) {
         
         float inv_ray_dir = 1.f / ray.d[i];

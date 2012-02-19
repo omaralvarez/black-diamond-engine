@@ -146,9 +146,7 @@ void Render::get_rays() { //Tema fallo de yon puede estar al crear rayos. Utiliz
     
     float hither_max_x = fabsf(tanf(cam.angle_x/2)*cam.hither);
     float hither_max_y = fabsf(tanf(cam.angle_y/2)*cam.hither);
-    
-    std::cout << hither_max_x << " " << hither_max_y <<std::endl;
-    
+        
     rays.resize(x_res);                     //Fors are faster than the direct declaration of the array with constructor.
     for (int i = 0; i < x_res; ++i)
         rays[i].resize(y_res);
@@ -156,14 +154,14 @@ void Render::get_rays() { //Tema fallo de yon puede estar al crear rayos. Utiliz
     for (int i = 0; i < x_res; i++) 
         for (int j = 0; j < y_res; j++) {
             
-            bdm::Point origin = bdm::Point(0,0,0);
+            bdm::Point origin = bdm::Point(0.f,0.f,0.f);
             float x = (hither_max_x*2 / x_res)*i - hither_max_x;
             float y = (hither_max_y*2 / y_res)*j - hither_max_y;
             float z = cam.hither;
             //std::cout << x << " " << y << " " << z << std::endl;
             bdm::Vector dir = (bdm::Point(x,y,z) - origin).normalize();
             //NORMALIZAR RAYO!!! - Luego la maxt solo necesita hacerlo avanzar yon -hither
-            rays[i][j] = Ray(bdm::Point(0,0,0),dir,0.f,(cam.yon - cam.hither)/dir.z);
+            rays[i][j] = Ray(bdm::Point(0,0,0),dir,0.f,cam.yon);
     
         }
     
@@ -233,22 +231,13 @@ void Render::get_ray_hits() {
     
 }
 
-void Render::get_kd_ray_hits(KdTreeAccel kd_tree) {
+void Render::get_kd_ray_hits() {
     
-    for (int i = 0; i < x_res; i++){ 
-        //std::cout << i << std::endl;
+    for (int i = 0; i < x_res; i++) 
         for (int j = 0; j < y_res; j++) {
-            bool hit = kd_tree.intersect(rays[i][j]);
-            
-            //std::cout << "Ray info: " << rays[i][j].hit.x << " " << rays[i][j].hit.y << " " << rays[i][j].hit.z << " " << hit << std::endl;
-            if (hit) {
-                //std::cout << "Ray:" << i << " " << j << std::endl;
-                rays[i][j].hit.r = 255;
-                rays[i][j].hit.g = 255;
-                rays[i][j].hit.b = 255;
-            }
+            Ray hit = s.kd_tree->intersect(rays[i][j]);
+            rays[i][j] = hit;
         }
-    }      
     
     std::vector<std::vector<std::vector<short> > > pix_vec;
     
