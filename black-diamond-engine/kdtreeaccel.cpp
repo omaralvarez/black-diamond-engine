@@ -25,6 +25,7 @@ struct KdAccelNode {
         else {
             
             m_surfels = (Surfel **) arena.c_alloc(int(ns * sizeof(Surfel *)));
+            //#pragma omp parallel for //Why not thread safe?
             for (int i = 0; i < ns; ++i) {
         
                 m_surfels[i] = &s[surfel_nums[i]];
@@ -132,12 +133,13 @@ KdTreeAccel::KdTreeAccel(std::vector<Surfel> &p, int icost, int tcost, float ebo
     
     //All surfels are in the first node, because it covers the whole world.
     int *surfel_nums = new int[surfels.size()];  //Create an array with surfel numbers to indicate which surfels overlap the node.
+    #pragma omp parallel for
     for (u_int32_t i = 0; i < surfels.size(); ++i) surfel_nums[i] = i;
     
     //Build tree recursively.
     //Responsible for deciding if is interior node or leaf updating everything that needs to be updated.
     build_tree(0,bounds,surfel_bounds,surfel_nums,int(surfels.size()),max_depth,edges,surfels0,surfels1,0); //Careful bad refinements.
-        
+   
     // Free working memory for kd-tree construction
     delete[] surfel_nums;
     for (int i = 0; i < 3; ++i)
@@ -199,6 +201,7 @@ void KdTreeAccel::build_tree(int node_num, BBox node_bounds, std::vector<BBox> a
 retry_split:
     
     //Init edges for axis.
+    #pragma omp parallel for
     for (int i = 0; i < n_surfels; ++i) {
         int sn = surfel_nums[i];    //Choose numbers of surfels inside of the node.
         const BBox &bbox = all_surfel_bounds[sn]; //Get the bounding boxes.

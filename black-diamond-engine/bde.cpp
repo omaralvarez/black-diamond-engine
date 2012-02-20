@@ -6,6 +6,10 @@
 //  Copyright (c) 2012 UDC. All rights reserved.
 //
 
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -55,7 +59,7 @@ int main (int argc, const char * argv[])
     //Def call: int icost = 80, int scost = 1,  float ebonus = 0.5f, int maxp = 1,int maxDepth = -1
     //renderer.s.kd_tree = kd_tree;
     
-    renderer.s.create_kd_tree(80, 1, 0.5f, 200, -1);
+    renderer.s.create_kd_tree(80, 1, 0.5f, 120, -1);
     
     //renderer.get_pixel_info_ortho();
     
