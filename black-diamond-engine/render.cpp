@@ -56,20 +56,16 @@ void Render::get_pixel_info_ortho(){
     
     // Set up sizes. (HEIGHT x WIDTH x CHANNELS)
     pix_vec.resize(x_res);                     //Fors are faster than the direct declaration of the array with constructor.
-    #pragma omp parallel for
     for (int i = 0; i < x_res; ++i)
         pix_vec[i].resize(y_res);
-    for (int i = 0; i < x_res; ++i) {
-        #pragma omp parallel for
+    for (int i = 0; i < x_res; ++i) 
         for (int j = 0; j < y_res; j++)
             pix_vec[i][j].resize(3);
-    }
     
-    for (int i = 0; i < x_res; i++) {
-        #pragma omp parallel for
+    
+    for (int i = 0; i < x_res; i++) 
         for (int j = 0; j < y_res; j++) 
             pix_vec[i][j][0] = 1337;
-    }
     
     for (int i = 0; i < s.cloud.size(); i++) {
         
@@ -153,7 +149,6 @@ void Render::get_rays() { //Tema fallo de yon puede estar al crear rayos. Utiliz
     float hither_max_y = fabsf(tanf(cam.angle_y/2)*cam.hither);
         
     rays.resize(x_res);                     //Fors are faster than the direct declaration of the array with constructor.
-    #pragma omp parallel for
     for (int i = 0; i < x_res; ++i)
         rays[i].resize(y_res);
     
@@ -216,17 +211,14 @@ void Render::get_ray_hits() {
     std::vector<std::vector<std::vector<short> > > pix_vec;
     
     pix_vec.resize(x_res);                     //Fors are faster than the direct declaration of the array with constructor.
-    #pragma omp parallel for
     for (int i = 0; i < x_res; ++i)
         pix_vec[i].resize(y_res);
-    for (int i = 0; i < x_res; ++i){
-        #pragma omp parallel for
+    for (int i = 0; i < x_res; ++i)
         for (int j = 0; j < y_res; j++)
             pix_vec[i][j].resize(3);
-    }
+    
     
     for (int i = 0; i < x_res; i++) {
-        #pragma omp parallel for
         for (int j = 0; j < y_res; j++) {
             pix_vec[x_res-i-1][y_res-j-1][0] = rays[i][j].hit.r; //Cuidao en get pixel res!!! falta el menos 1. Y puede dar bad_Acces en el extremo.
             pix_vec[x_res-i-1][y_res-j-1][1] = rays[i][j].hit.g;
@@ -245,9 +237,8 @@ void Render::get_ray_hits() {
 
 void Render::get_kd_ray_hits() {
     
-    //#pragma omp parallel for //Why not thread safe?
     for (int i = 0; i < x_res; i++){ 
-       // #pragma omp parallel for 
+        #pragma omp parallel for 
         for (int j = 0; j < y_res; j++) {
             Ray hit = s.kd_tree->intersect(rays[i][j]);
             rays[i][j] = hit;
@@ -257,23 +248,20 @@ void Render::get_kd_ray_hits() {
     
     pix_vec.resize(x_res);                     //Fors are faster than the direct declaration of the array with constructor.
     
-    #pragma omp parallel for
     for (int i = 0; i < x_res; ++i)
         pix_vec[i].resize(y_res);
-    for (int i = 0; i < x_res; ++i) {
-        #pragma omp parallel for
+    for (int i = 0; i < x_res; ++i) 
         for (int j = 0; j < y_res; j++)
             pix_vec[i][j].resize(3);
-    }
     
-    for (int i = 0; i < x_res; i++) {
-        #pragma omp parallel for
+    
+    for (int i = 0; i < x_res; i++) 
         for (int j = 0; j < y_res; j++) {
             pix_vec[x_res-i-1][y_res-j-1][0] = rays[i][j].hit.r; //Cuidao en get pixel res!!! falta el menos 1. Y puede dar bad_Acces en el extremo.
             pix_vec[x_res-i-1][y_res-j-1][1] = rays[i][j].hit.g;
             pix_vec[x_res-i-1][y_res-j-1][2] = rays[i][j].hit.b;
         }   
-    }
+    
     
     char f_name[200] = "/Users/osurfer3/Desktop/test2.png";
     

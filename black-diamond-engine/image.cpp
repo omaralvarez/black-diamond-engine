@@ -68,7 +68,6 @@ void Image::write_png_file(char* file_name){
         for (int y=0; y<height; y++) {
             row_pointers[y] = (png_bytep) malloc(3 * width * sizeof(png_byte));
             row = row_pointers[y];
-            #pragma omp parallel for
             for (int x=0; x<width; x++) {
                 png_byte* ptr = &(row[x*3]);
 
@@ -106,7 +105,6 @@ void Image::write_png_file(char* file_name){
         png_write_end(png_ptr, NULL);
         
         /* cleanup heap allocation */
-        #pragma omp parallel for
         for (int y=0; y<height; y++)
             free(row_pointers[y]);
         

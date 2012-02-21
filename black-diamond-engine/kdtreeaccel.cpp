@@ -133,7 +133,6 @@ KdTreeAccel::KdTreeAccel(std::vector<Surfel> &p, int icost, int tcost, float ebo
     
     //All surfels are in the first node, because it covers the whole world.
     int *surfel_nums = new int[surfels.size()];  //Create an array with surfel numbers to indicate which surfels overlap the node.
-    #pragma omp parallel for
     for (u_int32_t i = 0; i < surfels.size(); ++i) surfel_nums[i] = i;
     
     //Build tree recursively.
