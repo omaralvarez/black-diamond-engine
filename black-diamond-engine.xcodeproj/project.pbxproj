@@ -9,10 +9,12 @@
 /* Begin PBXBuildFile section */
 		60105DF014C59D100007540B /* parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105DEF14C59D100007540B /* parser.cpp */; };
 		60105DF914C59D8F0007540B /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105DF814C59D8F0007540B /* camera.cpp */; };
-		60105DFC14C59DED0007540B /* light_source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105DFB14C59DED0007540B /* light_source.cpp */; };
 		60105E0114C59EAD0007540B /* render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105E0014C59EAD0007540B /* render.cpp */; };
 		60105E0414C59EDE0007540B /* image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105E0314C59EDE0007540B /* image.cpp */; };
 		607EF30314C33BAA00D801C9 /* scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 607EF30214C33BAA00D801C9 /* scene.cpp */; };
+		608EFCDD14F8089000DDF4F6 /* pointlight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608EFCDC14F8089000DDF4F6 /* pointlight.cpp */; };
+		608EFCE014F8180100DDF4F6 /* light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608EFCDF14F8180100DDF4F6 /* light.cpp */; };
+		608EFCE314F92E7100DDF4F6 /* material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608EFCE214F92E7000DDF4F6 /* material.cpp */; };
 		60A22A3D14DB0A5300D2ABBC /* libblack-diamond-math.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60A22A3C14DB0A4700D2ABBC /* libblack-diamond-math.a */; };
 		60A22A4C14DC375F00D2ABBC /* surfel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60A22A4B14DC375F00D2ABBC /* surfel.cpp */; };
 		60E8BC4A14D02CCB00FC9E57 /* tinystr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E8BC4414D02CCB00FC9E57 /* tinystr.cpp */; };
@@ -57,13 +59,17 @@
 		60105DF114C59D260007540B /* parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parser.h; sourceTree = "<group>"; };
 		60105DF714C59D860007540B /* camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = camera.h; sourceTree = "<group>"; };
 		60105DF814C59D8F0007540B /* camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = camera.cpp; sourceTree = "<group>"; };
-		60105DFB14C59DED0007540B /* light_source.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = light_source.cpp; sourceTree = "<group>"; };
-		60105DFD14C59DFA0007540B /* light_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = light_source.h; sourceTree = "<group>"; };
 		60105DFF14C59EA40007540B /* render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = render.h; sourceTree = "<group>"; };
 		60105E0014C59EAD0007540B /* render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = render.cpp; sourceTree = "<group>"; };
 		60105E0314C59EDE0007540B /* image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
 		60105E0514C59EE80007540B /* image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
 		607EF30214C33BAA00D801C9 /* scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scene.cpp; sourceTree = "<group>"; };
+		608EFCDB14F8088400DDF4F6 /* pointlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pointlight.h; sourceTree = "<group>"; };
+		608EFCDC14F8089000DDF4F6 /* pointlight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pointlight.cpp; sourceTree = "<group>"; };
+		608EFCDE14F817F200DDF4F6 /* light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = light.h; sourceTree = "<group>"; };
+		608EFCDF14F8180100DDF4F6 /* light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = light.cpp; sourceTree = "<group>"; };
+		608EFCE214F92E7000DDF4F6 /* material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = material.cpp; sourceTree = "<group>"; };
+		608EFCE414F92E7C00DDF4F6 /* material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = material.h; sourceTree = "<group>"; };
 		60A22A3414DB0A4600D2ABBC /* black-diamond-math.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "black-diamond-math.xcodeproj"; path = "black-diamond-math/black-diamond-math.xcodeproj"; sourceTree = "<group>"; };
 		60A22A4B14DC375F00D2ABBC /* surfel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = surfel.cpp; sourceTree = "<group>"; };
 		60A22A4D14DC376F00D2ABBC /* surfel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = surfel.h; sourceTree = "<group>"; };
@@ -113,8 +119,8 @@
 			isa = PBXGroup;
 			children = (
 				60E8BC4314D02CCA00FC9E57 /* tools */,
-				60105DEF14C59D100007540B /* parser.cpp */,
 				60105DF114C59D260007540B /* parser.h */,
+				60105DEF14C59D100007540B /* parser.cpp */,
 			);
 			name = parser;
 			sourceTree = "<group>";
@@ -128,13 +134,15 @@
 			name = camera;
 			sourceTree = "<group>";
 		};
-		60105DFA14C59DD00007540B /* light_source */ = {
+		60105DFA14C59DD00007540B /* light */ = {
 			isa = PBXGroup;
 			children = (
-				60105DFB14C59DED0007540B /* light_source.cpp */,
-				60105DFD14C59DFA0007540B /* light_source.h */,
+				608EFCDE14F817F200DDF4F6 /* light.h */,
+				608EFCDF14F8180100DDF4F6 /* light.cpp */,
+				608EFCDB14F8088400DDF4F6 /* pointlight.h */,
+				608EFCDC14F8089000DDF4F6 /* pointlight.cpp */,
 			);
-			name = light_source;
+			name = light;
 			sourceTree = "<group>";
 		};
 		60105DFE14C59E960007540B /* render */ = {
@@ -153,6 +161,15 @@
 				60105E0514C59EE80007540B /* image.h */,
 			);
 			name = image;
+			sourceTree = "<group>";
+		};
+		608EFCE514F92E8300DDF4F6 /* material */ = {
+			isa = PBXGroup;
+			children = (
+				608EFCE414F92E7C00DDF4F6 /* material.h */,
+				608EFCE214F92E7000DDF4F6 /* material.cpp */,
+			);
+			name = material;
 			sourceTree = "<group>";
 		};
 		60A22A3514DB0A4600D2ABBC /* Products */ = {
@@ -210,7 +227,8 @@
 				60F7A43914E02A7E0026075E /* ray */,
 				60105E0214C59ED00007540B /* image */,
 				60105DFE14C59E960007540B /* render */,
-				60105DFA14C59DD00007540B /* light_source */,
+				608EFCE514F92E8300DDF4F6 /* material */,
+				60105DFA14C59DD00007540B /* light */,
 				60105DF614C59D750007540B /* camera */,
 				60105DEE14C59CCF0007540B /* parser */,
 				60105DED14C59C200007540B /* scene */,
@@ -315,7 +333,6 @@
 				607EF30314C33BAA00D801C9 /* scene.cpp in Sources */,
 				60105DF014C59D100007540B /* parser.cpp in Sources */,
 				60105DF914C59D8F0007540B /* camera.cpp in Sources */,
-				60105DFC14C59DED0007540B /* light_source.cpp in Sources */,
 				60105E0114C59EAD0007540B /* render.cpp in Sources */,
 				60105E0414C59EDE0007540B /* image.cpp in Sources */,
 				60E8BC4A14D02CCB00FC9E57 /* tinystr.cpp in Sources */,
@@ -328,6 +345,9 @@
 				60F7A44014E9822F0026075E /* bbox.cpp in Sources */,
 				60F7A44214E993990026075E /* kdtreeaccel.cpp in Sources */,
 				60F7A44814EAB4E40026075E /* memoryarena.cpp in Sources */,
+				608EFCDD14F8089000DDF4F6 /* pointlight.cpp in Sources */,
+				608EFCE014F8180100DDF4F6 /* light.cpp in Sources */,
+				608EFCE314F92E7100DDF4F6 /* material.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,7 +362,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_OPENMP_SUPPORT = YES;
+				ENABLE_OPENMP_SUPPORT = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -373,7 +393,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_OPENMP_SUPPORT = YES;
+				ENABLE_OPENMP_SUPPORT = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
@@ -392,7 +412,7 @@
 		60EA722814B76B2100D2F3B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ENABLE_OPENMP_SUPPORT = YES;
+				ENABLE_OPENMP_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				HEADER_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = "";
@@ -409,7 +429,7 @@
 		60EA722914B76B2100D2F3B3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ENABLE_OPENMP_SUPPORT = YES;
+				ENABLE_OPENMP_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				HEADER_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = "";

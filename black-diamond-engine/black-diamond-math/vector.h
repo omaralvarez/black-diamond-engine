@@ -22,6 +22,19 @@ namespace bdm {
         Vector(float _x=0, float _y=0, float _z=0)
         : x(_x), y(_y), z(_z) {}
         
+        Vector operator+(Vector v) {
+            return Vector(x + v.x, y + v.y, z + v.z);
+        }
+        
+        Vector operator+=(Vector v) {
+            x += v.x; y += v.y; z += v.z;
+            return *this;
+        }
+        
+        Vector operator-() {
+            return Vector(-x,-y,-z);
+        }
+        
         Vector operator/(float f) {
             assert(f!=0);
             float inv = 1.f / f;

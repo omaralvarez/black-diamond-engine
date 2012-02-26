@@ -13,12 +13,15 @@
 #include "camera.h"
 #include "surfel.h"
 #include "kdtreeaccel.h"
+#include "light.h"
+#include "pointlight.h"
 
 class Scene {
     
 public:
     KdTreeAccel *kd_tree;
     std::vector<Surfel> cloud;
+    std::vector<PointLight> lights;
     
     Scene(){
         kd_tree = NULL;
@@ -29,6 +32,12 @@ public:
     Scene(std::vector<Surfel> data) {
         kd_tree = NULL;
         cloud = data;
+    }
+    
+    Scene(std::vector<Surfel> data, PointLight l) {
+        kd_tree = NULL;
+        cloud = data;
+        lights.push_back(l); //Multiple lights missing.
     }
     
     ~Scene() {

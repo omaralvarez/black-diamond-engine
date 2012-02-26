@@ -14,6 +14,31 @@
 #include <iostream>
 #include <vector>
 
+struct VisibilityTester {
+    
+    void set_segment(bdm::Point p1, float eps1, bdm::Point p2, float eps2, float time) {
+        
+        float dist = (p1 - p2).length();
+        r = Ray(p1, (p2 - p1)/dist, eps1, dist*(1.f - eps2)); //Time missing.
+        
+    }
+    
+    void set_ray(bdm::Point p, float eps, bdm::Vector w, float time) {
+        
+        r = Ray(p, w, eps, INFINITY);
+        
+    }
+    
+    bool unoccluded(Scene &s) {
+        
+        return !s.kd_tree->intersect_p(r);
+        
+    }
+    
+    Ray r;
+    
+};
+
 void Render::trans_world_to_cam() {
     
     #pragma omp parallel for
@@ -24,6 +49,16 @@ void Render::trans_world_to_cam() {
         s.cloud[i].x = new_point.x;
         s.cloud[i].y = new_point.y;
         s.cloud[i].z = new_point.z;
+        
+    }
+    
+    for (int i = 0; i < s.lights.size(); i++) {
+        
+        bdm::Point new_point = cam.get_camera_point(s.lights[i].light_pos); 
+        
+        s.lights[i].light_pos.x = new_point.x;
+        s.lights[i].light_pos.y = new_point.y;
+        s.lights[i].light_pos.z = new_point.z;
         
     }
     
@@ -241,6 +276,46 @@ void Render::get_kd_ray_hits() {
         #pragma omp parallel for 
         for (int j = 0; j < y_res; j++) {
             Ray hit = s.kd_tree->intersect(rays[i][j]);
+            
+            //Illumination.
+            if (hit.hit.radius != 0.f) {
+                
+                bdm::Point hit_point = hit(hit.t_hit);
+                
+                hit.hit.r = hit.hit.mat.ambient[0];
+                hit.hit.g = hit.hit.mat.ambient[1];
+                hit.hit.b = hit.hit.mat.ambient[2];
+                                
+                for (int k = 0; k < s.lights.size(); k++) {
+                    
+                    VisibilityTester vis;
+                    vis.set_segment(hit_point, 0.01f, s.lights[k].light_pos, 0.f, hit.t_hit);
+                    if (!vis.unoccluded(s)) continue; //If shadow continue.
+                    
+                    //Diffuse contribution.
+                    bdm::Vector v_s = (s.lights[k].light_pos - hit_point).normalize();
+                    bdm::Vector normal = (hit_point - hit.hit).normalize();
+                    float m_dot_s = v_s.dot(normal);
+                    if (m_dot_s > 0.001f) { //Cuidado deberia comparar con 0;
+                        hit.hit.r = fminf(hit.hit.r + m_dot_s * hit.hit.mat.diffuse[0],255); 
+                        hit.hit.g = fminf(hit.hit.g + m_dot_s * hit.hit.mat.diffuse[1],255); 
+                        hit.hit.b = fminf(hit.hit.b + m_dot_s * hit.hit.mat.diffuse[2],255); 
+                    }
+                    
+                    //Specular contribution.
+                    bdm::Vector h = (v_s + -(hit.d)).normalize();
+                    float m_dot_h = h.dot(normal);
+                    if (m_dot_h > 0.001f) { //Cuidado deberia comparar con 0;
+                        float phong = powf(m_dot_h, hit.hit.mat.exp);
+                        hit.hit.r = fminf(hit.hit.r + phong * hit.hit.mat.specular[0],255); 
+                        hit.hit.g = fminf(hit.hit.g + phong * hit.hit.mat.specular[1],255); 
+                        hit.hit.b = fminf(hit.hit.b + phong * hit.hit.mat.specular[2],255); 
+                    }
+                    
+                }
+                
+            }
+            
             rays[i][j] = hit;
         }
     }

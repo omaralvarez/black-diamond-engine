@@ -21,20 +21,22 @@
 #include "render.h"
 #include "surfel.h"
 
+//typedef RGBSpectrum Spectrum;
+
 int main (int argc, const char * argv[])
 {
 
     using namespace std;
     
     //Remember parser axis order when reading different formats.
-    char config_path[200] = "/Users/osurfer3/Dropbox/PFC/black-diamond-engine/config.xml";
+    char config_path[200] = "/Users/osurfer3/Dropbox/PFC/black-diamond-engine/config2.xml";
     std::cout << "Reading data..." << std::endl;
     Parser *new_parser = new Parser();
     Render renderer = new_parser->parse_config(config_path);
     
     std::cout << "Applying transformations..." << std::endl;
     bdm::Transform scaler = scaler.scale(20,20,20);
-    renderer.s.trans_scene(scaler);
+    //renderer.s.trans_scene(scaler);
 
     cout << "Size before filtering: " << renderer.s.cloud.size() << endl;
 
@@ -51,7 +53,7 @@ int main (int argc, const char * argv[])
     //renderer.s.kd_tree = kd_tree;
     
     std::cout << "Creating kd-tree..." << std::endl;
-    renderer.s.create_kd_tree(80, 1, 0.5f, 120, -1);
+    renderer.s.create_kd_tree(80, 1, 0.5f, 100, -1);
     
     //renderer.get_pixel_info_ortho();
     std::cout << "Generating rays..." << std::endl;
@@ -60,6 +62,8 @@ int main (int argc, const char * argv[])
     renderer.get_kd_ray_hits();
     //renderer.get_ray_hits();
     cout << "Tracing finished..." << endl;
+    
+    delete new_parser;
     
     return 0;
     

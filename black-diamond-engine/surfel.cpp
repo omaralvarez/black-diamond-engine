@@ -18,6 +18,8 @@ bool Surfel::intersect(Ray *ray) {
     
     float disc = B*B - A*C;
     
+    //======TODO======== Tener en cuenta el tmin y tmax.
+    
     if (disc < 0.f) {
         //std::cout << "Ray miss" << std::endl;
     } else {

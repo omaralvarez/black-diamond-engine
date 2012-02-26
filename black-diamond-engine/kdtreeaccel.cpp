@@ -379,3 +379,100 @@ Ray KdTreeAccel::intersect(Ray ray) {
     
 }
 
+bool KdTreeAccel::intersect_p(Ray ray) {
+    
+    //Compute initial parametric range of ray inside kd-tree extent.
+    float tmin, tmax;
+    
+    if (!bounds.intersect_p(ray, &tmin, &tmax)) return false; //Obtenemos tmin y tmax que son donde el rayo corta la bounding box de la sc.
+    
+    //Prepare to traverse the kd-tree for ray.
+    bdm::Vector inv_dir(1.f/ray.d.x, 1.f/ray.d.y, 1.f/ray.d.z); //Se hace la inversion para poder multiplicar en vez de dividir y ahorrar.
+    
+#define MAX_TODO 64
+    KdToDo todo[MAX_TODO]; //Define array de recorrido de arbol, con maximo de profundidad como tamaño de array. 64 deberia sobrar.
+    int todo_pos = 0;
+    
+    //Traverse nodes in order for ray.
+    bool hit = false; //Inicialmente no corta el rayo.
+    const KdAccelNode *node = &nodes[0];
+    
+    while (node != NULL) {
+        
+        //Bail out if we found a hit closer than the current node.
+        if (ray.maxt < tmin) break; //Recap ray creation being careful with tmin and tmax. //======== TODO ========= tema del yon 40.
+        if (!node->is_leaf()) { //No es hoja?
+            //Process interior node.
+            //Compute parametric distance along ray to split plane.
+            int axis = node->split_axis(); //Saca eje en el que divide el nodo.
+            float tplane = (node->split_pos() - ray.o[axis]) * inv_dir[axis]; //Saca la distancia parametrica al plano de corte.
+            
+            //Get node children pointers for ray.
+            const KdAccelNode *first_child, *second_child; //Init hijos.
+            int below_first = ray.o[axis] <= node->split_pos(); //Orden en que recorre los hijos.
+            if (below_first) {
+                first_child = node + 1;
+                second_child = &nodes[node->above_child];
+            } else {
+                first_child = &nodes[node->above_child];
+                second_child = node + 1;
+            }
+            
+            //Advance to next child node, possibly enqueue other child.
+            if (tplane > tmax || tplane < 0) node = first_child;
+            else if (tplane < tmin) node = second_child;
+            else {
+                
+                //Enqueue second child in todo list.
+                todo[todo_pos].node = second_child;
+                todo[todo_pos].tmin = tplane;
+                todo[todo_pos].tmax = tmax;
+                ++todo_pos;
+                
+                node = first_child;
+                tmax = tplane;
+                
+            }
+            
+        } else {
+            
+            //Check for intersections inside leaf node.
+            u_int32_t n_surfels = node->num_surfels();
+            //std::cout << " n_surfels: " << n_surfels << std::endl;
+            
+            if (n_surfels == 1) {
+                Surfel *ms = node->one_surfel;
+                
+                //Check one surfel inside leaf.
+                //std::cout << "Surfel info1: " << ms->x << " " << ms->y << " " << ms->z << std::endl;
+                if (ms->intersect(&ray)) return true;
+                
+            } else {
+                Surfel **m_surfels = node->m_surfels;
+                for (u_int32_t i = 0; i < n_surfels; ++i) {
+                    Surfel *ms = m_surfels[i];
+                    //std::cout<< "Loop value: " << i << std::endl;
+                    //std::cout << "Surfel info2: " << ms->x << " " << ms->y << " " << ms->z << std::endl;//Same ray always. ERROR
+                    //Check one surfel inside leaf node.
+                    if (ms->intersect(&ray)) return true; 
+                    
+                }
+            }
+            
+            //Grab next node to process from todo list.
+            if (todo_pos > 0) {
+                
+                --todo_pos;
+                node = todo[todo_pos].node;
+                tmin = todo[todo_pos].tmin;
+                tmax = todo[todo_pos].tmax;
+                
+            } else break;
+            
+        }
+    }
+    //std::cout << "---------------------" << std::endl;
+    return hit;
+    
+}
+

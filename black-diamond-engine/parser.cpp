@@ -14,6 +14,7 @@
 #include "tinyxml.h"
 #include "scene.h"
 #include "vector.h"
+//#include "material.h"
 
 //Constructor.
 Parser::Parser(){} 
@@ -79,7 +80,7 @@ Render Parser::parse_config(char* config_path){
         
         std::vector<Surfel> data = parse_data_file(d_path,radius);
         
-        return Render(Scene(data),Camera(bdm::Point(cam[0],cam[1],cam[2]),bdm::Point(cam[3],cam[4],cam[5]),bdm::Vector(cam[6],cam[7],cam[8]),cam[9],cam[10],cam[11],cam[12]),ren[0],ren[1]);
+        return Render(Scene(data, PointLight(1)),Camera(bdm::Point(cam[0],cam[1],cam[2]),bdm::Point(cam[3],cam[4],cam[5]),bdm::Vector(cam[6],cam[7],cam[8]),cam[9],cam[10],cam[11],cam[12]),ren[0],ren[1]);
         
 	} else {
 		printf("Failed to load file \"%s\"\n", config_path);
@@ -108,9 +109,9 @@ std::vector<Surfel> Parser::parse_data_file(std::string filePath, float radius) 
     //Read contents of file till EOF.
     while (inputFile.good()){
         
-        //inputFile >> temp_x >> temp_y >> temp_z >> rgbd >> discard_1 >> discard_2;//Original.
+        inputFile >> temp_x >> temp_y >> temp_z >> rgbd >> discard_1 >> discard_2;//Original.
         
-        inputFile >> temp_x >> temp_z >> temp_y >> rgbd >> discard_1 >> discard_2;//Dataset RGB-D
+        //inputFile >> temp_x >> temp_z >> temp_y >> rgbd >> discard_1 >> discard_2;//Dataset RGB-D
         
         //Aqui lectura color.!!!! ====TODO=====
         rgbf = float(rgbd);
@@ -121,7 +122,12 @@ std::vector<Surfel> Parser::parse_data_file(std::string filePath, float radius) 
         g = (rgbi & 0x00FF00) >> 8;
         b = (rgbi & 0x0000FF);
         
-        data.push_back(Surfel(temp_x,temp_y,temp_z,r,g,b,radius));
+        //Material.
+        float a[3] = {80,80,80};
+        float d[3] = {100,100,100};
+        float s[3] = {255,255,255};
+        
+        data.push_back(Surfel(temp_x,temp_y,temp_z,r,g,b,radius,Material(a,d,s,20.f)));
         
     }
     

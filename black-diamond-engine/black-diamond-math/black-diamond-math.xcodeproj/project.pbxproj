@@ -81,8 +81,8 @@
 		60E8BCB814DAF75D00FC9E57 /* vector */ = {
 			isa = PBXGroup;
 			children = (
-				60E8BCAC14DAF6C700FC9E57 /* vector.cpp */,
 				60E8BCAD14DAF6C700FC9E57 /* vector.h */,
+				60E8BCAC14DAF6C700FC9E57 /* vector.cpp */,
 			);
 			name = vector;
 			sourceTree = "<group>";

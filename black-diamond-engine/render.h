@@ -14,6 +14,8 @@
 #include "kdtreeaccel.h"
 #include <vector>
 
+struct VisibilityTester;
+
 class Render {
     
     int x_res;
@@ -42,7 +44,7 @@ public:
     void get_ray_hits();
     
     void get_kd_ray_hits();
-    
+        
 };
 
 #endif
