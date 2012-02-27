@@ -125,9 +125,9 @@ std::vector<Surfel> Parser::parse_data_file(std::string filePath, float radius) 
         //Material.
         float a[3] = {80,80,80};
         float d[3] = {100,100,100};
-        float s[3] = {255,255,255};
+        float s[3] = {110,110,110};
         
-        data.push_back(Surfel(temp_x,temp_y,temp_z,r,g,b,radius,Material(a,d,s,20.f)));
+        data.push_back(Surfel(temp_x,temp_y,temp_z,r,g,b,radius,Material(a,d,s,30.f)));
         
     }
     

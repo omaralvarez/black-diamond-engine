@@ -27,7 +27,7 @@ bool Surfel::intersect(Ray *ray) {
         float root = sqrtf(disc);
         float t;
         
-        if (root >=0 && root < 0.0000001) t = -B/A;
+        if (root >=0.f && root < 0.0000001f) t = -B/A;
         else {
             t = (-B - root)/A; //En principio la t mas pequeña deberia ser siempre esta. Pero hay que comprobarlo.
             
@@ -35,12 +35,11 @@ bool Surfel::intersect(Ray *ray) {
             
         }
         
-        if (t < ray->t_hit) {
+        if (t < ray->t_hit && t > ray->mint) {
             ray->hit = *this;
             ray->t_hit = t;
+            return true;
         }
-        
-        return true;
         
     }
     

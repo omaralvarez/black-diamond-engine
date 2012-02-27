@@ -289,7 +289,7 @@ void Render::get_kd_ray_hits() {
                 for (int k = 0; k < s.lights.size(); k++) {
                     
                     VisibilityTester vis;
-                    vis.set_segment(hit_point, 0.01f, s.lights[k].light_pos, 0.f, hit.t_hit);
+                    vis.set_segment(hit_point, 0.f, s.lights[k].light_pos, 0.f, hit.t_hit);
                     if (!vis.unoccluded(s)) continue; //If shadow continue.
                     
                     //Diffuse contribution.
@@ -303,7 +303,7 @@ void Render::get_kd_ray_hits() {
                     }
                     
                     //Specular contribution.
-                    bdm::Vector h = (v_s + -(hit.d)).normalize();
+                    bdm::Vector h = (v_s + (-(hit.d))).normalize(); //Mirar porque se mete en 0,0,20 deberia bloquear todo.
                     float m_dot_h = h.dot(normal);
                     if (m_dot_h > 0.001f) { //Cuidado deberia comparar con 0;
                         float phong = powf(m_dot_h, hit.hit.mat.exp);

@@ -57,7 +57,8 @@ namespace bdm {
         }
         
         Vector normalize() {
-            return *this/length();
+            if (x == 0 && y == 0 && z == 0) return *this;  
+            else return *this/length();
         }
         
         Vector operator*(float f) {

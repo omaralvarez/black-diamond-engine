@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <scene>
 	<camera p_x="0" p_y="0" p_z="0" d_x="0" d_y="0" d_z="1" up_x="0" up_y="1" up_z="0"  hither="10" yon="20" angle_x="40" angle_y="40"/>
-	<render width="720" height="720" surfel_radius="0.05"/>
+	<render width="720" height="720" surfel_radius="0.08"/>
 	<data d_path="/Users/osurfer3/Dropbox/PFC/Datasets/apple_rgb/apple_1.txt"/>
 </scene>
