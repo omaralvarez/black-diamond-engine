@@ -270,6 +270,45 @@ void Render::get_ray_hits() {
     
 }
 
+void Render::shading(Ray &ray) {
+
+    bdm::Point hit_point = ray(ray.t_hit);
+    
+    //Ambient contribution.
+    ray.hit.r = ray.hit.mat.ambient[0];
+    ray.hit.g = ray.hit.mat.ambient[1];
+    ray.hit.b = ray.hit.mat.ambient[2];
+    
+    for (int k = 0; k < s.lights.size(); k++) {
+        
+        VisibilityTester vis;
+        vis.set_segment(hit_point, 0.f, s.lights[k].light_pos, 0.f, ray.t_hit);
+        if (!vis.unoccluded(s)) continue; //If shadow continue.
+        
+        //Diffuse contribution.
+        bdm::Vector v_s = (s.lights[k].light_pos - hit_point).normalize();
+        bdm::Vector normal = (hit_point - ray.hit).normalize();
+        float m_dot_s = v_s.dot(normal);
+        if (m_dot_s > 0.001f) { //Cuidado deberia comparar con 0;
+            ray.hit.r = fminf(ray.hit.r + m_dot_s * ray.hit.mat.diffuse[0],255); 
+            ray.hit.g = fminf(ray.hit.g + m_dot_s * ray.hit.mat.diffuse[1],255); 
+            ray.hit.b = fminf(ray.hit.b + m_dot_s * ray.hit.mat.diffuse[2],255); 
+        }
+        
+        //Specular contribution.
+        bdm::Vector h = (v_s + (-(ray.d))).normalize(); //Mirar porque se mete en 0,0,20 deberia bloquear todo.
+        float m_dot_h = h.dot(normal);
+        if (m_dot_h > 0.001f) { //Cuidado deberia comparar con 0;
+            float phong = powf(m_dot_h, ray.hit.mat.exp);
+            ray.hit.r = fminf(ray.hit.r + phong * ray.hit.mat.specular[0],255); 
+            ray.hit.g = fminf(ray.hit.g + phong * ray.hit.mat.specular[1],255); 
+            ray.hit.b = fminf(ray.hit.b + phong * ray.hit.mat.specular[2],255); 
+        }
+        
+    }
+
+}
+
 void Render::get_kd_ray_hits() {
     
     for (int i = 0; i < x_res; i++){ 
@@ -278,43 +317,7 @@ void Render::get_kd_ray_hits() {
             Ray hit = s.kd_tree->intersect(rays[i][j]);
             
             //Illumination.
-            if (hit.hit.radius != 0.f) {
-                
-                bdm::Point hit_point = hit(hit.t_hit);
-                
-                hit.hit.r = hit.hit.mat.ambient[0];
-                hit.hit.g = hit.hit.mat.ambient[1];
-                hit.hit.b = hit.hit.mat.ambient[2];
-                                
-                for (int k = 0; k < s.lights.size(); k++) {
-                    
-                    VisibilityTester vis;
-                    vis.set_segment(hit_point, 0.f, s.lights[k].light_pos, 0.f, hit.t_hit);
-                    if (!vis.unoccluded(s)) continue; //If shadow continue.
-                    
-                    //Diffuse contribution.
-                    bdm::Vector v_s = (s.lights[k].light_pos - hit_point).normalize();
-                    bdm::Vector normal = (hit_point - hit.hit).normalize();
-                    float m_dot_s = v_s.dot(normal);
-                    if (m_dot_s > 0.001f) { //Cuidado deberia comparar con 0;
-                        hit.hit.r = fminf(hit.hit.r + m_dot_s * hit.hit.mat.diffuse[0],255); 
-                        hit.hit.g = fminf(hit.hit.g + m_dot_s * hit.hit.mat.diffuse[1],255); 
-                        hit.hit.b = fminf(hit.hit.b + m_dot_s * hit.hit.mat.diffuse[2],255); 
-                    }
-                    
-                    //Specular contribution.
-                    bdm::Vector h = (v_s + (-(hit.d))).normalize(); //Mirar porque se mete en 0,0,20 deberia bloquear todo.
-                    float m_dot_h = h.dot(normal);
-                    if (m_dot_h > 0.001f) { //Cuidado deberia comparar con 0;
-                        float phong = powf(m_dot_h, hit.hit.mat.exp);
-                        hit.hit.r = fminf(hit.hit.r + phong * hit.hit.mat.specular[0],255); 
-                        hit.hit.g = fminf(hit.hit.g + phong * hit.hit.mat.specular[1],255); 
-                        hit.hit.b = fminf(hit.hit.b + phong * hit.hit.mat.specular[2],255); 
-                    }
-                    
-                }
-                
-            }
+            if (hit.hit.radius != 0.f) shading(hit);
             
             rays[i][j] = hit;
         }
