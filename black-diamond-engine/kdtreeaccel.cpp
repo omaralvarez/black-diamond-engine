@@ -476,3 +476,7 @@ bool KdTreeAccel::intersect_p(Ray ray) {
     
 }
 
+void KdTreeAccel::get_normals_simp() {
+    
+}
+

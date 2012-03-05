@@ -62,6 +62,10 @@ public:
         
     }
     
+    void get_normals();
+    
+    void get_normals_accel();
+    
 };
 
 #endif

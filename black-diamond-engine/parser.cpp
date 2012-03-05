@@ -110,7 +110,6 @@ std::vector<Surfel> Parser::parse_data_file(std::string filePath, float radius) 
     while (inputFile.good()){
         
         inputFile >> temp_x >> temp_y >> temp_z >> rgbd >> discard_1 >> discard_2;//Original.
-        
         //inputFile >> temp_x >> temp_z >> temp_y >> rgbd >> discard_1 >> discard_2;//Dataset RGB-D
         
         //Aqui lectura color.!!!! ====TODO=====
@@ -127,7 +126,7 @@ std::vector<Surfel> Parser::parse_data_file(std::string filePath, float radius) 
         float d[3] = {100,100,100};
         float s[3] = {110,110,110};
         
-        data.push_back(Surfel(temp_x,temp_y,temp_z,r,g,b,radius,Material(a,d,s,30.f)));
+        data.push_back(Surfel(temp_x,temp_y,-temp_z,r,g,b,radius,Material(a,d,s,30.f))); //Blender -temp_z
         
     }
     

@@ -22,7 +22,7 @@ public:
     
     PointLight(float intens) {
         
-        light_pos = bdm::Point(0,0,0);
+        light_pos = bdm::Point(0,0,-10);
         intensity = intens;
         
     }

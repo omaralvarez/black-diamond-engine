@@ -35,8 +35,12 @@ int main (int argc, const char * argv[])
     Render renderer = new_parser->parse_config(config_path);
     
     std::cout << "Applying transformations..." << std::endl;
-    bdm::Transform scaler = scaler.scale(20,20,20);
+    //bdm::Transform scaler = scaler.scale(20,20,20);
     //renderer.s.trans_scene(scaler);
+    //bdm::Transform trans = trans.translate(4);
+    //renderer.s.trans_scene(trans);
+    
+    //renderer.s.get_normals();
 
     cout << "Size before filtering: " << renderer.s.cloud.size() << endl;
 
@@ -44,6 +48,9 @@ int main (int argc, const char * argv[])
 
     std::cout << "Filtering frustum..." << std::endl;
     renderer.filter_frustum();
+    
+    renderer.s.get_normals();
+    //renderer.s.get_normals_accel();
      
     /*for (int i=0; i<renderer.s.cloud.size(); i++) {
         cout  << renderer.s.cloud[i].x << " " << renderer.s.cloud[i].y << " " << renderer.s.cloud[i].z << endl;
@@ -53,7 +60,7 @@ int main (int argc, const char * argv[])
     //renderer.s.kd_tree = kd_tree;
     
     std::cout << "Creating kd-tree..." << std::endl;
-    renderer.s.create_kd_tree(80, 1, 0.5f, 100, -1);
+    renderer.s.create_kd_tree(80, 1, 0.5f, 1000, -1);
     
     //renderer.get_pixel_info_ortho();
     std::cout << "Generating rays..." << std::endl;
