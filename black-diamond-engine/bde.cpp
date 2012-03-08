@@ -49,8 +49,7 @@ int main (int argc, const char * argv[])
     std::cout << "Filtering frustum..." << std::endl;
     renderer.filter_frustum();
     
-    renderer.s.get_normals();
-    //renderer.s.get_normals_accel();
+    //renderer.s.get_normals();
      
     /*for (int i=0; i<renderer.s.cloud.size(); i++) {
         cout  << renderer.s.cloud[i].x << " " << renderer.s.cloud[i].y << " " << renderer.s.cloud[i].z << endl;
@@ -61,6 +60,10 @@ int main (int argc, const char * argv[])
     
     std::cout << "Creating kd-tree..." << std::endl;
     renderer.s.create_kd_tree(80, 1, 0.5f, 1000, -1);
+    
+    //renderer.s.get_normals_accel();
+    
+    //std::cout << renderer.s.cloud[0].normal.x << std::endl;
     
     //renderer.get_pixel_info_ortho();
     std::cout << "Generating rays..." << std::endl;

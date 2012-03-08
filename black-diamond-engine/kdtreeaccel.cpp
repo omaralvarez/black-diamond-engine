@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <vector>
+#include <set>
 #include "kdtreeaccel.h"
 #include "surfel.h"
 #include "memoryarena.h"//Possible optimization problem.
@@ -476,7 +477,160 @@ bool KdTreeAccel::intersect_p(Ray ray) {
     
 }
 
-void KdTreeAccel::get_normals_simp() {
+//=====TODO=====
+//Funcion que meta en un array de *Surfels los vecinos de un punto.
+//3 rayos, 1 por cada eje en 2 direcciones osea 6 rayos por punto en total.
+//Posible evolucion diagonales por cada dos ejes a mayores 12 rayos total.
+
+Surfel **KdTreeAccel::get_neighbours(bdm::Point p, float dist, u_int32_t *n_neighbours) {
+    
+    //Calcular rayos a partir de punto y dist.
+    std::set<intptr_t> done;
+    std::vector<Ray> rays(6);
+    Surfel **neighbours = NULL;
+    
+    rays[0] = Ray(p,bdm::Vector(1,0,0),0,dist);
+    rays[1] = Ray(p,bdm::Vector(-1,0,0),0,dist);
+    rays[2] = Ray(p,bdm::Vector(0,1,0),0,dist);
+    rays[3] = Ray(p,bdm::Vector(0,-1,0),0,dist);
+    rays[4] = Ray(p,bdm::Vector(0,0,1),0,dist);
+    rays[5] = Ray(p,bdm::Vector(0,0,-1),0,dist);
+    
+    for (int it = 0; it < 6; it++) {
+        
+        Ray ray = rays[it];
+        
+        //Compute initial parametric range of ray inside kd-tree extent.
+        float tmin, tmax;
+        
+        if (!bounds.intersect_p(ray, &tmin, &tmax)) continue; //Obtenemos tmin y tmax que son donde el rayo corta la bounding box de la sc.
+        
+        //Prepare to traverse the kd-tree for ray.
+        bdm::Vector inv_dir(1.f/ray.d.x, 1.f/ray.d.y, 1.f/ray.d.z); //Se hace la inversion para poder multiplicar en vez de dividir y ahorrar.
+        
+#define MAX_TODO 64
+        KdToDo todo[MAX_TODO]; //Define array de recorrido de arbol, con maximo de profundidad como tamaño de array. 64 deberia sobrar.
+        int todo_pos = 0;
+        
+        //Traverse nodes in order for ray.
+        //bool hit = false; //Inicialmente no corta el rayo.
+        const KdAccelNode *node = &nodes[0];
+        
+        while (node != NULL) {
+            
+            //Bail out if we found a hit closer than the current node.
+            if (ray.maxt < tmin) break; //Recap ray creation being careful with tmin and tmax. //======== TODO ========= tema del yon 40.
+            if (!node->is_leaf()) { //No es hoja?
+                //Process interior node.
+                //Compute parametric distance along ray to split plane.
+                int axis = node->split_axis(); //Saca eje en el que divide el nodo.
+                float tplane = (node->split_pos() - ray.o[axis]) * inv_dir[axis]; //Saca la distancia parametrica al plano de corte.
+                
+                //Get node children pointers for ray.
+                const KdAccelNode *first_child, *second_child; //Init hijos.
+                int below_first = ray.o[axis] <= node->split_pos(); //Orden en que recorre los hijos.
+                if (below_first) {
+                    first_child = node + 1;
+                    second_child = &nodes[node->above_child];
+                } else {
+                    first_child = &nodes[node->above_child];
+                    second_child = node + 1;
+                }
+                
+                //Advance to next child node, possibly enqueue other child.
+                if (tplane > tmax || tplane < 0) node = first_child;
+                else if (tplane < tmin) node = second_child;
+                else {
+                    
+                    //Enqueue second child in todo list.
+                    todo[todo_pos].node = second_child;
+                    todo[todo_pos].tmin = tplane;
+                    todo[todo_pos].tmax = tmax;
+                    ++todo_pos;
+                    
+                    node = first_child;
+                    tmax = tplane;
+                    
+                }
+                
+            } else {
+            
+                //std::cout << "Ray: " << it << std::endl;
+                
+                if (done.count((intptr_t)node) == 0) {
+                    
+                    done.insert((intptr_t)node);
+                    
+                    //Check for intersections inside leaf node.
+                    u_int32_t n_surfels = node->num_surfels();
+                    //std::cout << "Ptr: " << (intptr_t)node << " " << n_surfels << std::endl;
+                    //std::cout << " n_surfels: " << n_surfels << std::endl;
+                    
+                    if (n_surfels == 1) {
+                        Surfel *ms = node->one_surfel;
+                        
+                        neighbours = (Surfel **) realloc(neighbours, (*n_neighbours + 1)*sizeof(Surfel *));
+                        neighbours[*n_neighbours] = ms;
+                        (*n_neighbours)++;
+                        
+                        //Check one surfel inside leaf.
+                        //std::cout << "Surfel info1: " << ms->x << " " << ms->y << " " << ms->z << std::endl;
+                        //if (ms->intersect(&ray)) return true;
+                        
+                    } else {
+                        
+                        u_int32_t size_surf = *n_neighbours + n_surfels;
+                        //std::cout << size_surf << std::endl;
+                        Surfel **m_surfels = node->m_surfels;
+                        neighbours = (Surfel **) realloc(neighbours, size_surf*sizeof(Surfel *));
+                        for (u_int32_t i = 0; i < n_surfels; ++i) {
+                            Surfel *ms = m_surfels[i];
+                            neighbours[*n_neighbours] = ms;
+                            //neighbours[*n_neighbours] = (Surfel *) malloc(sizeof(Surfel));
+                            //memcpy(neighbours[*n_neighbours], ms, sizeof(Surfel));
+                            (*n_neighbours)++;
+                            //std::cout<<*n_neighbours-1 << " Point_orig: " << ms->x << " " << ms->y << " " << ms->z << std::endl;
+                            //std::cout<< "Point_neig: " << neighbours[*n_neighbours - 1]->x << " " << neighbours[*n_neighbours -1]->y << " " << neighbours[*n_neighbours - 1]->z << std::endl;
+                            //std::cout << "Surfel info2: " << ms->x << " " << ms->y << " " << ms->z << std::endl;//Same ray always. ERROR
+                            //Check one surfel inside leaf node.
+                            //if (ms->intersect(&ray)) return true; 
+                            
+                        }
+                    }
+                }
+                
+                //Grab next node to process from todo list.
+                if (todo_pos > 0) {
+                    
+                    --todo_pos;
+                    node = todo[todo_pos].node;
+                    tmin = todo[todo_pos].tmin;
+                    tmax = todo[todo_pos].tmax;
+                    
+                } else break;
+                
+            }
+        }
+        //std::cout << "---------------------" << std::endl;
+        //return hit;
+
+        
+    }
+    
+    return neighbours;
+    
+        /*u_int32_t n_surfels = nodes[node].num_surfels();
+        //std::cout << " n_surfels: " << n_surfels << std::endl;
+                
+        Surfel **m_surfels = nodes[node].m_surfels;
+        
+        for (u_int32_t i = 0; i < n_surfels; i++) {
+            Surfel *p_i = m_surfels[i];
+            
+                //Surfel p_i = cloud[i];
+                //if (p_i.x == 0 && p_i.y <= -0.8883 && p_i.y >= -0.8884 && p_i.z >= 10.315 && p_i.z <= 10.316) flag = true;
+                
+        }*/
     
 }
 

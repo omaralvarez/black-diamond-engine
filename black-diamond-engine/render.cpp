@@ -287,10 +287,11 @@ void Render::shading(Ray &ray) {
         
         //Diffuse contribution.
         bdm::Vector v_s = (s.lights[k].light_pos - hit_point).normalize();
-        //bdm::Vector normal = (hit_point - ray.hit).normalize(); //Sphere normal.
-        bdm::Vector normal = ray.hit.normal; //Estimated normal.
+        bdm::Vector normal = (hit_point - ray.hit).normalize(); //Sphere normal.
+        //bdm::Vector normal = ray.hit.normal; //Estimated normal.
          
         //std::cout << ray.hit.normal.x << " " << ray.hit.normal.y << " " << ray.hit.normal.z << std::endl;
+        //std::cout << s.cloud[0].normal.x << " " << s.cloud[0].normal.y << " " << s.cloud[0].normal.z << std::endl;
         
         float m_dot_s = v_s.dot(normal);
         if (m_dot_s > 0.001f) { //Cuidado deberia comparar con 0;
@@ -315,23 +316,33 @@ void Render::shading(Ray &ray) {
 
 void Render::get_kd_ray_hits() {
     
+    bool AA = true;
+    
     for (int i = 0; i < x_res; i++){ 
         #pragma omp parallel for 
         for (int j = 0; j < y_res; j++) {
-            Ray hit = s.kd_tree->intersect(rays[i][j]);
             
-            //Illumination.
-            if (hit.hit.radius != 0.f) {
-                //std::cout << i << " " << j << std::endl;
+            if (AA) {
                 
-                shading(hit);
-               /* if (i == 360 && j == 313) {
-                    std::cout << hit.hit.normal.x << " " << hit.hit.normal.y << " " << hit.hit.normal.z << std::endl;
-                    std::cout << hit.hit.x << " " << hit.hit.y << " " << hit.hit.z << std::endl;
-                }*/
+                
+                
+            } else {
+                
+                Ray hit = s.kd_tree->intersect(rays[i][j]);
+                
+                //Illumination.
+                if (hit.hit.radius != 0.f) {
+                    //std::cout << i << " " << j << std::endl;
+                    
+                    shading(hit);
+                    /* if (i == 360 && j == 313) {
+                     std::cout << hit.hit.normal.x << " " << hit.hit.normal.y << " " << hit.hit.normal.z << std::endl;
+                     std::cout << hit.hit.x << " " << hit.hit.y << " " << hit.hit.z << std::endl;
+                     }*/
+                }
+                
+                rays[i][j] = hit;
             }
-            
-            rays[i][j] = hit;
         }
     }
     std::vector<std::vector<std::vector<short> > > pix_vec;
