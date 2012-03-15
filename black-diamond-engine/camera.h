@@ -53,6 +53,8 @@ public:
         yon = y;
         angle_x = ang_x*PI/180;
         angle_y = ang_y*PI/180;
+        //angle_x = ang_x;//Blender gives rad values.
+        //angle_y = ang_y;
         bdm::Transform wtc = wtc.look_at(origin,orientation,up);
         world_to_cam = wtc;
         cam_to_world = wtc.get_inverse();

@@ -61,7 +61,7 @@ int main (int argc, const char * argv[])
     std::cout << "Creating kd-tree..." << std::endl;
     renderer.s.create_kd_tree(80, 1, 0.5f, 1000, -1);
     
-    //renderer.s.get_normals_accel();
+    renderer.s.get_normals_accel();
     
     //std::cout << renderer.s.cloud[0].normal.x << std::endl;
     

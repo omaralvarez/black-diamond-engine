@@ -568,7 +568,7 @@ Surfel **KdTreeAccel::get_neighbours(bdm::Point p, float dist, u_int32_t *n_neig
                     
                     if (n_surfels == 1) {
                         Surfel *ms = node->one_surfel;
-                        
+                        if (fabsf(p.x - ms->x) > dist || fabsf(p.y - ms->y) > dist || fabsf(p.z - ms->z) > dist) continue;
                         neighbours = (Surfel **) realloc(neighbours, (*n_neighbours + 1)*sizeof(Surfel *));
                         neighbours[*n_neighbours] = ms;
                         (*n_neighbours)++;
@@ -585,10 +585,10 @@ Surfel **KdTreeAccel::get_neighbours(bdm::Point p, float dist, u_int32_t *n_neig
                         neighbours = (Surfel **) realloc(neighbours, size_surf*sizeof(Surfel *));
                         for (u_int32_t i = 0; i < n_surfels; ++i) {
                             Surfel *ms = m_surfels[i];
+                            if (fabsf(p.x - ms->x) > dist || fabsf(p.y - ms->y) > dist || fabsf(p.z - ms->z) > dist) continue;
                             neighbours[*n_neighbours] = ms;
-                            //neighbours[*n_neighbours] = (Surfel *) malloc(sizeof(Surfel));
-                            //memcpy(neighbours[*n_neighbours], ms, sizeof(Surfel));
                             (*n_neighbours)++;
+                            
                             //std::cout<<*n_neighbours-1 << " Point_orig: " << ms->x << " " << ms->y << " " << ms->z << std::endl;
                             //std::cout<< "Point_neig: " << neighbours[*n_neighbours - 1]->x << " " << neighbours[*n_neighbours -1]->y << " " << neighbours[*n_neighbours - 1]->z << std::endl;
                             //std::cout << "Surfel info2: " << ms->x << " " << ms->y << " " << ms->z << std::endl;//Same ray always. ERROR

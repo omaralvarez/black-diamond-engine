@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<scene>
+	<camera p_x="7.481132" p_y="-6.507640" p_z="-5.343665" d_x="0.000000" d_y="1.000000" d_z="-0.000001" up_x="0.000000" up_y="-0.000001" up_z="-1.000000"  hither="0.100000" yon="100.000000" angle_x="0.857556" angle_y="0.503380"/>
+	<resolution width="720" height="720" surfel_radius="0.1"/>
+	<data d_path="/Users/osurfer3/Dropbox/PFC/Datasets/custom_bde_datasets/blender.bde"/>
+</scene>

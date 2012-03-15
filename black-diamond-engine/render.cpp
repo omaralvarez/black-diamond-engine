@@ -14,6 +14,8 @@
 #include <iostream>
 #include <vector>
 
+#define AA true
+
 struct VisibilityTester {
     
     void set_segment(bdm::Point p1, float eps1, bdm::Point p2, float eps2, float time) {
@@ -287,8 +289,8 @@ void Render::shading(Ray &ray) {
         
         //Diffuse contribution.
         bdm::Vector v_s = (s.lights[k].light_pos - hit_point).normalize();
-        bdm::Vector normal = (hit_point - ray.hit).normalize(); //Sphere normal.
-        //bdm::Vector normal = ray.hit.normal; //Estimated normal.
+        //bdm::Vector normal = (hit_point - ray.hit).normalize(); //Sphere normal.
+        bdm::Vector normal = ray.hit.normal; //Estimated normal.
          
         //std::cout << ray.hit.normal.x << " " << ray.hit.normal.y << " " << ray.hit.normal.z << std::endl;
         //std::cout << s.cloud[0].normal.x << " " << s.cloud[0].normal.y << " " << s.cloud[0].normal.z << std::endl;
@@ -315,17 +317,98 @@ void Render::shading(Ray &ray) {
 }
 
 void Render::get_kd_ray_hits() {
-    
-    bool AA = true;
-    
+        
+    float sub_pix_x = fabsf(rays[0][1].d.x - rays[0][0].d.x) * 2;
+    float sub_pix_y = fabsf(rays[1][0].d.y - rays[0][0].d.y) * 2;
+        
     for (int i = 0; i < x_res; i++){ 
+        //std::cout << i << std::endl;
         #pragma omp parallel for 
         for (int j = 0; j < y_res; j++) {
             
+            //AA Supersampling x4
             if (AA) {
                 
+                //std::cout << i << " " << j << std::endl;
+                
+                float r=0.f,g=0.f,b=0.f;
+                
+                Ray aux_ray = rays[i][j];
+                
+                //First ray on x val + 0.5.
+                aux_ray.d.x = aux_ray.d.x + sub_pix_x;
+                
+                Ray hit = s.kd_tree->intersect(aux_ray);
+                
+                if (hit.hit.radius != 0.f) {
+                    
+                    shading(hit);
+                    
+                    r += 0.25f * hit.hit.r;
+                    g += 0.25f * hit.hit.g;
+                    b += 0.25f * hit.hit.b;
+                    
+                }
+                    
+                //Second ray on x - 0.5.
+                aux_ray = rays[i][j];
+                
+                aux_ray.d.x = aux_ray.d.x - sub_pix_x;
+                
+                hit = s.kd_tree->intersect(aux_ray);
+                
+                if (hit.hit.radius != 0.f) {
+                    
+                    shading(hit);
+                    
+                    r += 0.25f * hit.hit.r;
+                    g += 0.25f * hit.hit.g;
+                    b += 0.25f * hit.hit.b;
+                    
+                }
+                
+                //Third ray y + 0.5.
+                aux_ray = rays[i][j];
+                
+                aux_ray.d.y = aux_ray.d.y + sub_pix_y;
+                
+                hit = s.kd_tree->intersect(aux_ray);
+                
+                if (hit.hit.radius != 0.f) {
+                    
+                    shading(hit);
+                    
+                    r += 0.25f * hit.hit.r;
+                    g += 0.25f * hit.hit.g;
+                    b += 0.25f * hit.hit.b;
+                
+                }
+                
+                //Fourth and last ray on y - 0.5.
+                aux_ray = rays[i][j];
+                
+                aux_ray.d.y = aux_ray.d.y - sub_pix_y;
+                
+                hit = s.kd_tree->intersect(aux_ray);
+                
+                if (hit.hit.radius != 0.f) {
+                    
+                    shading(hit);
+                    
+                    r += 0.25f * hit.hit.r;
+                    g += 0.25f * hit.hit.g;
+                    b += 0.25f * hit.hit.b;
+                
+                }
+                
+                // Then the contribution of each ray is added.
+                hit.hit.r = r;
+                hit.hit.g = g;
+                hit.hit.b = b;
                 
                 
+                rays[i][j] = hit;
+
             } else {
                 
                 Ray hit = s.kd_tree->intersect(rays[i][j]);

@@ -211,7 +211,7 @@ void Scene::get_normals_accel() {
             Surfel *p_j = neighbours[j];
 
             //0.1 era el valor adecuado.
-            if (fabsf(p_i.x - p_j->x) > max_dist || fabsf(p_i.y - p_j->y) > max_dist || fabsf(p_i.z - p_j->z) > max_dist) continue;
+            //if (fabsf(p_i.x - p_j->x) > max_dist || fabsf(p_i.y - p_j->y) > max_dist || fabsf(p_i.z - p_j->z) > max_dist) continue;
             //std::cout << p_j->x << " " << p_j->y << " " << p_j->z << std::endl; 
             //std::cout << i << " " << j << std::endl; //Diferencia entre manzana y mono signo de la z. La manzana es todo positivo en el mono hay combinacion de zs positivas y negativas.
             bdm::Vector dist = *p_j - p_i;//Cuidado que ahora tenemos punteros...!!!!
