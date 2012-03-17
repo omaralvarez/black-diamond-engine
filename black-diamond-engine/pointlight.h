@@ -20,9 +20,16 @@ class PointLight : public Light {
 public:
     bdm::Point light_pos;
     
-    PointLight(float intens) {
+    PointLight() {
         
-        light_pos = bdm::Point(0,0,-10);
+        light_pos = bdm::Point(0,0,0);
+        intensity = 0;
+        
+    }
+    
+    PointLight(bdm::Point p,float intens) {
+        
+        light_pos = p;
         intensity = intens;
         
     }

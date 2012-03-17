@@ -29,6 +29,9 @@ namespace bdm {
         Transform scale(float x, float y, float z);
         Transform translate(Vector delta);
         Transform orthographic(float znear, float zfar);
+        Transform rotate_x(float angle);
+        Transform rotate_y(float angle);
+        Transform rotate_z(float angle);
         Point operator()(Point pt);  
         Transform operator*(Transform t2) {
             

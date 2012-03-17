@@ -40,6 +40,12 @@ public:
         lights.push_back(l); //Multiple lights missing.
     }
     
+    Scene(std::vector<Surfel> data, std::vector<PointLight> l) {
+        kd_tree = NULL;
+        cloud = data;
+        lights = l; //Multiple lights missing.
+    }
+    
     ~Scene() {
         
         delete kd_tree;

@@ -29,7 +29,7 @@ int main (int argc, const char * argv[])
     using namespace std;
     
     //Remember parser axis order when reading different formats.
-    char config_path[200] = "/Users/osurfer3/Dropbox/PFC/black-diamond-engine/config2.xml";
+    char config_path[200] = "/Users/osurfer3/Dropbox/PFC/black-diamond-engine/blender_config.xml";
     std::cout << "Reading data..." << std::endl;
     Parser *new_parser = new Parser();
     Render renderer = new_parser->parse_config(config_path);
@@ -41,7 +41,7 @@ int main (int argc, const char * argv[])
     //renderer.s.trans_scene(trans);
     
     //renderer.s.get_normals();
-
+        
     cout << "Size before filtering: " << renderer.s.cloud.size() << endl;
 
     renderer.trans_world_to_cam(); 
@@ -61,7 +61,7 @@ int main (int argc, const char * argv[])
     std::cout << "Creating kd-tree..." << std::endl;
     renderer.s.create_kd_tree(80, 1, 0.5f, 1000, -1);
     
-    renderer.s.get_normals_accel();
+    //renderer.s.get_normals_accel();
     
     //std::cout << renderer.s.cloud[0].normal.x << std::endl;
     

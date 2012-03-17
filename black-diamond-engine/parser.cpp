@@ -80,7 +80,9 @@ Render Parser::parse_config(char* config_path){
         
         std::vector<Surfel> data = parse_data_file(d_path,radius);
         
-        return Render(Scene(data, PointLight(1)),Camera(bdm::Point(cam[0],cam[1],cam[2]),bdm::Point(cam[3],cam[4],cam[5]),bdm::Vector(cam[6],cam[7],cam[8]),cam[9],cam[10],cam[11],cam[12]),ren[0],ren[1]);
+        std::vector<PointLight> lights = parse_lights_file("/Users/osurfer3/Dropbox/PFC/Datasets/custom_bde_datasets/blender.bdl");
+        
+        return Render(Scene(data, lights),Camera(bdm::Point(cam[0],cam[1],cam[2]),bdm::Point(cam[3],cam[4],cam[5]),bdm::Vector(cam[6],cam[7],cam[8]),cam[9],cam[10],cam[11],cam[12]),ren[0],ren[1]);
         
 	} else {
 		printf("Failed to load file \"%s\"\n", config_path);
@@ -90,6 +92,48 @@ Render Parser::parse_config(char* config_path){
     return Render();
     
 }
+
+std::vector<PointLight> Parser::parse_lights_file(std::string filePath) {
+    
+    using namespace std;   
+    
+    ifstream inputFile;
+    
+    //Opens data file for reading.
+    inputFile.open(filePath.c_str());
+    
+    //Creates vector, initially with 0 points.
+    vector<PointLight> data(0);
+    float temp_x,temp_y,temp_z;
+    
+    //Read contents of file till EOF.
+    while (inputFile.good()){
+                 
+        char c = inputFile.peek();
+        
+        if(c != '\n'){
+        
+            inputFile >> temp_x >> temp_y >> temp_z;                                        
+            
+            PointLight l = PointLight(bdm::Point(temp_x,temp_y,temp_z),0);
+            
+            data.push_back(l);
+            
+        } else inputFile.ignore(2);
+        
+    }
+    
+    if (!inputFile.eof())
+        if (inputFile.fail()) cout << "Type mismatch during parsing." << endl;
+        else cout << "Unknow problem during parsing." << endl;
+    
+    //Close data file.
+    inputFile.close();
+    
+    return data;
+    
+}
+
 
 //Function that parses a file with x,y and z values of each point.
 std::vector<Surfel> Parser::parse_data_file(std::string filePath, float radius) {
@@ -109,25 +153,66 @@ std::vector<Surfel> Parser::parse_data_file(std::string filePath, float radius) 
     //Read contents of file till EOF.
     while (inputFile.good()){
         
-        //inputFile >> temp_x >> temp_y >> temp_z >> rgbd >> discard_1 >> discard_2;    //Original.
-        //inputFile >> temp_x >> temp_z >> temp_y >> rgbd >> discard_1 >> discard_2;    //Dataset RGB-D.
-        inputFile >> temp_x >> temp_y >> temp_z;                                        //.bde
+        //Translation.
+        float trans1=0, trans2=0, trans3=0;
+        inputFile >> trans1 >> trans2 >> trans3;
+        bdm::Transform translation = translation.translate(bdm::Vector(trans1,trans2,trans3));
         
-        //Aqui lectura color.!!!! ====TODO=====
-        rgbf = float(rgbd);
-        uint32_t rgbi = *(uint32_t*)&rgbf; 
-        uint8_t r,g,b;
+        //Rotation.
+        float rot1=0, rot2=0, rot3=0;
+        inputFile >> rot1 >> rot2 >> rot3;
+        bdm::Transform rot_x = rot_x.rotate_x(rot1);
+        bdm::Transform rot_y = rot_y.rotate_y(rot2);
+        bdm::Transform rot_z = rot_z.rotate_z(rot3);
         
-        r = (rgbi & 0xFF0000) >> 16;
-        g = (rgbi & 0x00FF00) >> 8;
-        b = (rgbi & 0x0000FF);
+        //Scaling.
+        float sc1=0, sc2=0, sc3=0;
+        inputFile >> sc1 >> sc2 >> sc3;
+        bdm::Transform scaling = scaling.scale(sc1,sc2,sc3);
         
         //Material.
-        float a[3] = {80,80,80};
-        float d[3] = {100,100,100};
-        float s[3] = {110,110,110};
+        float a_r=0,a_g=0,a_b=0;
+        inputFile >> a_r >> a_g >> a_b;
+        float d_r=0,d_g=0,d_b=0;
+        inputFile >> d_r >> d_g >> d_b;
+        float s_r=0,s_g=0,s_b=0;
+        inputFile >> s_r >> s_g >> s_b;
+        float a[3] = {a_r,a_g,a_b};
+        float d[3] = {d_r,d_g,d_b};
+        float s[3] = {s_r,s_g,s_b};
+        float exp=0;
+        inputFile >> exp;
+        //inputFile >> temp_x >> temp_y >> temp_z >> rgbd >> discard_1 >> discard_2;    //Original.
+        //inputFile >> temp_x >> temp_z >> temp_y >> rgbd >> discard_1 >> discard_2;    //Dataset RGB-D.
+        u_int32_t n_sur=0;
+        inputFile >> n_sur;
         
-        data.push_back(Surfel(temp_x,temp_y,temp_z,r,g,b,radius,Material(a,d,s,30.f))); //Blender -temp_z
+        data.reserve(data.size() + n_sur);
+        
+        for(int i = 0; i < n_sur; i++){                                                 //.bde file type.
+            
+            inputFile >> temp_x >> temp_y >> temp_z;    //Allocate full array size!!! Now we now the number of surfels.                                    
+            
+            //Aqui lectura color.!!!! ====TODO=====
+            //rgbf = float(rgbd);
+            //uint32_t rgbi = *(uint32_t*)&rgbf; 
+            uint8_t r=0,g=0,b=0;
+            
+            /*r = (rgbi & 0xFF0000) >> 16;
+            g = (rgbi & 0x00FF00) >> 8;
+            b = (rgbi & 0x0000FF);*/
+            
+            bdm::Point new_p = bdm::Point(temp_x,temp_y,temp_z);
+            
+            new_p = translation(new_p);
+            new_p = rot_x(new_p);
+            new_p = rot_y(new_p);
+            new_p = rot_z(new_p);
+            new_p = scaling(new_p);
+            
+            data.push_back(Surfel(new_p.x,new_p.y,new_p.z,r,g,b,radius,Material(a,d,s,exp))); //Blender -temp_z
+            
+        }
         
     }
     

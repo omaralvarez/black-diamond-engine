@@ -119,6 +119,48 @@ namespace bdm {
         
     }
     
+    Transform Transform::rotate_x(float angle) {
+        
+        float sin_t = sinf(angle);
+        float cos_t = cosf(angle);
+        
+        Matrix4x4 m = Matrix4x4(1, 0, 0, 0,
+                                0, cos_t, -sin_t, 0,
+                                0, sin_t, cos_t, 0,
+                                0, 0, 0, 1);
+        
+        return Transform(m,m.transpose());
+        
+    }
+    
+    Transform Transform::rotate_y(float angle) {
+        
+        float sin_t = sinf(angle);
+        float cos_t = cosf(angle);
+        
+        Matrix4x4 m = Matrix4x4(cos_t, 0, sin_t, 0,
+                                0, 1, 0, 0,
+                                -sin_t, 0, cos_t, 0,
+                                0, 0, 0, 1);
+        
+        return Transform(m,m.transpose());
+        
+    }
+    
+    Transform Transform::rotate_z(float angle) {
+        
+        float sin_t = sinf(angle);
+        float cos_t = cosf(angle);
+        
+        Matrix4x4 m = Matrix4x4(cos_t, -sin_t, 0, 0,
+                                sin_t, cos_t, 0, 0,
+                                0, 0, 1, 0,
+                                0, 0, 0, 1);
+        
+        return Transform(m,m.transpose());
+        
+    }
+    
     Point Transform::operator()(Point pt){
         
         float x = pt.x; float y = pt.y; float z = pt.z;
