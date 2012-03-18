@@ -15,6 +15,9 @@
 #include "render.h"
 #include "tinyxml.h"
 #include "surfel.h"
+#include "bdesettings.h"
+
+extern BDESettings settings;
 
 class Parser {
     

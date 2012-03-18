@@ -15,6 +15,7 @@
 		608EFCDD14F8089000DDF4F6 /* pointlight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608EFCDC14F8089000DDF4F6 /* pointlight.cpp */; };
 		608EFCE014F8180100DDF4F6 /* light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608EFCDF14F8180100DDF4F6 /* light.cpp */; };
 		608EFCE314F92E7100DDF4F6 /* material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608EFCE214F92E7000DDF4F6 /* material.cpp */; };
+		608EFCE91516060F00DDF4F6 /* bdesettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608EFCE81516060F00DDF4F6 /* bdesettings.cpp */; };
 		60A22A3D14DB0A5300D2ABBC /* libblack-diamond-math.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60A22A3C14DB0A4700D2ABBC /* libblack-diamond-math.a */; };
 		60A22A4C14DC375F00D2ABBC /* surfel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60A22A4B14DC375F00D2ABBC /* surfel.cpp */; };
 		60E8BC4A14D02CCB00FC9E57 /* tinystr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E8BC4414D02CCB00FC9E57 /* tinystr.cpp */; };
@@ -70,6 +71,8 @@
 		608EFCDF14F8180100DDF4F6 /* light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = light.cpp; sourceTree = "<group>"; };
 		608EFCE214F92E7000DDF4F6 /* material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = material.cpp; sourceTree = "<group>"; };
 		608EFCE414F92E7C00DDF4F6 /* material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = material.h; sourceTree = "<group>"; };
+		608EFCE71516060100DDF4F6 /* bdesettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bdesettings.h; sourceTree = "<group>"; };
+		608EFCE81516060F00DDF4F6 /* bdesettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bdesettings.cpp; sourceTree = "<group>"; };
 		60A22A3414DB0A4600D2ABBC /* black-diamond-math.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "black-diamond-math.xcodeproj"; path = "black-diamond-math/black-diamond-math.xcodeproj"; sourceTree = "<group>"; };
 		60A22A4B14DC375F00D2ABBC /* surfel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = surfel.cpp; sourceTree = "<group>"; };
 		60A22A4D14DC376F00D2ABBC /* surfel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = surfel.h; sourceTree = "<group>"; };
@@ -172,6 +175,15 @@
 			name = material;
 			sourceTree = "<group>";
 		};
+		608EFCE6151605CC00DDF4F6 /* settings */ = {
+			isa = PBXGroup;
+			children = (
+				608EFCE71516060100DDF4F6 /* bdesettings.h */,
+				608EFCE81516060F00DDF4F6 /* bdesettings.cpp */,
+			);
+			name = settings;
+			sourceTree = "<group>";
+		};
 		60A22A3514DB0A4600D2ABBC /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -230,6 +242,7 @@
 				608EFCE514F92E8300DDF4F6 /* material */,
 				60105DFA14C59DD00007540B /* light */,
 				60105DF614C59D750007540B /* camera */,
+				608EFCE6151605CC00DDF4F6 /* settings */,
 				60105DEE14C59CCF0007540B /* parser */,
 				60105DED14C59C200007540B /* scene */,
 				60A22A4A14DC374400D2ABBC /* surfel */,
@@ -348,6 +361,7 @@
 				608EFCDD14F8089000DDF4F6 /* pointlight.cpp in Sources */,
 				608EFCE014F8180100DDF4F6 /* light.cpp in Sources */,
 				608EFCE314F92E7100DDF4F6 /* material.cpp in Sources */,
+				608EFCE91516060F00DDF4F6 /* bdesettings.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

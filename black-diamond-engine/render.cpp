@@ -289,8 +289,8 @@ void Render::shading(Ray &ray) {
         
         //Diffuse contribution.
         bdm::Vector v_s = (s.lights[k].light_pos - hit_point).normalize();
-        bdm::Vector normal = (hit_point - ray.hit).normalize(); //Sphere normal.
-        //bdm::Vector normal = ray.hit.normal; //Estimated normal.
+        //bdm::Vector normal = (hit_point - ray.hit).normalize(); //Sphere normal.
+        bdm::Vector normal = ray.hit.normal; //Estimated normal.
          
         //std::cout << ray.hit.normal.x << " " << ray.hit.normal.y << " " << ray.hit.normal.z << std::endl;
         //std::cout << s.cloud[0].normal.x << " " << s.cloud[0].normal.y << " " << s.cloud[0].normal.z << std::endl;

@@ -13,7 +13,7 @@
 void Scene::get_normals() {
     
     int r = 2;
-    float max_dist = 0.1f, min_dist = 1e-05f;
+    float max_dist = 0.05f, min_dist = 1e-04f;
     float M[3][3] = { 0.f };
     
     unsigned long pct = cloud.size() / 100;
@@ -104,9 +104,9 @@ void Scene::get_normals() {
         
         if (flag) std::cout << p_i.x << " " << p_i.y << " " << p_i.z << std::endl;
         if (flag) std::cout << eig1 << " " << eig2 << " " << eig3 << std::endl;
-        if (fabsf(eig1) < 0.01) eig1 = MAXFLOAT;
-        if (fabsf(eig2) < 0.01) eig2 = MAXFLOAT;
-        if (fabsf(eig3) < 0.01) eig3 = MAXFLOAT;
+        if (fabsf(eig1) < min_dist) eig1 = MAXFLOAT;
+        if (fabsf(eig2) < min_dist) eig2 = MAXFLOAT;
+        if (fabsf(eig3) < min_dist) eig3 = MAXFLOAT;
         //std::cout << eig1 << " " << eig2 << " " << eig3 << std::endl;
         
         
@@ -121,9 +121,9 @@ void Scene::get_normals() {
         u_int8_t col0 = 0, col1 = 0, col2 = 0;
         
         for (int it = 0; it < 3; it++) {
-            if (fabsf(M[it][0]) <= 0.0001) col0++;
-            if (fabsf(M[it][1]) <= 0.0001) col1++;
-            if (fabsf(M[it][2]) <= 0.0001) col2++;
+            if (fabsf(M[it][0]) <= min_dist) col0++;
+            if (fabsf(M[it][1]) <= min_dist) col1++;
+            if (fabsf(M[it][2]) <= min_dist) col2++;
         } 
         
         /*col1 = fabsf(M[0][1]) + fabsf(M[1][1]) + fabsf(M[2][1]);
@@ -189,7 +189,7 @@ void Scene::get_normals() {
 void Scene::get_normals_accel() {
     
     int r = 2;
-    float max_dist = 0.1f, min_dist = 1e-05f;//0.07 r4 cara atras orejas.
+    float max_dist = 0.1f, min_dist = 1e-04f;//0.07 r4 cara atras orejas.
     float M[3][3] = { 0.f };
     
     unsigned long pct = cloud.size() / 100;
@@ -289,9 +289,9 @@ void Scene::get_normals_accel() {
         
         //if (flag) std::cout << p_i.x << " " << p_i.y << " " << p_i.z << std::endl;
         //if (flag) std::cout << eig1 << " " << eig2 << " " << eig3 << std::endl;
-        if (fabsf(eig1) < 0.01) eig1 = MAXFLOAT;
-        if (fabsf(eig2) < 0.01) eig2 = MAXFLOAT;
-        if (fabsf(eig3) < 0.01) eig3 = MAXFLOAT;
+        if (fabsf(eig1) < min_dist) eig1 = MAXFLOAT;
+        if (fabsf(eig2) < min_dist) eig2 = MAXFLOAT;
+        if (fabsf(eig3) < min_dist) eig3 = MAXFLOAT;
         //std::cout << eig1 << " " << eig2 << " " << eig3 << std::endl;
         
         
@@ -306,9 +306,9 @@ void Scene::get_normals_accel() {
         u_int8_t col0 = 0, col1 = 0, col2 = 0;
         
         for (int it = 0; it < 3; it++) {
-            if (fabsf(M[it][0]) <= 0.0001) col0++;
-            if (fabsf(M[it][1]) <= 0.0001) col1++;
-            if (fabsf(M[it][2]) <= 0.0001) col2++;
+            if (fabsf(M[it][0]) <= min_dist) col0++;
+            if (fabsf(M[it][1]) <= min_dist) col1++;
+            if (fabsf(M[it][2]) <= min_dist) col2++;
         } 
         
         /*col1 = fabsf(M[0][1]) + fabsf(M[1][1]) + fabsf(M[2][1]);

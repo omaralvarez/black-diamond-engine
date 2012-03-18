@@ -57,8 +57,26 @@ Render Parser::parse_config(char* config_path){
                             if (pAttrib->QueryDoubleValue(&val)==TIXML_SUCCESS) cam[i] = float(val);    //Camera data.
                             break;
                         case 1:
-                            if (opt.compare(pAttrib->Name()) && pAttrib->QueryIntValue(&ival)==TIXML_SUCCESS) ren[i] = ival; //Render data.
-                            else if (pAttrib->QueryDoubleValue(&val)==TIXML_SUCCESS) radius = float(val);
+                            //Render data.
+                            if (opt.compare(pAttrib->Name()) && pAttrib->QueryIntValue(&ival)==TIXML_SUCCESS && i < 2) ren[i] = ival; 
+                            else if (pAttrib->QueryDoubleValue(&val)==TIXML_SUCCESS && i < 3) radius = float(val);
+                            
+                            if (!strncmp(pAttrib->Name(),"AA",2) && !strncmp(pAttrib->Value(),"true",4)) settings.AA = true;
+                            if (!strncmp(pAttrib->Name(),"AA",2) && !strncmp(pAttrib->Value(),"false",5)) settings.AA = false;
+                            
+                            if (!strncmp(pAttrib->Name(),"normal_est",10) && !strncmp(pAttrib->Value(),"true",4)) settings.normal_est = true;
+                            if (!strncmp(pAttrib->Name(),"normal_est",10) && !strncmp(pAttrib->Value(),"false",5)) settings.normal_est = false;
+                            
+                            if (!strncmp(pAttrib->Name(),"est_accel",9) && !strncmp(pAttrib->Value(),"true",4)) settings.est_accel = true;
+                            if (!strncmp(pAttrib->Name(),"est_accel",9) && !strncmp(pAttrib->Value(),"false",5)) settings.est_accel = false;
+                            
+                            if (!strncmp(pAttrib->Name(),"r_func",6) && pAttrib->QueryIntValue(&ival)==TIXML_SUCCESS) settings.r = ival;
+                            if (!strncmp(pAttrib->Name(),"max_dist",8) && pAttrib->QueryDoubleValue(&val)==TIXML_SUCCESS) settings.max_dist = float(val);
+                            if (!strncmp(pAttrib->Name(),"min_dist",8) && pAttrib->QueryDoubleValue(&val)==TIXML_SUCCESS) settings.min_dist = float(val);
+                            
+                            if (!strncmp(pAttrib->Name(),"kd_accel",8) && !strncmp(pAttrib->Value(),"true",4)) settings.kd_accel = true;
+                            if (!strncmp(pAttrib->Name(),"kd_accel",8) && !strncmp(pAttrib->Value(),"false",5)) settings.kd_accel = false;
+                            
                             break;
                         case 2:
                             strcpy(d_path, pAttrib->Value());                                           //Data file.
@@ -77,7 +95,7 @@ Render Parser::parse_config(char* config_path){
             
             
         }
-        
+    
         std::vector<Surfel> data = parse_data_file(d_path,radius);
         
         std::vector<PointLight> lights = parse_lights_file("/Users/osurfer3/Dropbox/PFC/Datasets/custom_bde_datasets/blender.bdl");
