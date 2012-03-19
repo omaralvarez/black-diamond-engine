@@ -10,11 +10,12 @@
 #include "point.h"
 #include "scene.h"
 #include "image.h"
+#include "bdesettings.h"
 #include <math.h>
 #include <iostream>
 #include <vector>
 
-#define AA false
+extern BDESettings settings;
 
 struct VisibilityTester {
     
@@ -289,8 +290,9 @@ void Render::shading(Ray &ray) {
         
         //Diffuse contribution.
         bdm::Vector v_s = (s.lights[k].light_pos - hit_point).normalize();
-        //bdm::Vector normal = (hit_point - ray.hit).normalize(); //Sphere normal.
-        bdm::Vector normal = ray.hit.normal; //Estimated normal.
+        bdm::Vector normal;
+        if(!settings.normal_est) normal = (hit_point - ray.hit).normalize(); //Sphere normal.
+        else normal = ray.hit.normal; //Estimated normal.
          
         //std::cout << ray.hit.normal.x << " " << ray.hit.normal.y << " " << ray.hit.normal.z << std::endl;
         //std::cout << s.cloud[0].normal.x << " " << s.cloud[0].normal.y << " " << s.cloud[0].normal.z << std::endl;
@@ -327,7 +329,7 @@ void Render::get_kd_ray_hits() {
         for (int j = 0; j < y_res; j++) {
             
             //AA Supersampling x4
-            if (AA) {
+            if (settings.AA) {
                 
                 //std::cout << i << " " << j << std::endl;
                 

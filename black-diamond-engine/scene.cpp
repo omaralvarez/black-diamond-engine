@@ -9,11 +9,17 @@
 #include <iostream>
 #include <algorithm>
 #include "scene.h"
+#include "bdesettings.h"
+
+extern BDESettings settings;
 
 void Scene::get_normals() {
     
     int r = 2;
     float max_dist = 0.05f, min_dist = 1e-04f;
+    
+    r = settings.r; max_dist = settings.max_dist; min_dist = settings.min_dist;
+
     float M[3][3] = { 0.f };
     
     unsigned long pct = cloud.size() / 100;
@@ -190,6 +196,9 @@ void Scene::get_normals_accel() {
     
     int r = 2;
     float max_dist = 0.1f, min_dist = 1e-04f;//0.07 r4 cara atras orejas.
+    
+    r = settings.r; max_dist = settings.max_dist; min_dist = settings.min_dist;
+    
     float M[3][3] = { 0.f };
     
     unsigned long pct = cloud.size() / 100;

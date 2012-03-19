@@ -77,6 +77,8 @@ Render Parser::parse_config(char* config_path){
                             if (!strncmp(pAttrib->Name(),"kd_accel",8) && !strncmp(pAttrib->Value(),"true",4)) settings.kd_accel = true;
                             if (!strncmp(pAttrib->Name(),"kd_accel",8) && !strncmp(pAttrib->Value(),"false",5)) settings.kd_accel = false;
                             
+                            if (!strncmp(pAttrib->Name(),"kd_nodes",8) && pAttrib->QueryDoubleValue(&val)==TIXML_SUCCESS) settings.maxs = float(val);
+                            
                             break;
                         case 2:
                             strcpy(d_path, pAttrib->Value());                                           //Data file.
