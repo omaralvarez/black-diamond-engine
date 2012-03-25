@@ -285,7 +285,7 @@ void Render::shading(Ray &ray) {
     for (int k = 0; k < s.lights.size(); k++) {
         
         VisibilityTester vis;
-        vis.set_segment(hit_point, 0.f, s.lights[k].light_pos, 0.f, ray.t_hit);
+        vis.set_segment(hit_point, settings.min_dist, s.lights[k].light_pos, 0.f, ray.t_hit);//Antes era hit_p,0.
         if (!vis.unoccluded(s)) continue; //If shadow continue.
         
         //Diffuse contribution.
@@ -418,12 +418,11 @@ void Render::get_kd_ray_hits() {
                 //Illumination.
                 if (hit.hit.radius != 0.f) {
                     //std::cout << i << " " << j << std::endl;
-                    
                     shading(hit);
-                    /* if (i == 360 && j == 313) {
+                    if (i == x_res-304-1 && j == y_res-222-1) {
                      std::cout << hit.hit.normal.x << " " << hit.hit.normal.y << " " << hit.hit.normal.z << std::endl;
                      std::cout << hit.hit.x << " " << hit.hit.y << " " << hit.hit.z << std::endl;
-                     }*/
+                     }
                 }
                 
                 rays[i][j] = hit;
