@@ -41,7 +41,7 @@ namespace bdm {
     
     Transform Transform::get_inverse(){
         
-        return Transform(m,mInv);
+        return Transform(mInv,m);
         
     }
     

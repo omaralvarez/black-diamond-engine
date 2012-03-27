@@ -11,6 +11,7 @@
 
 #include <vector>
 
+//Memory management for k-d tree creation.
 class MemoryArena {
     
     u_int32_t cur_block_pos, block_size;

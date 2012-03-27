@@ -41,6 +41,7 @@ public:
         cam_to_world = bdm::Transform();
     }
     
+    //Creates a camera with origin, orientation, up vector, near clipping plane, far clipping plane and vision angles.
     Camera(bdm::Point ori, bdm::Point orient, bdm::Vector u, float hith, float y, float ang_x, float ang_y){
         
         //std::cout << "x = " << origin.x << " y = " << origin.y << " z = " << origin.z << std::endl;
@@ -61,10 +62,12 @@ public:
         
     }
     
+    //Obtains point in camera coordinates.
     bdm::Point get_camera_point(bdm::Point &p) {
         return world_to_cam(p);
     }
     
+    //Obtains point in world coordinates.
     bdm::Point get_world_point(bdm::Point &p) {
         return cam_to_world(p);
     }

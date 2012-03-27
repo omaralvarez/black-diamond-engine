@@ -59,12 +59,13 @@ struct KdAccelNode {
     
     union {
         u_int32_t above_child;
-        Surfel *one_surfel;     //Ask pointer size ¿32bits?
+        Surfel *one_surfel;     
         Surfel **m_surfels;
     };
     
 };
 
+//Useful for determining which points are on each side of a space division.
 struct BoundEdge {
     
     BoundEdge() {}
@@ -380,6 +381,7 @@ Ray KdTreeAccel::intersect(Ray ray) {
     
 }
 
+//Used in shadow rays, no hit info is needed so it only returns true if it intersects.
 bool KdTreeAccel::intersect_p(Ray ray) {
     
     //Compute initial parametric range of ray inside kd-tree extent.
@@ -477,8 +479,7 @@ bool KdTreeAccel::intersect_p(Ray ray) {
     
 }
 
-//=====TODO=====
-//Funcion que meta en un array de *Surfels los vecinos de un punto.
+//Funcion que mete en un array de *Surfels los vecinos de un punto.
 //3 rayos, 1 por cada eje en 2 direcciones osea 6 rayos por punto en total.
 //Posible evolucion diagonales por cada dos ejes a mayores 12 rayos total.
 

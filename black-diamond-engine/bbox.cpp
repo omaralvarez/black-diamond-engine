@@ -9,6 +9,7 @@
 #include <iostream>
 #include "bbox.h"
 
+//Returns new bounding box that contains the point p.
 BBox BBox::uni(bdm::Point p){
     
     BBox ret = BBox(); //Remember this used to be called with a BBox, not creating one.
@@ -25,6 +26,7 @@ BBox BBox::uni(bdm::Point p){
     
 }
 
+//Returns new bounding box that covers the two bounding boxes.
 BBox BBox::uni(BBox b2) {
     
     BBox ret = BBox(); //Remember this used to be called with a BBox, not creating one.
@@ -41,6 +43,7 @@ BBox BBox::uni(BBox b2) {
     
 }
 
+//Returns true if bounding boxes overlap.
 bool BBox::overlaps (BBox b) {
     
     bool x = (p_max.x >= b.p_min.x) && (p_min.x <= b.p_max.x);
@@ -51,6 +54,7 @@ bool BBox::overlaps (BBox b) {
     
 }
 
+//Returns longest axis.
 int BBox::maximum_extent() {
     
     bdm::Vector diag = p_max - p_min;
@@ -61,6 +65,7 @@ int BBox::maximum_extent() {
     
 }
 
+//Returns true if the ray intersects with the bounding box.
 bool BBox::intersect_p(Ray ray, float *hit0, float *hit1) {
     
     float t0 = ray.mint, t1 = ray.maxt;

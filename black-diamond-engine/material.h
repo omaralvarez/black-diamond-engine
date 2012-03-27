@@ -17,6 +17,7 @@ public:
     float specular[3];
     float exp;
     
+    //Creates a default material.
     Material() {
         
         for (int i = 0; i < 3; i++) {
@@ -29,6 +30,7 @@ public:
         
     }
     
+    //Creates a material with ambient color, specular color and exponent for phong shading.
     Material(float amb[3], float dif[3], float spec[3],float e) {
         
         for (int i = 0; i < 3; i++) {

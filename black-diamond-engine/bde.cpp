@@ -50,6 +50,7 @@ int main (int argc, const char * argv[]) {
     renderer.filter_frustum();
     
     if(settings.normal_est && !settings.est_accel) renderer.s.get_normals();
+    //renderer.export_normals();
      
     /*for (int i=0; i<renderer.s.cloud.size(); i++) {
         cout  << renderer.s.cloud[i].x << " " << renderer.s.cloud[i].y << " " << renderer.s.cloud[i].z << endl;

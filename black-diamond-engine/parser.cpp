@@ -113,6 +113,7 @@ Render Parser::parse_config(char* config_path){
     
 }
 
+//Reads lights from lights data file.
 std::vector<PointLight> Parser::parse_lights_file(std::string filePath) {
     
     using namespace std;   
@@ -139,7 +140,7 @@ std::vector<PointLight> Parser::parse_lights_file(std::string filePath) {
             
             data.push_back(l);
             
-        } else inputFile.ignore(2);
+        } else inputFile.ignore(2); //Takes care of the last white line.
         
     }
     

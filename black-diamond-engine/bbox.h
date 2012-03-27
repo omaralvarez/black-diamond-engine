@@ -17,6 +17,7 @@ class BBox {
 public:
     bdm::Point p_min,p_max;
     
+    //Default bounding box.
     BBox(){
         p_min = bdm::Point(INFINITY,INFINITY,INFINITY);
         p_max = bdm::Point(-INFINITY,-INFINITY,-INFINITY);
@@ -27,11 +28,13 @@ public:
         p_max = p;
     }
     
+    //Bounding box from point radius r.
     BBox(bdm::Point p,float r){
         p_min = bdm::Point(p.x - r,p.y - r,p.z - r);
         p_max = bdm::Point(p.x + r,p.y + r,p.z + r);
     }
     
+    //Bounding box from two points that represent the lower left and the upper right points (the furthest points).
     BBox(bdm::Point p1, bdm::Point p2){
         p_min = bdm::Point(fminf(p1.x,p2.x),fminf(p1.y,p2.y),fminf(p1.z,p2.z));
         p_max = bdm::Point(fmaxf(p1.x,p2.x),fmaxf(p1.y,p2.y),fmaxf(p1.z,p2.z));
@@ -43,6 +46,7 @@ public:
     
     bool overlaps (BBox b);
     
+    //Returns true if the point is inside the bounding box.
     bool inside(bdm::Point pt) {
         
         return (pt.x >= p_min.x && pt.x <= p_max.x &&
@@ -51,6 +55,7 @@ public:
         
     }
     
+    //Expands the bounding box.
     void expand(float delta) {
         
         p_min -= bdm::Vector(delta,delta,delta); 
@@ -58,6 +63,7 @@ public:
         
     }
     
+    //Returns the bounding box volume.
     float volume() {
         
         bdm::Vector d = p_max - p_min;
@@ -68,6 +74,7 @@ public:
     
     int maximum_extent();
     
+    //Returns center and radius of a bounding sphere.
     void bounding_sphere(bdm::Point *c, float *rad) {
         
         *c = p_min * .5f + p_max * .5f;

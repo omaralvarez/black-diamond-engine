@@ -19,6 +19,7 @@ class Image {
     int y_res;
     
 public:
+    //Creates a png image.
     Image() {
         char blank[5] = ""; im_name = blank; x_res = 0; y_res = 0;
     }

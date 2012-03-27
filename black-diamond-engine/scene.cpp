@@ -13,12 +13,13 @@
 
 extern BDESettings settings;
 
+//Estimates normals without k-d tree.
 void Scene::get_normals() {
     
     int r = 2;
     float max_dist = 0.05f, min_dist = 1e-04f;
     
-    r = settings.r; max_dist = settings.max_dist; min_dist = settings.min_dist;
+    r = settings.r; max_dist = settings.max_dist; min_dist = settings.min_dist; //Read settings.
 
     float M[3][3] = { 0.f };
     
@@ -28,9 +29,9 @@ void Scene::get_normals() {
     for (int i = 0; i < cloud.size(); i++) {
         Surfel p_i = cloud[i];
         //if (p_i.x <= -0.222 && p_i.x >= -0.2223 && p_i.y <= -0.7777 && p_i.y >= -0.7778 && p_i.z == 5) flag = true;
-        if (p_i.x >= 1.4953 && p_i.x <= 1.4954 && p_i.y >= 0.625 && p_i.y <= 0.626 && p_i.z >= 6.4701 && p_i.z <= 6.4702) flag = true;
+        //if (p_i.x >= 1.4953 && p_i.x <= 1.4954 && p_i.y >= 0.625 && p_i.y <= 0.626 && p_i.z >= 6.4701 && p_i.z <= 6.4702) flag = true;
         //if (p_i.x == -0.7222 && p_i.y == -0.8333  && p_i.z == 5) flag = true;
-        double mean_dist = 0;
+        double mean_dist = 0; //For surfel radius estimation.
         double weight_neigh = 0;
         for (int j = 0; j < cloud.size(); j++) { //Create sum of neighbour distances: Sum( (pi-q) (pi-q)T theta(||pi-q||) )
             if (i == j) continue;
@@ -140,7 +141,8 @@ void Scene::get_normals() {
         
         u_int8_t col0 = 0, col1 = 0, col2 = 0;
         //if (flag)std::cout << col0 << " " << col1 << " " << col2 << std::endl;
-
+        
+        //Checks for 0s in the matrix for eigenvector calculation.
         for (int it = 0; it < 3; it++) {
             if (fabsf(M[it][0]) <= min_dist) {M[it][0]=0;col0++;}
             if (fabsf(M[it][1]) <= min_dist) {M[it][1]=0;col1++;}
@@ -162,6 +164,8 @@ void Scene::get_normals() {
             
             
         } else {*/
+            //If there are more than two 0s you cannot solve the system from this row. 
+            //Then checks if its independent if not returns (0,0,0). Then checks to solve from the next row.
             if (col0 < 2) {
                 n_x = M[1][1] * M[2][2] - M[1][2] * M[2][1];
                 n_y = -(M[1][0] * M[2][2] - M[1][2] * M[2][0]);
@@ -185,6 +189,7 @@ void Scene::get_normals() {
             
         //}
             
+        //If it is not able to solve the system then there is at least one row with all 0s.
         if (n_x == 0 && n_y == 0 && n_z == 0) {
             if (col0 == 3) n_x = 1;
             if (col1 == 3) n_y = 1;
@@ -193,6 +198,7 @@ void Scene::get_normals() {
             
         if(flag)std::cout << "Norms: " << n_x << " " << n_y << " " << n_z << std::endl;
         
+        //Checks the normal orientation if its opposite to the camera flips it.
         if (n_z > 0) {
             cloud[i].normal = -(bdm::Vector(n_x,n_y,n_z).normalize());
             //std::cout << "Entr" << std::endl;
@@ -205,6 +211,7 @@ void Scene::get_normals() {
             std::cout << cloud[i].normal.x << " " << cloud[i].normal.y << " " << cloud[i].normal.z << std::endl;
         }*/
         
+        //Auto radius calculation.
         if(!cloud[i].radius) cloud[i].radius = float((mean_dist/weight_neigh)*3);
         //if(!cloud[i].radius) cloud[i].radius = float((mean_dist/weight_neigh)/2);
         //std::cout << num_neigh << std::endl;
@@ -230,6 +237,8 @@ void Scene::get_normals() {
     
 }
 
+//Estimates normals using the k-d tree. Creates a little error.
+//===TODO=== Actualizar con cambios de arriba.
 void Scene::get_normals_accel() {
     
     int r = 2;

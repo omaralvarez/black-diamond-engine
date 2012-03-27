@@ -29,6 +29,7 @@ public:
         cloud = data;
     }
     
+    //Creates scene with lights or without them.
     Scene(std::vector<Surfel> data) {
         kd_tree = NULL;
         cloud = data;
@@ -37,13 +38,13 @@ public:
     Scene(std::vector<Surfel> data, PointLight l) {
         kd_tree = NULL;
         cloud = data;
-        lights.push_back(l); //Multiple lights missing.
+        lights.push_back(l); 
     }
     
     Scene(std::vector<Surfel> data, std::vector<PointLight> l) {
         kd_tree = NULL;
         cloud = data;
-        lights = l; //Multiple lights missing.
+        lights = l; 
     }
     
     ~Scene() {
@@ -58,6 +59,7 @@ public:
         
     }
     
+    //Applies transform t to the scene.
     void trans_scene(bdm::Transform t) {
         
         #pragma omp parallel for

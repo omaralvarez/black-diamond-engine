@@ -13,9 +13,12 @@
 
 extern BDESettings settings;
 
+//Checks if a ray intersects with a surfel.
 bool Surfel::intersect(Ray *ray) {
     
     if (settings.normal_est) {
+        
+        //Disk intersection.
         
         //ray->d.x =5;ray->d.y =4;ray->d.z =6;
         //ray->o.x =0;ray->o.y =0;ray->o.z =0;
@@ -38,6 +41,13 @@ bool Surfel::intersect(Ray *ray) {
             //std::cout<<"point: " <<int_point.x<<" "<<int_point.y<<" "<<int_point.z << std::endl;
             float sq = powf(int_point.x - x,2) + powf(int_point.y - y,2) + powf(int_point.z - z,2);
             //std::cout<<"sq: " << powf(radius,2)<<std::endl;
+            
+            //Calculo media cortes.
+            /*if(sq <= radius*radius && t > ray->mint) {
+                ray->hitlist.push_back(*this);
+                ray->hitlist_t.push_back(t);
+            }*/
+            //---------
             if (t < ray->t_hit && t > ray->mint && sq <= radius*radius) {
                 ray->hit = *this;
                 ray->t_hit = t;
@@ -49,14 +59,14 @@ bool Surfel::intersect(Ray *ray) {
         return false;
         
     } else {
+        
+        //Sphere intersection.
     
         float A = ray->d.dot(ray->d);
         float B = (ray->o - *this).dot(ray->d);
         float C = (ray->o - *this).dot(ray->o - *this) - powf(radius,2.f);
         
         float disc = B*B - A*C;
-        
-        //======TODO======== Tener en cuenta el tmin y tmax.
         
         if (disc < 0.f) {
             //std::cout << "Ray miss" << std::endl;
