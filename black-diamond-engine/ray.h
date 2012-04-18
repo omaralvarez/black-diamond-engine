@@ -26,8 +26,8 @@ public:
     float mint, maxt, t_hit;
     Surfel hit;
     //Calculo media cortes.
-    //std::vector<Surfel> hitlist;
-    //std::vector<float> hitlist_t;
+    std::vector<Surfel> hitlist;
+    std::vector<float> hitlist_t;
     //--------
     
     //Creates a default ray from almost 0 to infinity.

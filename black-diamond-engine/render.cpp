@@ -298,7 +298,7 @@ void Render::shading(Ray &ray) {
         
         VisibilityTester vis;
         
-        vis.set_segment(hit_point, 0.1f, s.lights[k].light_pos, 0.f, ray.t_hit);//Antes era hit_p,0.||hit_p,settings.min_dist
+        vis.set_segment(hit_point, 0.5f, s.lights[k].light_pos, 0.f, ray.t_hit);//Antes era hit_p,0.||hit_p,settings.min_dist
         if (!vis.unoccluded(s)) continue; //If shadow continue.
         
         //Diffuse contribution.
@@ -328,8 +328,8 @@ void Render::shading(Ray &ray) {
         }
         
         //Hit av.
-        //float av_r=0,av_g=0,av_b=0;
-        //float w_r=0,w_g=0,w_b=0;
+        float av_r=0,av_g=0,av_b=0;
+        float w_r=0,w_g=0,w_b=0;
         
         /*av_r += ray.hit.r;
         w_r++;
@@ -338,15 +338,23 @@ void Render::shading(Ray &ray) {
         av_b += ray.hit.b;
         w_b++;
         */
-        /*ray.hit.r = 10;
+        ray.hit.r = 10;
         ray.hit.g = 10;
         ray.hit.b = 10;
         
         for (int i = 0; i < ray.hitlist.size(); i++) {
             float real_dist = (ray.hit - ray(ray.hitlist_t[i])).length();
-            if(real_dist > ray.hit.radius) continue;
             
-            hit_point = ray(ray.hitlist_t[i]);
+            //If the disk is too far away (back parts of a primitive) dont use the disk for the average.
+            if (real_dist > ray.hit.radius*3) continue;
+            //If they are not in a similar plane, dont use it either.
+            //std::cout << ray.hit.normal.dot(ray.hitlist[i].normal) << std::endl;
+            //if(ray.hitlist.size()>1) std::cout << ray.hitlist.size() << std::endl;
+            if (ray.hit.normal.dot(ray.hitlist[i].normal) < 0.95f) continue;
+            
+            //hit_point = ray(ray.hitlist_t[i]); //Real hitpoint.
+            hit_point = ray.hitlist[i]; //Simplification using center of the disk only.
+            
             //Diffuse contribution.
             bdm::Vector v_s = (s.lights[k].light_pos - hit_point).normalize();
             bdm::Vector normal;
@@ -373,14 +381,16 @@ void Render::shading(Ray &ray) {
                 ray.hit.b = fminf(ray.hit.b + phong * ray.hit.mat.specular[2],255); 
             }
             
+            hit_point = ray(ray.hitlist_t[i]);
+            
             float dn = (hit_point - ray.hitlist[i]).length();
             float rn = ray.hitlist[i].radius;
-            av_r += ray.hit.r*(1-(dn/rn));
-            w_r+=(1-(dn/rn));
-            av_g += ray.hit.g*(1-(dn/rn));
-            w_g+=(1-(dn/rn));
-            av_b += ray.hit.b*(1-(dn/rn));
-            w_b+=(1-(dn/rn));
+            av_r += ray.hit.r*(1.f-(dn/rn));
+            w_r+=(1.f-(dn/rn));
+            av_g += ray.hit.g*(1.f-(dn/rn));
+            w_g+=(1.f-(dn/rn));
+            av_b += ray.hit.b*(1.f-(dn/rn));
+            w_b+=(1.f-(dn/rn));
             
             ray.hit.r = 10;
             ray.hit.g = 10;
@@ -392,7 +402,7 @@ void Render::shading(Ray &ray) {
         ray.hit.g = fminf(av_g/w_g,255); 
         ray.hit.b = fminf(av_b/w_b,255);
         //------
-        */
+        
     }
 
 }
@@ -495,7 +505,7 @@ void Render::get_kd_ray_hits() {
             } else {
                 
                 Ray hit = s.kd_tree->intersect(rays[i][j]);
-                
+                //std::cout << "***********" << std::endl;
                 //Illumination.
                 if (hit.hit.radius != 0.f) {
                     //std::cout << i << " " << j << std::endl;
