@@ -170,11 +170,21 @@ std::vector<Surfel> Parser::parse_data_file(std::string filePath, float radius) 
     vector<Surfel> data(0);
     float temp_x,temp_y,temp_z,discard_1=0,discard_2=0,rgbf=0;
     double rgbd=0;
-
+    std::string version;
+    std::string latest_version("v0.01");
+    
+    if (inputFile.good()) inputFile >> version;
+    
+    if (version.compare(latest_version)) {
+        std::cout << "Error: Wrong config file version. Latest version is " << latest_version << std::endl;
+        return data;
+    } 
+    
+    
     //Read contents of file till EOF.
     while (inputFile.good()){
         
-        //Translation.
+        //Translation. //This should be last transformation applied if we want total integration with blender.
         float trans1=0, trans2=0, trans3=0;
         inputFile >> trans1 >> trans2 >> trans3;
         bdm::Transform translation = translation.translate(bdm::Vector(trans1,trans2,trans3));

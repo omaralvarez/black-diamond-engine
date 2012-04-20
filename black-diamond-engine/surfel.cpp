@@ -41,12 +41,16 @@ bool Surfel::intersect(Ray *ray) {
             //std::cout<<"point: " <<int_point.x<<" "<<int_point.y<<" "<<int_point.z << std::endl;
             float sq = powf(int_point.x - x,2) + powf(int_point.y - y,2) + powf(int_point.z - z,2);
             //std::cout<<"sq: " << powf(radius,2)<<std::endl;
-            
+            //std::cout<<"point: " <<x<<" "<<y<<" "<<z << std::endl;
+            //std::cout << ray->mint<<std::endl;
             //Calculo media cortes.
-            /*if(sq <= radius*radius && t > ray->mint) {
+            if(sq <= radius*radius && t > ray->mint) {
+                //std::cout << "Enter." << std::endl;
                 ray->hitlist.push_back(*this);
                 ray->hitlist_t.push_back(t);
-            }*/
+            }
+            //std::cout << "* "<<ray->hitlist.size() << std::endl;
+            //if (ray->hitlist.size()>1) std::cout <<"* "<< ray->hitlist.size() << std::endl;
             //---------
             if (t < ray->t_hit && t > ray->mint && sq <= radius*radius) {
                 ray->hit = *this;

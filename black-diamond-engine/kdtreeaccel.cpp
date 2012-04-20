@@ -353,6 +353,7 @@ Ray KdTreeAccel::intersect(Ray ray) {
                 if (ms->intersect(&ray)) hit = ray;
                 
             } else {
+                //std::cout << n_surfels << "------------" << std::endl;
                 Surfel **m_surfels = node->m_surfels;
                 for (u_int32_t i = 0; i < n_surfels; ++i) {
                     Surfel *ms = m_surfels[i];
@@ -362,6 +363,7 @@ Ray KdTreeAccel::intersect(Ray ray) {
                     if (ms->intersect(&ray)) hit = ray; 
                     
                 }
+                //if(ray.hitlist.size()>1) std::cout <<ray.hitlist.size()<< std::endl;
             }
             
             //Grab next node to process from todo list.
@@ -377,7 +379,7 @@ Ray KdTreeAccel::intersect(Ray ray) {
         }
     }
     //std::cout << "---------------------" << std::endl;
-    return hit;
+    return ray; //====WARNING===== Cambie hit por ray y no he comprobado.
     
 }
 

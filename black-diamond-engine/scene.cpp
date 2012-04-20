@@ -50,8 +50,8 @@ void Scene::get_normals() {
             
             //std::cout << p_j.x << " " << p_j.y << " " << p_j.z << std::endl;
             float theta = 1.f/powf(d,r);
-            weight_neigh += 1.f/d; //Weighted arithmetic mean.
-            //weight_neigh++;
+            //weight_neigh += 1.f/d; //Weighted arithmetic mean.
+            weight_neigh++;
             //std::cout << theta << std::endl;
             //std::cout << "------------" << std::endl;
             
@@ -212,7 +212,7 @@ void Scene::get_normals() {
         }*/
         
         //Auto radius calculation.
-        if(!cloud[i].radius) cloud[i].radius = float((mean_dist/weight_neigh)*3);
+        if(!cloud[i].radius) cloud[i].radius = float((mean_dist/weight_neigh)*3/4);
         //if(!cloud[i].radius) cloud[i].radius = float((mean_dist/weight_neigh)/2);
         //std::cout << num_neigh << std::endl;
         
