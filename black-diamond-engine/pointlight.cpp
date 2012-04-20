@@ -19,3 +19,40 @@ float PointLight::sample_l(bdm::Point p, float p_epsilon, float time, bdm::Vecto
     return intensity/(light_pos - p).length_sqrd();
     
 }
+
+bool PointLight::intersect(Ray *ray) {
+    
+    float radius = 4.f;
+    
+    float A = ray->d.dot(ray->d);
+    float B = (ray->o - light_pos).dot(ray->d);
+    float C = (ray->o - light_pos).dot(ray->o - light_pos) - powf(radius,2.f);
+    
+    float disc = B*B - A*C;
+    
+    if (disc < 0.f) {
+        //std::cout << "Ray miss" << std::endl;
+    } else {
+        
+        float root = sqrtf(disc);
+        float t;
+        
+        if (root >=0.f && root < 0.0000001f) t = -B/A;
+        else {
+            t = (-B - root)/A; //En principio la t mas pequeña deberia ser siempre esta. Pero hay que comprobarlo.
+            
+            //float t2 = (-B + root)/A; 
+            
+        }
+        
+        if (t < ray->t_hit && t > ray->mint) {
+            ray->hit = Surfel(light_pos,0,0,0,1.f); //Gotta change this and check in montecarlo for intersection with t_hit < infinity.
+            ray->t_hit = t;
+            return true;
+        }
+        
+    }
+    
+    return false;
+    
+}

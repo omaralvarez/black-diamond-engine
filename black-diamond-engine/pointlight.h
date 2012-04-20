@@ -12,6 +12,7 @@
 #include "light.h"
 #include "point.h"
 #include "vector.h"
+#include "ray.h"
 
 class PointLight : public Light {
     
@@ -42,6 +43,8 @@ public:
     bool is_delta_light() {
         return true;
     }
+    
+    bool intersect(Ray *ray);
     
 };
 

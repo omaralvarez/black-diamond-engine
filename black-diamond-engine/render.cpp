@@ -11,6 +11,7 @@
 #include "scene.h"
 #include "image.h"
 #include "bdesettings.h"
+#include "montecarlo.h"
 #include <math.h>
 #include <iostream>
 #include <vector>
@@ -287,7 +288,19 @@ void Render::get_ray_hits() {
 //This function takes care of the shading of the material.
 void Render::shading(Ray &ray) {
     
-    bdm::Point hit_point = ray(ray.t_hit);
+    std::vector<float> rgb(3);
+    
+    MonteCarlo mc = MonteCarlo();
+    rgb = mc.integrate(s,ray.hit);
+    
+    ray.hit.r = rgb[0];
+    ray.hit.g = rgb[1];
+    ray.hit.b = rgb[2];
+    
+    //Old illumination model.
+    //---------------------------------------------------
+    
+    /*bdm::Point hit_point = ray(ray.t_hit);
     
     //Ambient contribution.
     ray.hit.r = ray.hit.mat.ambient[0];
@@ -325,7 +338,7 @@ void Render::shading(Ray &ray) {
             ray.hit.r = fminf(ray.hit.r + phong * ray.hit.mat.specular[0],255); 
             ray.hit.g = fminf(ray.hit.g + phong * ray.hit.mat.specular[1],255); 
             ray.hit.b = fminf(ray.hit.b + phong * ray.hit.mat.specular[2],255); 
-        }
+        }*/
         
         //Hit av.
         //float av_r=0,av_g=0,av_b=0;
@@ -393,7 +406,7 @@ void Render::shading(Ray &ray) {
         ray.hit.b = fminf(av_b/w_b,255);
         //------
         */
-    }
+    //} //Ultimo corchete para old illumination model.
 
 }
 
