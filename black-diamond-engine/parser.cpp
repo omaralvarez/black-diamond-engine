@@ -235,11 +235,11 @@ std::vector<Surfel> Parser::parse_data_file(std::string filePath, float radius) 
             
             bdm::Point new_p = bdm::Point(temp_x,temp_y,temp_z);
             
-            new_p = translation(new_p);
             new_p = rot_x(new_p);
             new_p = rot_y(new_p);
             new_p = rot_z(new_p);
             new_p = scaling(new_p);
+            new_p = translation(new_p);
             
             data.push_back(Surfel(new_p.x,new_p.y,new_p.z,r,g,b,radius,Material(a,d,s,exp))); //Blender -temp_z
             

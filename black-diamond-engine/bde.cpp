@@ -50,8 +50,8 @@ int main (int argc, const char * argv[]) {
     renderer.filter_frustum();
     
     if(settings.normal_est && !settings.est_accel) renderer.s.get_normals();
-    renderer.s.cloud[0].normal = bdm::Vector(0,0,-1);
-    renderer.s.cloud[1].normal = bdm::Vector(0,0,-1);
+    //renderer.s.cloud[0].normal = bdm::Vector(0,0,-1);
+    //renderer.s.cloud[1].normal = bdm::Vector(0,0,-1);
     //renderer.export_normals();
      
     /*for (int i=0; i<renderer.s.cloud.size(); i++) {

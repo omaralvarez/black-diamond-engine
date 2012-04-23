@@ -18,15 +18,15 @@ class MonteCarlo {
     
     int n_samples;
     Sampler sampler;
-    std::vector<MonteCarlo *> todo;
+    //std::vector<MonteCarlo *> todo;
     
 public:
     MonteCarlo() {
         n_samples = 10;
-        todo.resize(0);
+        //todo.resize(0);
     }
     
-    std::vector<float> integrate(Scene s, Surfel surfel); 
+    std::vector<float> integrate(Scene *s, Surfel surfel, u_int32_t level); 
     
 };
 

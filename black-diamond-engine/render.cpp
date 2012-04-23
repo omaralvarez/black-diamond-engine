@@ -289,10 +289,9 @@ void Render::get_ray_hits() {
 void Render::shading(Ray &ray) {
     
     std::vector<float> rgb(3);
-    
     MonteCarlo mc = MonteCarlo();
-    rgb = mc.integrate(s,ray.hit);
-    
+    rgb = mc.integrate(&s,ray.hit,0);
+
     ray.hit.r = rgb[0];
     ray.hit.g = rgb[1];
     ray.hit.b = rgb[2];
@@ -338,7 +337,7 @@ void Render::shading(Ray &ray) {
             ray.hit.r = fminf(ray.hit.r + phong * ray.hit.mat.specular[0],255); 
             ray.hit.g = fminf(ray.hit.g + phong * ray.hit.mat.specular[1],255); 
             ray.hit.b = fminf(ray.hit.b + phong * ray.hit.mat.specular[2],255); 
-        }*/
+        }
         
         //Hit av.
         //float av_r=0,av_g=0,av_b=0;
@@ -523,7 +522,8 @@ void Render::get_kd_ray_hits() {
                 if (hit.hit.radius != 0.f) {
                     //std::cout << i << " " << j << std::endl;
                     shading(hit);
-                    /*if (i == x_res-304-1 && j == y_res-222-1) {
+                    /*if (i == x_res-428-1 && j == y_res-543-1) {
+                        //std::cout << s.cloud[1].normal.x << std::endl;
                      std::cout << hit.hit.normal.x << " " << hit.hit.normal.y << " " << hit.hit.normal.z << std::endl;
                      std::cout << hit.hit.x << " " << hit.hit.y << " " << hit.hit.z << std::endl;
                      }*/

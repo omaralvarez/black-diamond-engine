@@ -29,7 +29,7 @@ void Scene::get_normals() {
     for (int i = 0; i < cloud.size(); i++) {
         Surfel p_i = cloud[i];
         //if (p_i.x <= -0.222 && p_i.x >= -0.2223 && p_i.y <= -0.7777 && p_i.y >= -0.7778 && p_i.z == 5) flag = true;
-        //if (p_i.x >= 1.4953 && p_i.x <= 1.4954 && p_i.y >= 0.625 && p_i.y <= 0.626 && p_i.z >= 6.4701 && p_i.z <= 6.4702) flag = true;
+        //if (p_i.x >= 1.6182 && p_i.x <= 1.6183 && p_i.y <= -1.3241 && p_i.y >= -1.3242 && p_i.z >= 10.454 && p_i.z <= 10.456) flag = true;
         //if (p_i.x == -0.7222 && p_i.y == -0.8333  && p_i.z == 5) flag = true;
         double mean_dist = 0; //For surfel radius estimation.
         double weight_neigh = 0;
@@ -205,7 +205,7 @@ void Scene::get_normals() {
         } else {
             cloud[i].normal = bdm::Vector(n_x,n_y,n_z).normalize();
         }
-           
+        if(flag)std::cout << "Norms: " << cloud[i].normal.x << " " << cloud[i].normal.y << " " << cloud[i].normal.z << std::endl;
         /*if (cloud[i].normal.z != -1) {
             std::cout << "Point: " << cloud[i].x << " " << cloud[i].y << " " << cloud[i].z << std::endl;
             std::cout << cloud[i].normal.x << " " << cloud[i].normal.y << " " << cloud[i].normal.z << std::endl;
@@ -215,7 +215,7 @@ void Scene::get_normals() {
         if(!cloud[i].radius) cloud[i].radius = float((mean_dist/weight_neigh)*3/4);
         //if(!cloud[i].radius) cloud[i].radius = float((mean_dist/weight_neigh)/2);
         //std::cout << num_neigh << std::endl;
-        
+        if(flag)std::cout << i << std::endl;
         //std::cout << cloud[i].normal.x << " " << cloud[i].normal.y << " " << cloud[i].normal.z << std::endl;
         if(flag)std::cout << "Point: " << cloud[i].x << " " << cloud[i].y << " " << cloud[i].z << std::endl;
         //std::cout << eig1 << " " << eig2 << " " << eig3 << " " << std::endl;
