@@ -133,11 +133,41 @@ namespace bdm {
         
     }
     
+    Transform Transform::rotate_x(Vector v) {
+        
+        Vector v_norm = v.normalize();
+        float sin_t = Vector(1,0,0).cross(v_norm).length();
+        float cos_t = Vector(1,0,0).dot(v_norm);
+        
+        Matrix4x4 m = Matrix4x4(1, 0, 0, 0,
+                                0, cos_t, -sin_t, 0,
+                                0, sin_t, cos_t, 0,
+                                0, 0, 0, 1);
+        
+        return Transform(m,m.transpose());
+        
+    }
+    
     Transform Transform::rotate_y(float angle) {
         
         float sin_t = sinf(angle);
         float cos_t = cosf(angle);
         
+        Matrix4x4 m = Matrix4x4(cos_t, 0, sin_t, 0,
+                                0, 1, 0, 0,
+                                -sin_t, 0, cos_t, 0,
+                                0, 0, 0, 1);
+        
+        return Transform(m,m.transpose());
+        
+    }
+    
+    Transform Transform::rotate_y(Vector v) {
+        
+        Vector v_norm = v.normalize();
+        float sin_t = Vector(0,1,0).cross(v_norm).length();
+        float cos_t = Vector(0,1,0).dot(v_norm);
+                
         Matrix4x4 m = Matrix4x4(cos_t, 0, sin_t, 0,
                                 0, 1, 0, 0,
                                 -sin_t, 0, cos_t, 0,
@@ -161,6 +191,57 @@ namespace bdm {
         
     }
     
+    Transform Transform::rotate_z(Vector v) {
+        
+        Vector v_norm = v.normalize();
+        float sin_t = Vector(0,0,1).cross(v_norm).length();
+        float cos_t = Vector(0,0,1).dot(v_norm);
+        
+        Matrix4x4 m = Matrix4x4(cos_t, -sin_t, 0, 0,
+                                sin_t, cos_t, 0, 0,
+                                0, 0, 1, 0,
+                                0, 0, 0, 1);
+        
+        return Transform(m,m.transpose());
+        
+    }
+    
+    Transform Transform::rotate(Vector v1, Vector v2) {
+        
+        Vector v1_n = v1.normalize();
+        Vector v2_n = v2.normalize();
+        Vector a = v1.cross(v2).normalize();
+        
+        float s = v1_n.cross(v2_n).length();
+        float c = v1_n.dot(v2_n);
+        float m[4][4];
+        
+        m[0][0] = a.x * a.x + (1.f - a.x * a.x) * c;
+        m[0][1] = a.x * a.y * (1.f - c) - a.z * s;
+        m[0][2] = a.x * a.z * (1.f - c) + a.y * s;
+        m[0][3] = 0;
+        
+        m[1][0] = a.x * a.y * (1.f - c) + a.z * s;
+        m[1][1] = a.y * a.y + (1.f - a.y * a.y) * c;
+        m[1][2] = a.y * a.z * (1.f - c) - a.x * s;
+        m[1][3] = 0;
+        
+        m[2][0] = a.x * a.z * (1.f - c) - a.y * s;
+        m[2][1] = a.y * a.z * (1.f - c) + a.x * s;
+        m[2][2] = a.z * a.z + (1.f - a.z * a.z) * c;
+        m[2][3] = 0;
+        
+        m[3][0] = 0;
+        m[3][1] = 0;
+        m[3][2] = 0;
+        m[3][3] = 1;
+        
+        Matrix4x4 mat(m);
+        
+        return Transform(mat,mat.transpose());
+        
+    }
+    
     Point Transform::operator()(Point pt){
         
         float x = pt.x; float y = pt.y; float z = pt.z;
@@ -172,6 +253,16 @@ namespace bdm {
         assert(wp!=0);
         if(wp == 1.) return Point(xp,yp,zp);
         else return Point(xp,yp,zp)/wp;
+        
+    }
+    
+    Vector Transform::operator()(Vector v){
+        
+        float x = v.x, y = v.y, z = v.z;
+        
+        return Vector(m.m[0][0]*x + m.m[0][1]*y + m.m[0][2]*z,
+                      m.m[1][0]*x + m.m[1][1]*y + m.m[1][2]*z,
+                      m.m[2][0]*x + m.m[2][1]*y + m.m[2][2]*z);
         
     }
 

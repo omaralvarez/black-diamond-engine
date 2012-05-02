@@ -20,6 +20,8 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Surfel surfel, u_int32_t leve
 
     sampler.compute(surfel, surfel.normal, samples);
     
+    /*if (surfel.x <= -0.097  && surfel.x >= -0.098 && surfel.y >= 0.8596 && surfel.y <= 0.8597  && surfel.z >= 9.9332 && surfel.z <= 9.9333){ for (int i = 0; i < n_samples; i++) std::cout << samples[i].x << " " << samples[i].y << " " << samples[i].z << std::endl;
+        std::cout << "-----------------" << std::endl;}*/
     /*std::cout << surfel.x << " " << surfel.y << " " << surfel.z << std::endl;
     std::cout << surfel.normal.x << " " << surfel.normal.y << " " << surfel.normal.z << std::endl;
     //std::cout << samples[i].x << " " << samples[i].y << " " << samples[i].z << std::endl;
@@ -40,7 +42,7 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Surfel surfel, u_int32_t leve
             //If it intersects with other surfels, calculate MC again.
             MonteCarlo new_mc = MonteCarlo();
             //todo.push_back(&new_mc);
-            if (level < 3) rgb = new_mc.integrate(s, hit.hit,level+1);
+            if (level < 2) rgb = new_mc.integrate(s, hit.hit,level+1);
             
         } 
         
@@ -74,7 +76,7 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Surfel surfel, u_int32_t leve
     sum_rgb[2] *= inv_samples;
     
     //Comprobar que no sean mayores de 255. Tema de acabar recursividad por profundidad que se pone en rgb.
-    //if (sum_rgb[0] >=255 || sum_rgb[1] >= 255 || sum_rgb[2] >= 255) std::cout << sum_rgb[0] << " " << sum_rgb[1] << " " << sum_rgb[2] << std::endl;
+    //if (sum_rgb[0] >255 || sum_rgb[1] > 255 || sum_rgb[2] > 255) std::cout << sum_rgb[0] << " " << sum_rgb[1] << " " << sum_rgb[2] << std::endl;
     return sum_rgb;
     
 }

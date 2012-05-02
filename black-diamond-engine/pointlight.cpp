@@ -22,7 +22,7 @@ float PointLight::sample_l(bdm::Point p, float p_epsilon, float time, bdm::Vecto
 
 bool PointLight::intersect(Ray *ray) {
     
-    float radius = 1.f;
+    float radius = 1.6f;
     
     float A = ray->d.dot(ray->d);
     float B = (ray->o - light_pos).dot(ray->d);

@@ -199,12 +199,21 @@ void Scene::get_normals() {
         if(flag)std::cout << "Norms: " << n_x << " " << n_y << " " << n_z << std::endl;
         
         //Checks the normal orientation if its opposite to the camera flips it.
-        if (n_z > 0) {
+        /*if (n_z > 0) {
+            cloud[i].normal = -(bdm::Vector(n_x,n_y,n_z).normalize());
+            std::cout << "Entr" << std::endl;
+        } else {
+            cloud[i].normal = bdm::Vector(n_x,n_y,n_z).normalize();
+        }*/
+        
+        //Tuve que cambiar lo de la z negativa no llega. Cuando el p. escalar es mas pequeño es la normal que apunta a la camara.
+        if ( bdm::Vector(n_x,n_y,n_z).dot(bdm::Vector(cloud[i].x,cloud[i].y,cloud[i].z)) >= -bdm::Vector(n_x,n_y,n_z).dot(bdm::Vector(cloud[i].x,cloud[i].y,cloud[i].z))) {
             cloud[i].normal = -(bdm::Vector(n_x,n_y,n_z).normalize());
             //std::cout << "Entr" << std::endl;
         } else {
             cloud[i].normal = bdm::Vector(n_x,n_y,n_z).normalize();
         }
+        
         if(flag)std::cout << "Norms: " << cloud[i].normal.x << " " << cloud[i].normal.y << " " << cloud[i].normal.z << std::endl;
         /*if (cloud[i].normal.z != -1) {
             std::cout << "Point: " << cloud[i].x << " " << cloud[i].y << " " << cloud[i].z << std::endl;

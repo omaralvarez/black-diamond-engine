@@ -30,9 +30,14 @@ namespace bdm {
         Transform translate(Vector delta);
         Transform orthographic(float znear, float zfar);
         Transform rotate_x(float angle);
+        Transform rotate_x(Vector v);
         Transform rotate_y(float angle);
+        Transform rotate_y(Vector v);
         Transform rotate_z(float angle);
+        Transform rotate_z(Vector v);
+        Transform rotate(Vector axis, Vector vec);
         Point operator()(Point pt);  
+        Vector operator()(Vector pt);
         Transform operator*(Transform t2) {
             
             Matrix4x4 m1 = m*t2.m;

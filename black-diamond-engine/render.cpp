@@ -291,10 +291,48 @@ void Render::shading(Ray &ray) {
     std::vector<float> rgb(3);
     MonteCarlo mc = MonteCarlo();
     rgb = mc.integrate(&s,ray.hit,0);
-
+    
     ray.hit.r = rgb[0];
     ray.hit.g = rgb[1];
     ray.hit.b = rgb[2];
+    
+    /*float av_r=0,av_g=0,av_b=0;
+    float w_r=0,w_g=0,w_b=0;
+    std::vector<float> rgb(3);
+    
+    for (int i = 0; i < ray.hitlist.size(); i++) {
+        
+        float real_dist = (ray.hit - ray(ray.hitlist_t[i])).length();
+        if (real_dist > ray.hit.radius*3) continue;
+        if (ray.hit.normal.dot(ray.hitlist[i].normal) < 0.95f) continue;
+        
+        MonteCarlo mc = MonteCarlo();
+        rgb = mc.integrate(&s,ray.hitlist[i],0);
+        
+        ray.hit.r = rgb[0];
+        ray.hit.g = rgb[1];
+        ray.hit.b = rgb[2];
+        
+        bdm::Point hit_point = ray(ray.hitlist_t[i]);
+        
+        float dn = (hit_point - ray.hitlist[i]).length();
+        float rn = ray.hitlist[i].radius;
+        av_r += ray.hit.r*(1.f-(dn/rn));
+        w_r+=(1.f-(dn/rn));
+        av_g += ray.hit.g*(1.f-(dn/rn));
+        w_g+=(1.f-(dn/rn));
+        av_b += ray.hit.b*(1.f-(dn/rn));
+        w_b+=(1.f-(dn/rn));
+        
+        ray.hit.r = 10;
+        ray.hit.g = 10;
+        ray.hit.b = 10;
+        
+    }
+    
+    ray.hit.r = fminf(av_r/w_r,255); 
+    ray.hit.g = fminf(av_g/w_g,255); 
+    ray.hit.b = fminf(av_b/w_b,255);*/
     
     //Old illumination model.
     //---------------------------------------------------
@@ -302,14 +340,14 @@ void Render::shading(Ray &ray) {
     /*bdm::Point hit_point = ray(ray.t_hit);
     
     //Ambient contribution.
-    ray.hit.r = ray.hit.mat.ambient[0];
-    ray.hit.g = ray.hit.mat.ambient[1];
-    ray.hit.b = ray.hit.mat.ambient[2];
+    //ray.hit.r = ray.hit.mat.ambient[0];
+    //ray.hit.g = ray.hit.mat.ambient[1];
+    //ray.hit.b = ray.hit.mat.ambient[2];
     
     for (int k = 0; k < s.lights.size(); k++) {
         
         VisibilityTester vis;
-        
+        //std::cout << s.lights[k].light_pos.x << " " << s.lights[k].light_pos.y << " " << s.lights[k].light_pos.z << std::endl;
         vis.set_segment(hit_point, 0.5f, s.lights[k].light_pos, 0.f, ray.t_hit);//Antes era hit_p,0.||hit_p,settings.min_dist
         if (!vis.unoccluded(s)) continue; //If shadow continue.
         
@@ -416,7 +454,28 @@ void Render::shading(Ray &ray) {
         //------
         */
     //} //Ultimo corchete para old illumination model.
-
+    
+    float weight_mc = (rgb[0] + rgb[1] + rgb[2])/3.f;
+    float weight_hs = (ray.hit.r + ray.hit.g + ray.hit.b)/3.f;
+    float weight_sum = weight_hs+weight_mc;
+    
+    /*ray.hit.r += rgb[0];
+    ray.hit.r /= 2.f;
+    ray.hit.g += rgb[1];
+    ray.hit.g /= 2.f;
+    ray.hit.b += rgb[2];
+    ray.hit.b /= 2.f;*/
+    
+    /*ray.hit.r *= weight_hs;
+    ray.hit.r += rgb[0]*weight_mc;
+    ray.hit.r /= weight_sum;
+    ray.hit.g *= weight_hs;
+    ray.hit.g += rgb[1]*weight_mc;
+    ray.hit.g /= weight_sum;
+    ray.hit.b *= weight_hs;
+    ray.hit.b += rgb[2]*weight_mc;
+    ray.hit.b /= weight_sum;*/
+    
 }
 
 //This function renders the scene using the k-d tree.
@@ -522,11 +581,11 @@ void Render::get_kd_ray_hits() {
                 if (hit.hit.radius != 0.f) {
                     //std::cout << i << " " << j << std::endl;
                     shading(hit);
-                    /*if (i == x_res-428-1 && j == y_res-543-1) {
-                        //std::cout << s.cloud[1].normal.x << std::endl;
+                    if (i == x_res-1027-1 && j == y_res-409-1) {
+                     std::cout << "***************" << std::endl;
                      std::cout << hit.hit.normal.x << " " << hit.hit.normal.y << " " << hit.hit.normal.z << std::endl;
                      std::cout << hit.hit.x << " " << hit.hit.y << " " << hit.hit.z << std::endl;
-                     }*/
+                     }
                 }
                 
                 rays[i][j] = hit;

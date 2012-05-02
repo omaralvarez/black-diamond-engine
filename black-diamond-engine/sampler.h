@@ -19,16 +19,17 @@ public:
 		RANDOM_BOX,
 		RANDOM_POLAR,
 		RANDOM_UNWRAP,
+        UNIFORM,
 		UNIFORM_POLAR,
 		UNIFORM_UNWRAP
 	} TSamplingMethod;
     
-	Sampler() { _method = RANDOM_BOX; }
+	Sampler() { _method = UNIFORM; }
     
 	void compute(bdm::Point center, bdm::Vector normal, std::vector<bdm::Vector> &samples);
 	inline void setMethod(TSamplingMethod sm) { _method = sm; }
 	inline void nextSampler() { 
-		if(_method==(TSamplingMethod)4) 
+		if(_method==(TSamplingMethod)5) 
 			_method=(TSamplingMethod)0; 
 		else 
 			_method = (TSamplingMethod)(_method+1); 
@@ -43,9 +44,10 @@ private:
 	void computeRandomUnwrap(bdm::Point center, bdm::Vector normal, std::vector<bdm::Vector> &samples);
 	void computeUniformPolar(bdm::Point center, bdm::Vector normal, std::vector<bdm::Vector> &samples);
 	void computeUniformUnwrap(bdm::Point center, bdm::Vector normal, std::vector<bdm::Vector> &samples);
+    void computeUniform(bdm::Point center, bdm::Vector normal, std::vector<bdm::Vector> &samples);
     
 	TSamplingMethod _method;
-    
+    std::vector<bdm::Vector> _storedSamples;
 };
 
 #endif
