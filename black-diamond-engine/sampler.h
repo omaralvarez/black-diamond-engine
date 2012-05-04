@@ -24,7 +24,7 @@ public:
 		UNIFORM_UNWRAP
 	} TSamplingMethod;
     
-	Sampler() { _method = UNIFORM; }
+	Sampler() { _method = RANDOM_POLAR; }
     
 	void compute(bdm::Point center, bdm::Vector normal, std::vector<bdm::Vector> &samples);
 	inline void setMethod(TSamplingMethod sm) { _method = sm; }

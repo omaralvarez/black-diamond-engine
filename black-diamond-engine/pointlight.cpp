@@ -24,9 +24,10 @@ bool PointLight::intersect(Ray *ray) {
     
     float radius = 1.6f;
     
+    bdm::Vector dis = ray->o - light_pos;
     float A = ray->d.dot(ray->d);
-    float B = (ray->o - light_pos).dot(ray->d);
-    float C = (ray->o - light_pos).dot(ray->o - light_pos) - powf(radius,2.f);
+    float B = dis.dot(ray->d);
+    float C = dis.dot(dis) - radius*radius;
     
     float disc = B*B - A*C;
     

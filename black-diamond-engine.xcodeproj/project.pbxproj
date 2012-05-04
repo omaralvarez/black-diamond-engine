@@ -448,13 +448,17 @@
 			buildSettings = {
 				ENABLE_OPENMP_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
-				HEADER_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CPLUSPLUSFLAGS = (
 					"-H",
 					"$(OTHER_CFLAGS)",
 				);
-				OTHER_LDFLAGS = "-lpng";
+				OTHER_LDFLAGS = (
+					"-lboost_system",
+					"-lboost_timer",
+					"-lpng",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "/Users/osurfer3/Dropbox/PFC/black-diamond-engine/black-diamond-engine/black-diamond-math/";
 			};
@@ -465,13 +469,17 @@
 			buildSettings = {
 				ENABLE_OPENMP_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
-				HEADER_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CPLUSPLUSFLAGS = (
 					"-H",
 					"$(OTHER_CFLAGS)",
 				);
-				OTHER_LDFLAGS = "-lpng";
+				OTHER_LDFLAGS = (
+					"-lboost_system",
+					"-lboost_timer",
+					"-lpng",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "/Users/osurfer3/Dropbox/PFC/black-diamond-engine/black-diamond-engine/black-diamond-math/";
 			};

@@ -299,7 +299,7 @@ Ray KdTreeAccel::intersect(Ray ray) {
     int todo_pos = 0;
     
     //Traverse nodes in order for ray.
-    Ray hit = ray; //Inicialmente no corta el rayo.
+    //Ray hit = ray; //Inicialmente no corta el rayo.
     const KdAccelNode *node = &nodes[0];
     
     while (node != NULL) {
@@ -350,17 +350,18 @@ Ray KdTreeAccel::intersect(Ray ray) {
                 
                 //Check one surfel inside leaf.
                 //std::cout << "Surfel info1: " << ms->x << " " << ms->y << " " << ms->z << std::endl;
-                if (ms->intersect(&ray)) hit = ray;
+                ms->intersect(&ray);
                 
             } else {
                 //std::cout << n_surfels << "------------" << std::endl;
                 Surfel **m_surfels = node->m_surfels;
-                for (u_int32_t i = 0; i < n_surfels; ++i) {
+                for (unsigned int i = 0; i < n_surfels; ++i) {
                     Surfel *ms = m_surfels[i];
                     //std::cout<< "Loop value: " << i << std::endl;
                     //std::cout << "Surfel info2: " << ms->x << " " << ms->y << " " << ms->z << std::endl;//Same ray always. ERROR
                     //Check one surfel inside leaf node.
-                    if (ms->intersect(&ray)) hit = ray; 
+                    //Ahorrar llamada a funcion si no esta en el cubo. ======PERF=======
+                    ms->intersect(&ray); 
                     
                 }
                 //if(ray.hitlist.size()>1) std::cout <<ray.hitlist.size()<< std::endl;
@@ -378,8 +379,8 @@ Ray KdTreeAccel::intersect(Ray ray) {
             
         }
     }
-    //std::cout << "---------------------" << std::endl;
-    return ray; //====WARNING===== Cambie hit por ray y no he comprobado.
+    
+    return ray; 
     
 }
 
@@ -454,7 +455,7 @@ bool KdTreeAccel::intersect_p(Ray ray) {
                 
             } else {
                 Surfel **m_surfels = node->m_surfels;
-                for (u_int32_t i = 0; i < n_surfels; ++i) {
+                for (unsigned int i = 0; i < n_surfels; ++i) {
                     Surfel *ms = m_surfels[i];
                     //std::cout<< "Loop value: " << i << std::endl;
                     //std::cout << "Surfel info2: " << ms->x << " " << ms->y << " " << ms->z << std::endl;//Same ray always. ERROR
@@ -586,7 +587,7 @@ Surfel **KdTreeAccel::get_neighbours(bdm::Point p, float dist, u_int32_t *n_neig
                         //std::cout << size_surf << std::endl;
                         Surfel **m_surfels = node->m_surfels;
                         neighbours = (Surfel **) realloc(neighbours, size_surf*sizeof(Surfel *));
-                        for (u_int32_t i = 0; i < n_surfels; ++i) {
+                        for (unsigned int i = 0; i < n_surfels; ++i) {
                             Surfel *ms = m_surfels[i];
                             if (fabsf(p.x - ms->x) > dist || fabsf(p.y - ms->y) > dist || fabsf(p.z - ms->z) > dist) continue;
                             neighbours[*n_neighbours] = ms;

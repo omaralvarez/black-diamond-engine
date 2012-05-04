@@ -15,6 +15,7 @@
 #include <math.h>
 #include <iostream>
 #include <vector>
+#include <boost/timer/timer.hpp>
 
 extern BDESettings settings;
 
@@ -290,7 +291,7 @@ void Render::shading(Ray &ray) {
     
     std::vector<float> rgb(3);
     MonteCarlo mc = MonteCarlo();
-    rgb = mc.integrate(&s,ray.hit,0);
+    rgb = mc.integrate(&s,&ray.hit,0);//Si pasas puntero a surfel, ya puedes meter en el rgb y ahorrarte el devolver un vector.
     
     ray.hit.r = rgb[0];
     ray.hit.g = rgb[1];
@@ -455,9 +456,9 @@ void Render::shading(Ray &ray) {
         */
     //} //Ultimo corchete para old illumination model.
     
-    float weight_mc = (rgb[0] + rgb[1] + rgb[2])/3.f;
+    /*float weight_mc = (rgb[0] + rgb[1] + rgb[2])/3.f;
     float weight_hs = (ray.hit.r + ray.hit.g + ray.hit.b)/3.f;
-    float weight_sum = weight_hs+weight_mc;
+    float weight_sum = weight_hs+weight_mc;*/
     
     /*ray.hit.r += rgb[0];
     ray.hit.r /= 2.f;
@@ -481,6 +482,7 @@ void Render::shading(Ray &ray) {
 //This function renders the scene using the k-d tree.
 void Render::get_kd_ray_hits() {
         
+    boost::timer::auto_cpu_timer t;
     //Calculates where the rays should pass using AA.
     float sub_pix_x = fabsf(rays[0][1].d.x - rays[0][0].d.x) * 2;
     float sub_pix_y = fabsf(rays[1][0].d.y - rays[0][0].d.y) * 2;
@@ -581,11 +583,11 @@ void Render::get_kd_ray_hits() {
                 if (hit.hit.radius != 0.f) {
                     //std::cout << i << " " << j << std::endl;
                     shading(hit);
-                    if (i == x_res-1027-1 && j == y_res-409-1) {
+                    /*if (i == x_res-1027-1 && j == y_res-409-1) {
                      std::cout << "***************" << std::endl;
                      std::cout << hit.hit.normal.x << " " << hit.hit.normal.y << " " << hit.hit.normal.z << std::endl;
                      std::cout << hit.hit.x << " " << hit.hit.y << " " << hit.hit.z << std::endl;
-                     }
+                     }*/
                 }
                 
                 rays[i][j] = hit;

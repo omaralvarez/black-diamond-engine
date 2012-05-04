@@ -10,6 +10,7 @@
 #include <omp.h>
 #endif
 
+//#include <boost/timer/timer.hpp>
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -25,7 +26,9 @@
 BDESettings settings = BDESettings();
 
 int main (int argc, const char * argv[]) {
-
+        
+    //boost::timer::auto_cpu_timer t;
+    
     using namespace std;
     
     //Remember parser axis order when reading different formats.

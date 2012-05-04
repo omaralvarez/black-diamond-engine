@@ -21,65 +21,65 @@ namespace bdm {
         Point(float _x=0, float _y=0, float _z=0)
         : x(_x), y(_y), z(_z) {}
         
-        Point operator+(Point p){
+        inline Point operator+(Point p){
             return Point(x + p.x, y + p.y, z + p.z);
         }
         
-        Point operator+=(Point p){
+        inline Point operator+=(Point p){
             x += p.x; y += p.y; z += p.z;
             return *this;
         }
         
-        Point operator+(Vector v){
+        inline Point operator+(Vector v){
             return Point(x + v.x, y + v.y, z + v.z);
         }
         
-        Point operator+=(Vector v){
+        inline Point operator+=(Vector v){
             x += v.x; y += v.y; z += v.z;
             return *this;
         }
         
-        Vector operator-(Point p){
+        inline Vector operator-(Point p){
             return Vector(x - p.x, y - p.y, z - p.z);
         }
         
-        Point operator-(Vector v){
+        inline Point operator-(Vector v){
             return Point(x - v.x, y - v.y, z - v.z);
         }
         
-        Point operator-=(Vector v){
+        inline Point operator-=(Vector v){
             x -= v.x; y -= v.y; z -= v.z;
             return *this;
         }
         
-        Point operator/(float f) {
+        inline Point operator/(float f) {
             assert(f!=0);
             float inv = 1.f / f;
             return Point(x * inv, y * inv, z * inv);
         }
         
-        Point operator/=(float f) {
+        inline Point operator/=(float f) {
             assert(f!=0);
             float inv = 1.f / f;
             x *= inv; y *= inv; z *= inv;
             return *this;
         }
         
-        Point operator*(float f) {
+        inline Point operator*(float f) {
             return Point(f*x, f*y, f*z);
         }
         
-        Point operator*=(float f) {
+        inline Point operator*=(float f) {
             x *= f; y *= f; z *= f;
             return *this;
         }
 
-        float operator[](int i) const {
+        inline float operator[](int i) const {
             assert(i >= 0 && i <= 2);
             return (&x)[i];
         }
         
-        float &operator[](int i) {
+        inline float &operator[](int i) {
             assert(i >= 0 && i <= 2);
             return (&x)[i];
         }

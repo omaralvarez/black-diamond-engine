@@ -24,20 +24,45 @@ namespace bdm {
         Transform(float mat[4][4]);
         Transform(Matrix4x4 mat);
         Transform(Matrix4x4 mat, Matrix4x4 minv);
-        Transform get_inverse();
+        inline Transform get_inverse() {
+            
+            return Transform(mInv,m);
+            
+        }
         Transform look_at(Point pos, Point look, Vector up);
         Transform scale(float x, float y, float z);
         Transform translate(Vector delta);
-        Transform orthographic(float znear, float zfar);
+        Transform orthographic(float znear, float zfar) {
+            
+            return scale(1.f, 1.f, 1.f/(zfar-znear)) * translate(Vector(0.f,0.f,-znear));
+            
+        }
         Transform rotate_x(float angle);
-        Transform rotate_x(Vector v);
         Transform rotate_y(float angle);
-        Transform rotate_y(Vector v);
         Transform rotate_z(float angle);
-        Transform rotate_z(Vector v);
         Transform rotate(Vector axis, Vector vec);
-        Point operator()(Point pt);  
-        Vector operator()(Vector pt);
+        inline Point operator()(Point pt) {
+            
+            float x = pt.x; float y = pt.y; float z = pt.z;
+            float xp = m.m[0][0]*x + m.m[0][1]*y + m.m[0][2]*z + m.m[0][3];
+            float yp = m.m[1][0]*x + m.m[1][1]*y + m.m[1][2]*z + m.m[1][3];
+            float zp = m.m[2][0]*x + m.m[2][1]*y + m.m[2][2]*z + m.m[2][3];
+            float wp = m.m[3][0]*x + m.m[3][1]*y + m.m[3][2]*z + m.m[3][3];
+            
+            assert(wp!=0);
+            if(wp == 1.) return Point(xp,yp,zp);
+            else return Point(xp,yp,zp)/wp;
+            
+        }
+        inline Vector operator()(Vector v){
+            
+            float x = v.x, y = v.y, z = v.z;
+            
+            return Vector(m.m[0][0]*x + m.m[0][1]*y + m.m[0][2]*z,
+                          m.m[1][0]*x + m.m[1][1]*y + m.m[1][2]*z,
+                          m.m[2][0]*x + m.m[2][1]*y + m.m[2][2]*z);
+            
+        }
         Transform operator*(Transform t2) {
             
             Matrix4x4 m1 = m*t2.m;

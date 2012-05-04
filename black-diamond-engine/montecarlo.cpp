@@ -9,8 +9,8 @@
 #include <iostream>
 #include "montecarlo.h"
 #include "ray.h"
-//Cambiar escena a puntero.
-std::vector<float> MonteCarlo::integrate(Scene *s, Surfel surfel, u_int32_t level) {
+//Cambiar escena a puntero. Surfel puntero tambien.
+std::vector<float> MonteCarlo::integrate(Scene *s, Surfel *surfel, int level) {
     
     std::vector<float> rgb(3,0);
     std::vector<float> sum_rgb(3,0);
@@ -18,7 +18,7 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Surfel surfel, u_int32_t leve
     float inv_samples = 1.f/n_samples;
     //Calculate samples for Monte Carlo integration.
 
-    sampler.compute(surfel, surfel.normal, samples);
+    sampler.compute(*surfel, surfel->normal, samples);
     
     /*if (surfel.x <= -0.097  && surfel.x >= -0.098 && surfel.y >= 0.8596 && surfel.y <= 0.8597  && surfel.z >= 9.9332 && surfel.z <= 9.9333){ for (int i = 0; i < n_samples; i++) std::cout << samples[i].x << " " << samples[i].y << " " << samples[i].z << std::endl;
         std::cout << "-----------------" << std::endl;}*/
@@ -30,7 +30,8 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Surfel surfel, u_int32_t leve
     for (int i = 0; i < n_samples; i++) {
         
         //For each sample check for intersections.
-        Ray ray = Ray(surfel,samples[i],0.5f,INFINITY);
+        //Interseccion con surfels en local. Convendria tener puntero?
+        Ray ray = Ray(*surfel,samples[i],0.5f,INFINITY);
         Ray hit = s->kd_tree->intersect(ray);
         
         //Check if the sample intersects with any light.
@@ -39,28 +40,33 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Surfel surfel, u_int32_t leve
         //If the ray intersected with other surfels and they are closer than light intersection if any.
         if (hit.hit.radius != 0.f && hit.t_hit < ray.t_hit) {
             //std::cout << "Inter." << std::endl;
+            
             //If it intersects with other surfels, calculate MC again.
-            MonteCarlo new_mc = MonteCarlo();
-            //todo.push_back(&new_mc);
-            if (level < 2) rgb = new_mc.integrate(s, hit.hit,level+1);
+            if (level < 1) {
+                
+                MonteCarlo new_mc = MonteCarlo();
+                //todo.push_back(&new_mc);
+                rgb = new_mc.integrate(s, &hit.hit,level+1);
+                
+            }
             
         } 
         
         //If the ray intersected with a light and is closer than the other intersections.
         if (ray.hit.radius != 0.f && hit.t_hit >= ray.t_hit) {
             //std::cout << "Light." << std::endl;
-            rgb[0] = surfel.mat.diffuse[0];
-            rgb[1] = surfel.mat.diffuse[1];
-            rgb[2] = surfel.mat.diffuse[2];
+            rgb[0] = surfel->mat.diffuse[0];
+            rgb[1] = surfel->mat.diffuse[1];
+            rgb[2] = surfel->mat.diffuse[2];
             
         }
         
         //If the ray doesn't intersect with anything ambient contribution.
         if (ray.hit.radius == 0.f && hit.hit.radius == 0.f) {
             //std::cout << "Nothing." << std::endl;
-            rgb[0] = surfel.mat.ambient[0];
-            rgb[1] = surfel.mat.ambient[1];
-            rgb[2] = surfel.mat.ambient[2];
+            rgb[0] = surfel->mat.ambient[0];
+            rgb[1] = surfel->mat.ambient[1];
+            rgb[2] = surfel->mat.ambient[2];
             
         }
         //std::cout << level <<"*********" << std::endl;

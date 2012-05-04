@@ -44,11 +44,11 @@ bool Surfel::intersect(Ray *ray) {
             //std::cout<<"point: " <<x<<" "<<y<<" "<<z << std::endl;
             //std::cout << ray->mint<<std::endl;
             //Calculo media cortes.
-            if(sq <= radius*radius && t > ray->mint) {
+            /*if(sq <= radius*radius && t > ray->mint) {
                 //std::cout << "Enter." << std::endl;
                 ray->hitlist.push_back(*this);
                 ray->hitlist_t.push_back(t);
-            }
+            }*/
             //std::cout << "* "<<ray->hitlist.size() << std::endl;
             //if (ray->hitlist.size()>1) std::cout <<"* "<< ray->hitlist.size() << std::endl;
             //---------
@@ -65,10 +65,11 @@ bool Surfel::intersect(Ray *ray) {
     } else {
         
         //Sphere intersection.
-    
+        
+        bdm::Vector dis = ray->o - *this;
         float A = ray->d.dot(ray->d);
-        float B = (ray->o - *this).dot(ray->d);
-        float C = (ray->o - *this).dot(ray->o - *this) - powf(radius,2.f);
+        float B = dis.dot(ray->d);
+        float C = dis.dot(dis) - radius*radius;//Cambiar ray->o - this. Reutilizado varias veces.====PERF====
         
         float disc = B*B - A*C;
         

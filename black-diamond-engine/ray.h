@@ -41,7 +41,7 @@ public:
     }
     
     //Obtains the point from the parametric value t. 
-    bdm::Point operator()(float t) {
+    inline bdm::Point operator()(float t) {
         return o + d * t;
     }
     
