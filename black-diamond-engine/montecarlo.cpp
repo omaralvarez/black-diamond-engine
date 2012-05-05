@@ -17,7 +17,7 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Surfel *surfel, int level) {
     std::vector<bdm::Vector> samples(n_samples);
     float inv_samples = 1.f/n_samples;
     //Calculate samples for Monte Carlo integration.
-
+    static Sampler sampler;
     sampler.compute(*surfel, surfel->normal, samples);
     
     /*if (surfel.x <= -0.097  && surfel.x >= -0.098 && surfel.y >= 0.8596 && surfel.y <= 0.8597  && surfel.z >= 9.9332 && surfel.z <= 9.9333){ for (int i = 0; i < n_samples; i++) std::cout << samples[i].x << " " << samples[i].y << " " << samples[i].z << std::endl;
@@ -32,7 +32,9 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Surfel *surfel, int level) {
         //For each sample check for intersections.
         //Interseccion con surfels en local. Convendria tener puntero?
         Ray ray = Ray(*surfel,samples[i],0.5f,INFINITY);
-        Ray hit = s->kd_tree->intersect(ray);
+        Ray hit = ray; //Cuando la luz este en el kd_tree sobra hit.
+        
+        s->kd_tree->intersect(&hit);
         
         //Check if the sample intersects with any light.
         for (int j = 0; j < s->lights.size(); j++) s->lights[j].intersect(&ray);

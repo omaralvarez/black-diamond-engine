@@ -34,8 +34,8 @@ public:
     KdTreeAccel(std::vector<Surfel> &p, int icost, int tcost, float ebonus, int maxs, int max_depth);
     ~KdTreeAccel();
     void build_tree(int node_num, BBox node_bounds, std::vector<BBox> all_surfel_bounds, int *surfel_nums, int n_surfels, int depth, BoundEdge *edges[3], int *surfels0, int *surfels1,int bad_refines);
-    Ray intersect(Ray ray);
-    bool intersect_p(Ray ray);
+    void intersect(Ray *ray);
+    bool intersect_p(Ray *ray);
     Surfel **get_neighbours(bdm::Point p, float dist, u_int32_t *n_neighbours);
     
 };

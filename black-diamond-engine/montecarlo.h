@@ -17,7 +17,7 @@
 class MonteCarlo {
     
     int n_samples;
-    Sampler sampler;
+    //Sampler sampler;
     //std::vector<MonteCarlo *> todo;
     
 public:

@@ -82,7 +82,7 @@ public:
         
     }
     
-    bool intersect_p(Ray ray, float *hit1, float *hit2);
+    bool intersect_p(Ray *ray, float *hit1, float *hit2);
     
 };
 

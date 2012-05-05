@@ -30,7 +30,7 @@ bool Surfel::intersect(Ray *ray) {
         
         //std::cout<< denom << std::endl;
         
-        if (fabsf(denom) > 0) {
+        if (fabsf(denom) > 0.f) {
             
             float t;
             float numer = (*this - ray->o).dot(normal);
@@ -52,7 +52,7 @@ bool Surfel::intersect(Ray *ray) {
             //std::cout << "* "<<ray->hitlist.size() << std::endl;
             //if (ray->hitlist.size()>1) std::cout <<"* "<< ray->hitlist.size() << std::endl;
             //---------
-            if (t < ray->t_hit && t > ray->mint && sq <= radius*radius) {
+            if (t < ray->t_hit && t > ray->mint && sq <= radius*radius) { //Separar en 3 bools para ver que esta pasando con rendimiento.
                 ray->hit = *this;
                 ray->t_hit = t;
                 return true;
@@ -65,7 +65,7 @@ bool Surfel::intersect(Ray *ray) {
     } else {
         
         //Sphere intersection.
-        
+        //std::cout << "Entra???" << std::endl;
         bdm::Vector dis = ray->o - *this;
         float A = ray->d.dot(ray->d);
         float B = dis.dot(ray->d);

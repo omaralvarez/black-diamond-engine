@@ -66,15 +66,15 @@ int BBox::maximum_extent() {
 }
 
 //Returns true if the ray intersects with the bounding box.
-bool BBox::intersect_p(Ray ray, float *hit0, float *hit1) {
+bool BBox::intersect_p(Ray *ray, float *hit0, float *hit1) {
     
-    float t0 = ray.mint, t1 = ray.maxt;
+    float t0 = ray->mint, t1 = ray->maxt;
         
     for (int i = 0; i < 3; i++) {
         
-        float inv_ray_dir = 1.f / ray.d[i];
-        float tnear = (p_min[i] - ray.o[i]) * inv_ray_dir;
-        float tfar  = (p_max[i] - ray.o[i]) * inv_ray_dir;
+        float inv_ray_dir = 1.f / ray->d[i];
+        float tnear = (p_min[i] - ray->o[i]) * inv_ray_dir;
+        float tfar  = (p_max[i] - ray->o[i]) * inv_ray_dir;
         
         if (tnear > tfar) std::swap(tnear,tfar);
         t0 = tnear > t0 ? tnear : t0;

@@ -38,7 +38,7 @@ struct VisibilityTester {
     //Returns true if the path to the light is clear.
     bool unoccluded(Scene &s) {
         
-        return !s.kd_tree->intersect_p(r);
+        return !s.kd_tree->intersect_p(&r);
         
     }
     
@@ -504,15 +504,15 @@ void Render::get_kd_ray_hits() {
                 //First ray on x val + 0.5.
                 aux_ray.d.x = aux_ray.d.x + sub_pix_x;
                 
-                Ray hit = s.kd_tree->intersect(aux_ray);
+                s.kd_tree->intersect(&aux_ray);
                 
-                if (hit.hit.radius != 0.f) {
+                if (aux_ray.hit.radius != 0.f) {
                     
-                    shading(hit);
+                    shading(aux_ray);
                     
-                    r += 0.25f * hit.hit.r;
-                    g += 0.25f * hit.hit.g;
-                    b += 0.25f * hit.hit.b;
+                    r += 0.25f * aux_ray.hit.r;
+                    g += 0.25f * aux_ray.hit.g;
+                    b += 0.25f * aux_ray.hit.b;
                     
                 }
                     
@@ -521,15 +521,15 @@ void Render::get_kd_ray_hits() {
                 
                 aux_ray.d.x = aux_ray.d.x - sub_pix_x;
                 
-                hit = s.kd_tree->intersect(aux_ray);
+                s.kd_tree->intersect(&aux_ray);
                 
-                if (hit.hit.radius != 0.f) {
+                if (aux_ray.hit.radius != 0.f) {
                     
-                    shading(hit);
+                    shading(aux_ray);
                     
-                    r += 0.25f * hit.hit.r;
-                    g += 0.25f * hit.hit.g;
-                    b += 0.25f * hit.hit.b;
+                    r += 0.25f * aux_ray.hit.r;
+                    g += 0.25f * aux_ray.hit.g;
+                    b += 0.25f * aux_ray.hit.b;
                     
                 }
                 
@@ -538,15 +538,15 @@ void Render::get_kd_ray_hits() {
                 
                 aux_ray.d.y = aux_ray.d.y + sub_pix_y;
                 
-                hit = s.kd_tree->intersect(aux_ray);
+                s.kd_tree->intersect(&aux_ray);
                 
-                if (hit.hit.radius != 0.f) {
+                if (aux_ray.hit.radius != 0.f) {
                     
-                    shading(hit);
+                    shading(aux_ray);
                     
-                    r += 0.25f * hit.hit.r;
-                    g += 0.25f * hit.hit.g;
-                    b += 0.25f * hit.hit.b;
+                    r += 0.25f * aux_ray.hit.r;
+                    g += 0.25f * aux_ray.hit.g;
+                    b += 0.25f * aux_ray.hit.b;
                 
                 }
                 
@@ -555,29 +555,30 @@ void Render::get_kd_ray_hits() {
                 
                 aux_ray.d.y = aux_ray.d.y - sub_pix_y;
                 
-                hit = s.kd_tree->intersect(aux_ray);
+                s.kd_tree->intersect(&aux_ray);
                 
-                if (hit.hit.radius != 0.f) {
+                if (aux_ray.hit.radius != 0.f) {
                     
-                    shading(hit);
+                    shading(aux_ray);
                     
-                    r += 0.25f * hit.hit.r;
-                    g += 0.25f * hit.hit.g;
-                    b += 0.25f * hit.hit.b;
+                    r += 0.25f * aux_ray.hit.r;
+                    g += 0.25f * aux_ray.hit.g;
+                    b += 0.25f * aux_ray.hit.b;
                 
                 }
                 
                 // Then the contribution of each ray is added.
-                hit.hit.r = r;
-                hit.hit.g = g;
-                hit.hit.b = b;
+                aux_ray.hit.r = r;
+                aux_ray.hit.g = g;
+                aux_ray.hit.b = b;
                 
                 
-                rays[i][j] = hit;
+                rays[i][j] = aux_ray;
 
             } else {
                 
-                Ray hit = s.kd_tree->intersect(rays[i][j]);
+                Ray hit = rays[i][j];
+                s.kd_tree->intersect(&hit);
                 //std::cout << "***********" << std::endl;
                 //Illumination.
                 if (hit.hit.radius != 0.f) {
