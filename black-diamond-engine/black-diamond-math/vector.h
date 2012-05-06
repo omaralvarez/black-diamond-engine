@@ -9,7 +9,7 @@
 #ifndef black_diamond_engine_vector_h
 #define black_diamond_engine_vector_h
 
-#include <math.h>
+#include <cmath>
 #include <assert.h>
 
 namespace bdm {

@@ -30,7 +30,8 @@ namespace bdm {
             return *this;
         }
         
-        inline Point operator+(Vector v){
+        //Poner const al final si no toca nada en el objeto local.
+        inline Point operator+(Vector v) {
             return Point(x + v.x, y + v.y, z + v.z);
         }
         

@@ -14,7 +14,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include <math.h>
+#include <cmath>
 #include "parser.h"
 #include "camera.h"
 #include "transform.h"

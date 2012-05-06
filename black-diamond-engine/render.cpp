@@ -12,7 +12,7 @@
 #include "image.h"
 #include "bdesettings.h"
 #include "montecarlo.h"
-#include <math.h>
+#include <cmath>
 #include <iostream>
 #include <vector>
 #include <boost/timer/timer.hpp>
@@ -581,7 +581,7 @@ void Render::get_kd_ray_hits() {
                 s.kd_tree->intersect(&hit);
                 //std::cout << "***********" << std::endl;
                 //Illumination.
-                if (hit.hit.radius != 0.f) {
+                if (hit.t_hit != INFINITY) {
                     //std::cout << i << " " << j << std::endl;
                     shading(hit);
                     /*if (i == x_res-1027-1 && j == y_res-409-1) {

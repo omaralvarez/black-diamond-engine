@@ -6,4 +6,3 @@
 //  Copyright (c) 2012 UDC. All rights reserved.
 //
 
-#include <iostream>

@@ -30,7 +30,6 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Surfel *surfel, int level) {
     for (int i = 0; i < n_samples; i++) {
         
         //For each sample check for intersections.
-        //Interseccion con surfels en local. Convendria tener puntero?
         Ray ray = Ray(*surfel,samples[i],0.5f,INFINITY);
         Ray hit = ray; //Cuando la luz este en el kd_tree sobra hit.
         
@@ -40,7 +39,7 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Surfel *surfel, int level) {
         for (int j = 0; j < s->lights.size(); j++) s->lights[j].intersect(&ray);
         //std::cout << level <<"-------" << std::endl;
         //If the ray intersected with other surfels and they are closer than light intersection if any.
-        if (hit.hit.radius != 0.f && hit.t_hit < ray.t_hit) {
+        if (hit.t_hit != INFINITY && hit.t_hit < ray.t_hit) {
             //std::cout << "Inter." << std::endl;
             
             //If it intersects with other surfels, calculate MC again.
@@ -55,7 +54,7 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Surfel *surfel, int level) {
         } 
         
         //If the ray intersected with a light and is closer than the other intersections.
-        if (ray.hit.radius != 0.f && hit.t_hit >= ray.t_hit) {
+        if (ray.t_hit != INFINITY && hit.t_hit >= ray.t_hit) {
             //std::cout << "Light." << std::endl;
             rgb[0] = surfel->mat.diffuse[0];
             rgb[1] = surfel->mat.diffuse[1];
@@ -64,7 +63,7 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Surfel *surfel, int level) {
         }
         
         //If the ray doesn't intersect with anything ambient contribution.
-        if (ray.hit.radius == 0.f && hit.hit.radius == 0.f) {
+        if (ray.t_hit == INFINITY && hit.t_hit == INFINITY) {
             //std::cout << "Nothing." << std::endl;
             rgb[0] = surfel->mat.ambient[0];
             rgb[1] = surfel->mat.ambient[1];
@@ -83,8 +82,6 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Surfel *surfel, int level) {
     sum_rgb[1] *= inv_samples;
     sum_rgb[2] *= inv_samples;
     
-    //Comprobar que no sean mayores de 255. Tema de acabar recursividad por profundidad que se pone en rgb.
-    //if (sum_rgb[0] >255 || sum_rgb[1] > 255 || sum_rgb[2] > 255) std::cout << sum_rgb[0] << " " << sum_rgb[1] << " " << sum_rgb[2] << std::endl;
     return sum_rgb;
     
 }

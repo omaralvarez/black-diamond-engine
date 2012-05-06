@@ -7,7 +7,7 @@
 //
 
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include "matrix4x4.h"
 
 namespace bdm {
