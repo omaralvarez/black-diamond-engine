@@ -9,6 +9,8 @@
 #include <iostream>
 #include <vector>
 #include <set>
+#include <algorithm>
+#include <cstring>
 #include "kdtreeaccel.h"
 #include "surfel.h"
 #include "memoryarena.h"//Possible optimization problem.

@@ -289,14 +289,23 @@ void Render::get_ray_hits() {
 //This function takes care of the shading of the material.
 void Render::shading(Ray &ray) {
     
-    std::vector<float> rgb(3);
-    MonteCarlo mc = MonteCarlo();
-    rgb = mc.integrate(&s,&ray.hit,0);//Si pasas puntero a surfel, ya puedes meter en el rgb y ahorrarte el devolver un vector.
-    
-    ray.hit.r = rgb[0];
-    ray.hit.g = rgb[1];
-    ray.hit.b = rgb[2];
-    
+    if (ray.hit.mat.emit) {
+        
+        ray.hit.r = ray.hit.mat.diffuse[0];
+        ray.hit.g = ray.hit.mat.diffuse[1];
+        ray.hit.b = ray.hit.mat.diffuse[2];
+        
+    } else {
+        
+        std::vector<float> rgb(3);
+        MonteCarlo mc = MonteCarlo();
+        rgb = mc.integrate(&s,&ray.hit,0);//Si pasas puntero a surfel, ya puedes meter en el rgb y ahorrarte el devolver un vector.
+        
+        ray.hit.r = rgb[0];
+        ray.hit.g = rgb[1];
+        ray.hit.b = rgb[2];
+        
+    }
     /*float av_r=0,av_g=0,av_b=0;
     float w_r=0,w_g=0,w_b=0;
     std::vector<float> rgb(3);

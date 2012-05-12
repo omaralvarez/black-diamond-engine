@@ -211,8 +211,8 @@ std::vector<Surfel> Parser::parse_data_file(std::string filePath, float radius) 
         float a[3] = {a_r,a_g,a_b};
         float d[3] = {d_r,d_g,d_b};
         float s[3] = {s_r,s_g,s_b};
-        float exp=0;
-        inputFile >> exp;
+        float exp=0,em=0;
+        inputFile >> exp >> em;
         //inputFile >> temp_x >> temp_y >> temp_z >> rgbd >> discard_1 >> discard_2;    //Original.
         //inputFile >> temp_x >> temp_z >> temp_y >> rgbd >> discard_1 >> discard_2;    //Dataset RGB-D.
         u_int32_t n_sur=0;
@@ -241,7 +241,7 @@ std::vector<Surfel> Parser::parse_data_file(std::string filePath, float radius) 
             new_p = scaling(new_p);
             new_p = translation(new_p);
             
-            data.push_back(Surfel(new_p.x,new_p.y,new_p.z,r,g,b,radius,Material(a,d,s,exp))); //Blender -temp_z
+            data.push_back(Surfel(new_p.x,new_p.y,new_p.z,r,g,b,radius,Material(a,d,s,exp,em))); //Blender -temp_z
             
         }
         

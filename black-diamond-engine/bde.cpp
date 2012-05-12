@@ -50,7 +50,7 @@ int main (int argc, const char * argv[]) {
     renderer.trans_world_to_cam(); 
 
     std::cout << "Filtering frustum..." << std::endl;
-    renderer.filter_frustum();
+    //renderer.filter_frustum();
     
     if(settings.normal_est && !settings.est_accel) renderer.s.get_normals();
     //renderer.s.cloud[0].normal = bdm::Vector(0,0,-1);

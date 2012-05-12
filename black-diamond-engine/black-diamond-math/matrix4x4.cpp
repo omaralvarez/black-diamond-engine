@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <cstring>
 #include "matrix4x4.h"
 
 namespace bdm {

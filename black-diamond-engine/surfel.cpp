@@ -16,7 +16,7 @@ extern BDESettings settings;
 //Checks if a ray intersects with a surfel.
 bool Surfel::intersect(Ray *ray) {
     
-    if (settings.normal_est) {
+    if (settings.normal_est && !mat.emit) {
         
         //Disk intersection.
         

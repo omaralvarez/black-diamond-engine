@@ -13,7 +13,7 @@
 namespace bdm {
     
     class Point {
-        
+    
     public:
         float x,y,z;    //Point position.
         

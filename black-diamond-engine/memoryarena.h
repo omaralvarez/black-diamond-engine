@@ -10,16 +10,18 @@
 #define black_diamond_engine_memoryarena_h
 
 #include <vector>
+#include <stdint.h>
+#include <cstdlib>
 
 //Memory management for k-d tree creation.
 class MemoryArena {
     
-    u_int32_t cur_block_pos, block_size;
+    uint32_t cur_block_pos, block_size;
     char *current_block;
     std::vector<char *> used_blocks, available_blocks;
     
 public:
-    MemoryArena(u_int32_t bs = 32768) {
+    MemoryArena(uint32_t bs = 32768) {
         block_size = bs;
         cur_block_pos = 0;
         current_block = (char *)alloc_aligned(block_size);
@@ -39,7 +41,7 @@ public:
         
     }
     
-    void *c_alloc(u_int32_t sz) {
+    void *c_alloc(uint32_t sz) {
         
         sz = ((sz+7) & (~7));
         if (cur_block_pos + sz > block_size) {

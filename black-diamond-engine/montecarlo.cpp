@@ -36,14 +36,28 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Surfel *surfel, int level) {
         s->kd_tree->intersect(&hit);
         
         //Check if the sample intersects with any light.
-        for (int j = 0; j < s->lights.size(); j++) s->lights[j].intersect(&ray);
+        //for (int j = 0; j < s->lights.size(); j++) s->lights[j].intersect(&ray);
         //std::cout << level <<"-------" << std::endl;
         //If the ray intersected with other surfels and they are closer than light intersection if any.
         if (hit.t_hit != INFINITY && hit.t_hit < ray.t_hit) {
             //std::cout << "Inter." << std::endl;
             
             //If it intersects with other surfels, calculate MC again.
-            if (level < 1) {
+            if (hit.hit.mat.emit) {
+                
+                float cos_t = hit.d.dot(surfel->normal);
+                rgb[0] = hit.hit.mat.diffuse[0] * cos_t;
+                rgb[1] = hit.hit.mat.diffuse[1] * cos_t;
+                rgb[2] = hit.hit.mat.diffuse[2] * cos_t;
+                
+                /*bdm::Vector h = (hit.d + (-(vis->d))).normalize();
+                float cos_h = h.dot(surfel->normal);
+                
+                rgb[0] += hit.hit.mat.specular[0] * cos_h;
+                rgb[1] += hit.hit.mat.specular[1] * cos_h;
+                rgb[2] += hit.hit.mat.specular[2] * cos_h;*/
+                
+            } else if (level < 1) {
                 
                 MonteCarlo new_mc = MonteCarlo();
                 //todo.push_back(&new_mc);
@@ -81,6 +95,10 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Surfel *surfel, int level) {
     sum_rgb[0] *= inv_samples;
     sum_rgb[1] *= inv_samples;
     sum_rgb[2] *= inv_samples;
+    
+    sum_rgb[0] *= surfel->mat.diffuse[0]/255.f;
+    sum_rgb[1] *= surfel->mat.diffuse[1]/255.f;
+    sum_rgb[2] *= surfel->mat.diffuse[2]/255.f;
     
     return sum_rgb;
     
