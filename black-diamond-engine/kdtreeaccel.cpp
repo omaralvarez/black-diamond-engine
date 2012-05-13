@@ -364,6 +364,8 @@ void KdTreeAccel::intersect(Ray *ray) {
                     //Check one surfel inside leaf node.
                     //Ahorrar llamada a funcion si no esta en el cubo. ======PERF=======
                     ms->intersect(ray); 
+                    //if(ray->hit) std::cout << ray->hit->x << " " << ray->hit->y << " " << ray->hit->z << std::endl;
+                    //std::cout << ray->hit << " " << res << std::endl;
                     
                 }
                 //if(ray.hitlist.size()>1) std::cout <<ray.hitlist.size()<< std::endl;

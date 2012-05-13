@@ -9,6 +9,8 @@
 #ifndef black_diamond_engine_material_h
 #define black_diamond_engine_material_h
 
+#include "brdf.h"
+
 class Material {
     
 public:
@@ -17,6 +19,7 @@ public:
     float specular[3];
     float exp;
     float emit;
+    BRDF *brdf;
     
     //Creates a default material.
     Material() {

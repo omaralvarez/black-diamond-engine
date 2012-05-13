@@ -20,7 +20,7 @@ float PointLight::sample_l(bdm::Point p, float p_epsilon, float time, bdm::Vecto
     
 }
 
-bool PointLight::intersect(Ray *ray) {
+/*bool PointLight::intersect(Ray *ray) {
     
     float radius = 1.6f;
     
@@ -47,7 +47,7 @@ bool PointLight::intersect(Ray *ray) {
         }
         
         if (t < ray->t_hit && t > ray->mint) {
-            ray->hit = Surfel(light_pos,0,0,0,1.f); //Gotta change this and check in montecarlo for intersection with t_hit < infinity.
+            ray->hit = &Surfel(light_pos,0,0,0,1.f); //Gotta change this and check in montecarlo for intersection with t_hit < infinity.
             ray->t_hit = t;
             return true;
         }
@@ -56,4 +56,4 @@ bool PointLight::intersect(Ray *ray) {
     
     return false;
     
-}
+}*/

@@ -52,8 +52,8 @@ bool Surfel::intersect(Ray *ray) {
             //std::cout << "* "<<ray->hitlist.size() << std::endl;
             //if (ray->hitlist.size()>1) std::cout <<"* "<< ray->hitlist.size() << std::endl;
             //---------
-            if (t < ray->t_hit && t > ray->mint && sq <= radius*radius) { //Separar en 3 bools para ver que esta pasando con rendimiento.
-                ray->hit = *this;
+            if (t < ray->t_hit && t > ray->mint && sq <= radius*radius) { 
+                ray->hit = this;
                 ray->t_hit = t;
                 return true;
             }
@@ -89,7 +89,7 @@ bool Surfel::intersect(Ray *ray) {
             }
             
             if (t < ray->t_hit && t > ray->mint) {
-                ray->hit = *this;
+                ray->hit = this;
                 ray->t_hit = t;
                 return true;
             }

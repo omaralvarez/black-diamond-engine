@@ -22,6 +22,7 @@
 #include "render.h"
 #include "surfel.h"
 #include "bdesettings.h"
+//#include "brdf.h"
 
 BDESettings settings = BDESettings();
 

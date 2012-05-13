@@ -250,7 +250,7 @@ void Render::get_ray_hits() {
                     }
                     
                     if (t < rays[i][j].t_hit) {
-                        rays[i][j].hit = s.cloud[k];
+                        rays[i][j].hit = &s.cloud[k];
                         rays[i][j].t_hit = t;
                     }
                     
@@ -271,9 +271,19 @@ void Render::get_ray_hits() {
     
     for (int i = 0; i < x_res; i++) {
         for (int j = 0; j < y_res; j++) {
-            pix_vec[x_res-i-1][y_res-j-1][0] = rays[i][j].hit.r; //Cuidao en get pixel res!!! falta el menos 1. Y puede dar bad_Acces en el extremo.
-            pix_vec[x_res-i-1][y_res-j-1][1] = rays[i][j].hit.g;
-            pix_vec[x_res-i-1][y_res-j-1][2] = rays[i][j].hit.b;
+            if (rays[i][j].hit != NULL) {
+                
+                pix_vec[x_res-i-1][y_res-j-1][0] = rays[i][j].hit->r;
+                pix_vec[x_res-i-1][y_res-j-1][1] = rays[i][j].hit->g;
+                pix_vec[x_res-i-1][y_res-j-1][2] = rays[i][j].hit->b;
+                
+            } else {
+                
+                pix_vec[x_res-i-1][y_res-j-1][0] = 0.f;
+                pix_vec[x_res-i-1][y_res-j-1][1] = 0.f;
+                pix_vec[x_res-i-1][y_res-j-1][2] = 0.f;
+                
+            }
         }   
     }
     
@@ -287,25 +297,25 @@ void Render::get_ray_hits() {
 }
 
 //This function takes care of the shading of the material.
-void Render::shading(Ray &ray) {
+void Render::shading(Ray *ray) {
     
-    if (ray.hit.mat.emit) {
+    /*if (ray->hit->mat.emit) {
         
-        ray.hit.r = ray.hit.mat.diffuse[0];
-        ray.hit.g = ray.hit.mat.diffuse[1];
-        ray.hit.b = ray.hit.mat.diffuse[2];
+        ray->hit->r = ray->hit->mat.diffuse[0];
+        ray->hit->g = ray->hit->mat.diffuse[1];
+        ray->hit->b = ray->hit->mat.diffuse[2];
         
     } else {
         
         std::vector<float> rgb(3);
         MonteCarlo mc = MonteCarlo();
-        rgb = mc.integrate(&s,&ray.hit,0);//Si pasas puntero a surfel, ya puedes meter en el rgb y ahorrarte el devolver un vector.
+        rgb = mc.integrate(&s,ray->hit,0);//Si pasas puntero a surfel, ya puedes meter en el rgb y ahorrarte el devolver un vector.
         
-        ray.hit.r = rgb[0];
-        ray.hit.g = rgb[1];
-        ray.hit.b = rgb[2];
+        ray->hit->r = rgb[0];
+        ray->hit->g = rgb[1];
+        ray->hit->b = rgb[2];
         
-    }
+    }*/
     /*float av_r=0,av_g=0,av_b=0;
     float w_r=0,w_g=0,w_b=0;
     std::vector<float> rgb(3);
@@ -347,44 +357,44 @@ void Render::shading(Ray &ray) {
     //Old illumination model.
     //---------------------------------------------------
     
-    /*bdm::Point hit_point = ray(ray.t_hit);
+    bdm::Point hit_point = (*ray)(ray->t_hit);
     
     //Ambient contribution.
-    //ray.hit.r = ray.hit.mat.ambient[0];
-    //ray.hit.g = ray.hit.mat.ambient[1];
-    //ray.hit.b = ray.hit.mat.ambient[2];
+    ray->hit->r = ray->hit->mat.ambient[0];
+    ray->hit->g = ray->hit->mat.ambient[1];
+    ray->hit->b = ray->hit->mat.ambient[2];
     
     for (int k = 0; k < s.lights.size(); k++) {
         
         VisibilityTester vis;
         //std::cout << s.lights[k].light_pos.x << " " << s.lights[k].light_pos.y << " " << s.lights[k].light_pos.z << std::endl;
-        vis.set_segment(hit_point, 0.5f, s.lights[k].light_pos, 0.f, ray.t_hit);//Antes era hit_p,0.||hit_p,settings.min_dist
+        vis.set_segment(hit_point, 0.5f, s.lights[k].light_pos, 0.f, ray->t_hit);//Antes era hit_p,0.||hit_p,settings.min_dist
         if (!vis.unoccluded(s)) continue; //If shadow continue.
         
         //Diffuse contribution.
         bdm::Vector v_s = (s.lights[k].light_pos - hit_point).normalize();
         bdm::Vector normal;
-        if(!settings.normal_est) normal = (hit_point - ray.hit).normalize(); //Sphere normal.
-        else normal = ray.hit.normal; //Estimated normal.
+        if(!settings.normal_est) normal = (hit_point - *ray->hit).normalize(); //Sphere normal.
+        else normal = ray->hit->normal; //Estimated normal.
          
         //std::cout << ray.hit.normal.x << " " << ray.hit.normal.y << " " << ray.hit.normal.z << std::endl;
         //std::cout << s.cloud[0].normal.x << " " << s.cloud[0].normal.y << " " << s.cloud[0].normal.z << std::endl;
         
         float m_dot_s = v_s.dot(normal);
         if (m_dot_s > 0.001f) { //Cuidado deberia comparar con 0;
-            ray.hit.r = fminf(ray.hit.r + m_dot_s * ray.hit.mat.diffuse[0],255); 
-            ray.hit.g = fminf(ray.hit.g + m_dot_s * ray.hit.mat.diffuse[1],255); 
-            ray.hit.b = fminf(ray.hit.b + m_dot_s * ray.hit.mat.diffuse[2],255); 
+            ray->hit->r = fminf(ray->hit->r + m_dot_s * ray->hit->mat.diffuse[0],255); 
+            ray->hit->g = fminf(ray->hit->g + m_dot_s * ray->hit->mat.diffuse[1],255); 
+            ray->hit->b = fminf(ray->hit->b + m_dot_s * ray->hit->mat.diffuse[2],255); 
         }
         
         //Specular contribution.
-        bdm::Vector h = (v_s + (-(ray.d))).normalize(); //Mirar porque se mete en 0,0,20 deberia bloquear todo.
+        bdm::Vector h = (v_s + (-(ray->d))).normalize(); //Mirar porque se mete en 0,0,20 deberia bloquear todo.
         float m_dot_h = h.dot(normal);
         if (m_dot_h > 0.001f) { //Cuidado deberia comparar con 0;
-            float phong = powf(m_dot_h, ray.hit.mat.exp);
-            ray.hit.r = fminf(ray.hit.r + phong * ray.hit.mat.specular[0],255); 
-            ray.hit.g = fminf(ray.hit.g + phong * ray.hit.mat.specular[1],255); 
-            ray.hit.b = fminf(ray.hit.b + phong * ray.hit.mat.specular[2],255); 
+            float phong = powf(m_dot_h, ray->hit->mat.exp);
+            ray->hit->r = fminf(ray->hit->r + phong * ray->hit->mat.specular[0],255); 
+            ray->hit->g = fminf(ray->hit->g + phong * ray->hit->mat.specular[1],255); 
+            ray->hit->b = fminf(ray->hit->b + phong * ray->hit->mat.specular[2],255); 
         }
         
         //Hit av.
@@ -463,7 +473,7 @@ void Render::shading(Ray &ray) {
         ray.hit.b = fminf(av_b/w_b,255);
         //------
         */
-    //} //Ultimo corchete para old illumination model.
+    } //Ultimo corchete para old illumination model.
     
     /*float weight_mc = (rgb[0] + rgb[1] + rgb[2])/3.f;
     float weight_hs = (ray.hit.r + ray.hit.g + ray.hit.b)/3.f;
@@ -515,13 +525,13 @@ void Render::get_kd_ray_hits() {
                 
                 s.kd_tree->intersect(&aux_ray);
                 
-                if (aux_ray.hit.radius != 0.f) {
+                if (aux_ray.hit != NULL) {
                     
-                    shading(aux_ray);
+                    shading(&aux_ray);
                     
-                    r += 0.25f * aux_ray.hit.r;
-                    g += 0.25f * aux_ray.hit.g;
-                    b += 0.25f * aux_ray.hit.b;
+                    r += 0.25f * aux_ray.hit->r;
+                    g += 0.25f * aux_ray.hit->g;
+                    b += 0.25f * aux_ray.hit->b;
                     
                 }
                     
@@ -532,13 +542,13 @@ void Render::get_kd_ray_hits() {
                 
                 s.kd_tree->intersect(&aux_ray);
                 
-                if (aux_ray.hit.radius != 0.f) {
+                if (aux_ray.hit != NULL) {
                     
-                    shading(aux_ray);
+                    shading(&aux_ray);
                     
-                    r += 0.25f * aux_ray.hit.r;
-                    g += 0.25f * aux_ray.hit.g;
-                    b += 0.25f * aux_ray.hit.b;
+                    r += 0.25f * aux_ray.hit->r;
+                    g += 0.25f * aux_ray.hit->g;
+                    b += 0.25f * aux_ray.hit->b;
                     
                 }
                 
@@ -549,13 +559,13 @@ void Render::get_kd_ray_hits() {
                 
                 s.kd_tree->intersect(&aux_ray);
                 
-                if (aux_ray.hit.radius != 0.f) {
+                if (aux_ray.hit != NULL) {
                     
-                    shading(aux_ray);
+                    shading(&aux_ray);
                     
-                    r += 0.25f * aux_ray.hit.r;
-                    g += 0.25f * aux_ray.hit.g;
-                    b += 0.25f * aux_ray.hit.b;
+                    r += 0.25f * aux_ray.hit->r;
+                    g += 0.25f * aux_ray.hit->g;
+                    b += 0.25f * aux_ray.hit->b;
                 
                 }
                 
@@ -566,20 +576,20 @@ void Render::get_kd_ray_hits() {
                 
                 s.kd_tree->intersect(&aux_ray);
                 
-                if (aux_ray.hit.radius != 0.f) {
+                if (aux_ray.hit != NULL) {
                     
-                    shading(aux_ray);
+                    shading(&aux_ray);
                     
-                    r += 0.25f * aux_ray.hit.r;
-                    g += 0.25f * aux_ray.hit.g;
-                    b += 0.25f * aux_ray.hit.b;
+                    r += 0.25f * aux_ray.hit->r;
+                    g += 0.25f * aux_ray.hit->g;
+                    b += 0.25f * aux_ray.hit->b;
                 
                 }
                 
                 // Then the contribution of each ray is added.
-                aux_ray.hit.r = r;
-                aux_ray.hit.g = g;
-                aux_ray.hit.b = b;
+                aux_ray.hit->r = r;
+                aux_ray.hit->g = g;
+                aux_ray.hit->b = b;
                 
                 
                 rays[i][j] = aux_ray;
@@ -592,7 +602,8 @@ void Render::get_kd_ray_hits() {
                 //Illumination.
                 if (hit.t_hit != INFINITY) {
                     //std::cout << i << " " << j << std::endl;
-                    shading(hit);
+                    //std::cout << hit.hit->x << " " << hit.hit->y << " " << hit.hit->z << std::endl;
+                    shading(&hit);
                     /*if (i == x_res-1027-1 && j == y_res-409-1) {
                      std::cout << "***************" << std::endl;
                      std::cout << hit.hit.normal.x << " " << hit.hit.normal.y << " " << hit.hit.normal.z << std::endl;
@@ -617,9 +628,20 @@ void Render::get_kd_ray_hits() {
     
     for (int i = 0; i < x_res; i++) 
         for (int j = 0; j < y_res; j++) {
-            pix_vec[x_res-i-1][y_res-j-1][0] = rays[i][j].hit.r; //Cuidao en get pixel res!!! falta el menos 1. Y puede dar bad_Acces en el extremo.
-            pix_vec[x_res-i-1][y_res-j-1][1] = rays[i][j].hit.g;
-            pix_vec[x_res-i-1][y_res-j-1][2] = rays[i][j].hit.b;
+            if (rays[i][j].hit != NULL) {
+                
+                pix_vec[x_res-i-1][y_res-j-1][0] = rays[i][j].hit->r;
+                pix_vec[x_res-i-1][y_res-j-1][1] = rays[i][j].hit->g;
+                pix_vec[x_res-i-1][y_res-j-1][2] = rays[i][j].hit->b;
+
+            } else {
+                
+                pix_vec[x_res-i-1][y_res-j-1][0] = 0.f;
+                pix_vec[x_res-i-1][y_res-j-1][1] = 0.f;
+                pix_vec[x_res-i-1][y_res-j-1][2] = 0.f;
+                
+            }
+                        
         }   
     
     

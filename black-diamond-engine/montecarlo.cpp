@@ -43,12 +43,12 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Surfel *surfel, int level) {
             //std::cout << "Inter." << std::endl;
             
             //If it intersects with other surfels, calculate MC again.
-            if (hit.hit.mat.emit) {
+            if (hit.hit->mat.emit) {
                 
                 float cos_t = hit.d.dot(surfel->normal);
-                rgb[0] = hit.hit.mat.diffuse[0] * cos_t;
-                rgb[1] = hit.hit.mat.diffuse[1] * cos_t;
-                rgb[2] = hit.hit.mat.diffuse[2] * cos_t;
+                rgb[0] = hit.hit->mat.diffuse[0] * cos_t;
+                rgb[1] = hit.hit->mat.diffuse[1] * cos_t;
+                rgb[2] = hit.hit->mat.diffuse[2] * cos_t;
                 
                 /*bdm::Vector h = (hit.d + (-(vis->d))).normalize();
                 float cos_h = h.dot(surfel->normal);
@@ -61,7 +61,7 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Surfel *surfel, int level) {
                 
                 MonteCarlo new_mc = MonteCarlo();
                 //todo.push_back(&new_mc);
-                rgb = new_mc.integrate(s, &hit.hit,level+1);
+                rgb = new_mc.integrate(s, hit.hit,level+1);
                 
             }
             
