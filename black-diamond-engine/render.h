@@ -25,7 +25,7 @@ class Render {
     Camera cam;
     std::vector<std::vector<Ray> > rays;
     
-    void shading(Ray *ray);
+    void shading(Ray &ray);
     
 public:
     Scene s;
