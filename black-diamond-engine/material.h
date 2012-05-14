@@ -9,6 +9,8 @@
 #ifndef black_diamond_engine_material_h
 #define black_diamond_engine_material_h
 
+#include "brdf.h"
+
 class Material {
     
 public:
@@ -43,7 +45,7 @@ public:
         
         exp = e;
         emit = em;
-        
+
     }
     
 };

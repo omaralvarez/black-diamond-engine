@@ -11,6 +11,7 @@
 		60105DF914C59D8F0007540B /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105DF814C59D8F0007540B /* camera.cpp */; };
 		60105E0114C59EAD0007540B /* render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105E0014C59EAD0007540B /* render.cpp */; };
 		60105E0414C59EDE0007540B /* image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105E0314C59EDE0007540B /* image.cpp */; };
+		601696D915601673001B8B65 /* brdf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 601696D815601673001B8B65 /* brdf.cpp */; };
 		607EF30314C33BAA00D801C9 /* scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 607EF30214C33BAA00D801C9 /* scene.cpp */; };
 		608EFCDD14F8089000DDF4F6 /* pointlight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608EFCDC14F8089000DDF4F6 /* pointlight.cpp */; };
 		608EFCE014F8180100DDF4F6 /* light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608EFCDF14F8180100DDF4F6 /* light.cpp */; };
@@ -66,6 +67,8 @@
 		60105E0014C59EAD0007540B /* render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = render.cpp; sourceTree = "<group>"; };
 		60105E0314C59EDE0007540B /* image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
 		60105E0514C59EE80007540B /* image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
+		601696D815601673001B8B65 /* brdf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = brdf.cpp; sourceTree = "<group>"; };
+		601696DA1560167E001B8B65 /* brdf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = brdf.h; sourceTree = "<group>"; };
 		607EF30214C33BAA00D801C9 /* scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scene.cpp; sourceTree = "<group>"; };
 		608EFCDB14F8088400DDF4F6 /* pointlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pointlight.h; sourceTree = "<group>"; };
 		608EFCDC14F8089000DDF4F6 /* pointlight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pointlight.cpp; sourceTree = "<group>"; };
@@ -175,6 +178,8 @@
 		608EFCE514F92E8300DDF4F6 /* material */ = {
 			isa = PBXGroup;
 			children = (
+				601696DA1560167E001B8B65 /* brdf.h */,
+				601696D815601673001B8B65 /* brdf.cpp */,
 				608EFCE414F92E7C00DDF4F6 /* material.h */,
 				608EFCE214F92E7000DDF4F6 /* material.cpp */,
 			);
@@ -382,6 +387,7 @@
 				608EFCE91516060F00DDF4F6 /* bdesettings.cpp in Sources */,
 				60EC98F6153F0F2100358780 /* sampler.cpp in Sources */,
 				60EC98FA153F11A800358780 /* montecarlo.cpp in Sources */,
+				601696D915601673001B8B65 /* brdf.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

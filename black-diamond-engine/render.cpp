@@ -58,6 +58,11 @@ void Render::trans_world_to_cam() {
         s.cloud[i].y = new_point.y;
         s.cloud[i].z = new_point.z;
         
+        bdm::Vector new_norm = cam.get_camera_normal(s.cloud[i].normal).normalize();
+        s.cloud[i].normal.x = new_norm.x;
+        s.cloud[i].normal.y = new_norm.y;
+        s.cloud[i].normal.z = new_norm.z;
+        
     }
     
     for (int i = 0; i < s.lights.size(); i++) {
@@ -299,7 +304,7 @@ void Render::shading(Ray &ray) {
         
         std::vector<float> rgb(3);
         MonteCarlo mc = MonteCarlo();
-        rgb = mc.integrate(&s,&ray.hit,0);//Si pasas puntero a surfel, ya puedes meter en el rgb y ahorrarte el devolver un vector.
+        rgb = mc.integrate(&s,&ray,0);//Si pasas puntero a surfel, ya puedes meter en el rgb y ahorrarte el devolver un vector.
         
         ray.hit.r = rgb[0];
         ray.hit.g = rgb[1];
@@ -463,7 +468,7 @@ void Render::shading(Ray &ray) {
         ray.hit.b = fminf(av_b/w_b,255);
         //------
         */
-    //} //Ultimo corchete para old illumination model.
+   // } //Ultimo corchete para old illumination model.
     
     /*float weight_mc = (rgb[0] + rgb[1] + rgb[2])/3.f;
     float weight_hs = (ray.hit.r + ray.hit.g + ray.hit.b)/3.f;

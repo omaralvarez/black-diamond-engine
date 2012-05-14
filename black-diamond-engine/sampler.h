@@ -16,35 +16,31 @@ class Sampler {
     
 public:
 	typedef enum {
-		RANDOM_BOX,
-		RANDOM_POLAR,
-		RANDOM_UNWRAP,
-        UNIFORM,
-		UNIFORM_POLAR,
-		UNIFORM_UNWRAP
+		UNIFORM,
+		RANDOM,
+		IMPORTANCE
+        
 	} TSamplingMethod;
     
-	Sampler() { _method = RANDOM_BOX; }
+	Sampler() { _method = RANDOM; }
     
 	void compute(bdm::Point center, bdm::Vector normal, std::vector<bdm::Vector> &samples);
-	inline void setMethod(TSamplingMethod sm) { _method = sm; }
+	inline void setMethod(TSamplingMethod sm) { _method = sm; _storedSamples.resize(0); }
 	inline void nextSampler() { 
-		if(_method==(TSamplingMethod)5) 
-			_method=(TSamplingMethod)0; 
+		if(_method==(TSamplingMethod)2) 
+			setMethod((TSamplingMethod)0); 
 		else 
-			_method = (TSamplingMethod)(_method+1); 
+			setMethod((TSamplingMethod)(_method+1)); 
+        
 	}
 	inline TSamplingMethod getMethod() { return _method; }
 	std::string getMethodString();
     
 private:
     
-	void computeRandomBox(bdm::Point center, bdm::Vector normal, std::vector<bdm::Vector> &samples);
-	void computeRandomPolar(bdm::Point center, bdm::Vector normal, std::vector<bdm::Vector> &samples);
-	void computeRandomUnwrap(bdm::Point center, bdm::Vector normal, std::vector<bdm::Vector> &samples);
-	void computeUniformPolar(bdm::Point center, bdm::Vector normal, std::vector<bdm::Vector> &samples);
-	void computeUniformUnwrap(bdm::Point center, bdm::Vector normal, std::vector<bdm::Vector> &samples);
+	void computeRandom(bdm::Point center, bdm::Vector normal, std::vector<bdm::Vector> &samples);
     void computeUniform(bdm::Point center, bdm::Vector normal, std::vector<bdm::Vector> &samples);
+    void computeImportance(bdm::Point center, bdm::Vector normal, std::vector<bdm::Vector> &samples);
     
 	TSamplingMethod _method;
     std::vector<bdm::Vector> _storedSamples;

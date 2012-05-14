@@ -25,6 +25,7 @@ public:
     Parser();
     Render parse_config(char* config_path);
     std::vector<Surfel> parse_data_file(std::string file_name, float radius);
+    std::vector<Surfel> parse_data_file_v002(std::string file_name, float radius);
     std::vector<PointLight> parse_lights_file(std::string file_name);
     
 };

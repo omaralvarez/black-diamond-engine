@@ -67,9 +67,17 @@ public:
         return world_to_cam(p);
     }
     
+    bdm::Vector get_camera_normal(bdm::Vector &v) {
+        return world_to_cam(v);
+    }
+    
     //Obtains point in world coordinates.
     bdm::Point get_world_point(bdm::Point &p) {
         return cam_to_world(p);
+    }
+    
+    bdm::Vector get_world_normal(bdm::Vector &v) {
+        return cam_to_world(v);
     }
     
 };

@@ -22,11 +22,11 @@ class MonteCarlo {
     
 public:
     MonteCarlo() {
-        n_samples = 10;
+        n_samples = 30;
         //todo.resize(0);
     }
     
-    std::vector<float> integrate(Scene *s, Surfel *surfel, int level); 
+    std::vector<float> integrate(Scene *s, Ray *view, int level); 
     
 };
 
