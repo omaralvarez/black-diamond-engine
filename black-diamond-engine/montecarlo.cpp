@@ -19,13 +19,8 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Ray *view, int level) {
     //Calculate samples for Monte Carlo integration.
     static Sampler sampler;
     sampler.compute(view->hit, view->hit.normal, samples);
-    
-    /*if (surfel.x <= -0.097  && surfel.x >= -0.098 && surfel.y >= 0.8596 && surfel.y <= 0.8597  && surfel.z >= 9.9332 && surfel.z <= 9.9333){ for (int i = 0; i < n_samples; i++) std::cout << samples[i].x << " " << samples[i].y << " " << samples[i].z << std::endl;
-        std::cout << "-----------------" << std::endl;}*/
-    /*std::cout << surfel.x << " " << surfel.y << " " << surfel.z << std::endl;
-    std::cout << surfel.normal.x << " " << surfel.normal.y << " " << surfel.normal.z << std::endl;
-    //std::cout << samples[i].x << " " << samples[i].y << " " << samples[i].z << std::endl;
-    std::cout << "-----------------" << std::endl;*/
+    //BRDF *b = Material::get_brdf("BRDF_DIF");
+    //delete b;
         
     for (int i = 0; i < n_samples; i++) {
         
@@ -45,6 +40,7 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Ray *view, int level) {
             //If it intersects with other surfels, calculate MC again.
             if (hit.hit.mat.emit) {
                 
+                //b->brdf(hit.d, view->d, &view->hit, &hit.hit);
                 float cos_t = hit.d.dot(view->hit.normal);
                 rgb[0] = hit.hit.mat.diffuse[0] * cos_t * hit.hit.mat.emit;
                 rgb[1] = hit.hit.mat.diffuse[1] * cos_t * hit.hit.mat.emit;
@@ -52,10 +48,10 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Ray *view, int level) {
                 
                 /*bdm::Vector h = (hit.d + (-(view->d))).normalize();
                 float cos_h = h.dot(view->hit.normal);
-                
-                rgb[0] += hit.hit.mat.specular[0] * cos_h;
-                rgb[1] += hit.hit.mat.specular[1] * cos_h;
-                rgb[2] += hit.hit.mat.specular[2] * cos_h;*/
+                float phong = powf(cos_h, ray.hit.mat.exp);
+                rgb[0] += hit.hit.mat.specular[0] * phong * hit.hit.mat.emit;
+                rgb[1] += hit.hit.mat.specular[1] * phong * hit.hit.mat.emit;
+                rgb[2] += hit.hit.mat.specular[2] * phong * hit.hit.mat.emit;*/
                 
             } else if (level < 1) {
                 
@@ -63,7 +59,10 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Ray *view, int level) {
                 //todo.push_back(&new_mc);
                 rgb = new_mc.integrate(s, &hit,level+1);
                 
-            }
+            } /*else {
+                //Check if you can see a light from the sample.
+                //for (int j = 0; j < s->lights.size(); j++) s->lights[j].intersect(&ray);
+            }*/
             
         } 
         
@@ -96,9 +95,15 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Ray *view, int level) {
     sum_rgb[1] *= inv_samples;
     sum_rgb[2] *= inv_samples;
     
-    sum_rgb[0] *= view->hit.mat.diffuse[0]/255.f;
-    sum_rgb[1] *= view->hit.mat.diffuse[1]/255.f;
-    sum_rgb[2] *= view->hit.mat.diffuse[2]/255.f;
+    sum_rgb[0] *= view->hit.mat.diffuse[0];
+    sum_rgb[1] *= view->hit.mat.diffuse[1];
+    sum_rgb[2] *= view->hit.mat.diffuse[2];
+    
+    /*sum_rgb[0] = fminf(sum_rgb[0], 1.f);
+    sum_rgb[1] = fminf(sum_rgb[1], 1.f);
+    sum_rgb[2] = fminf(sum_rgb[2], 1.f);*/
+    
+   // delete b;
     
     return sum_rgb;
     

@@ -246,6 +246,43 @@ void Scene::get_normals() {
     
 }
 
+void Scene::get_radius() {
+    
+    float max_dist = 0.05f, min_dist = 1e-04f;
+    
+    max_dist = settings.max_dist; min_dist = settings.min_dist; //Read settings.
+        
+    for (int i = 0; i < cloud.size(); i++) {
+        Surfel p_i = cloud[i];
+        double mean_dist = 0; //For surfel radius estimation.
+        double weight_neigh = 0;
+        for (int j = 0; j < cloud.size(); j++) { //Create sum of neighbour distances: Sum( (pi-q) (pi-q)T theta(||pi-q||) )
+            if (i == j) continue;
+            Surfel p_j = cloud[j];
+            
+            if (fabsf(p_i.x - p_j.x) > max_dist || fabsf(p_i.y - p_j.y) > max_dist || fabsf(p_i.z - p_j.z) > max_dist) continue;
+            
+            bdm::Vector dist = p_j - p_i;
+            
+            float d = dist.length();
+            
+            if (d > max_dist || d < min_dist) continue;
+            
+            mean_dist += d; //Weighted arithmetic mean.
+            
+            //weight_neigh += 1.f/d; //Weighted arithmetic mean.
+            weight_neigh++;
+            
+        }
+        
+        //Auto radius calculation.
+        if(!cloud[i].radius) cloud[i].radius = float((mean_dist/weight_neigh)*3/4);
+        
+    }
+    
+    
+}
+
 //Estimates normals using the k-d tree. Creates a little error.
 //===TODO=== Actualizar con cambios de arriba.
 void Scene::get_normals_accel() {

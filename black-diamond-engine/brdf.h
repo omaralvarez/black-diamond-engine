@@ -19,7 +19,7 @@ class Surfel;
 class BRDF {
     
 public:
-    virtual std::vector<float> brdf(bdm::Vector sample, bdm::Vector view, Surfel *hit, Surfel *light) = 0;
+    virtual std::vector<float> brdf(bdm::Vector sample, bdm::Vector view) = 0;
     virtual ~BRDF() {}
 };
 
@@ -27,9 +27,14 @@ class BRDFDiffuse : public BRDF {
 
 public:
     
-	std::vector<float> brdf(bdm::Vector sample, bdm::Vector view, Surfel *hit, Surfel *light) {
-        std::cout << "BRDF Diffuse" << std::endl;
+	std::vector<float> brdf(bdm::Vector sample, bdm::Vector view) {
+        //std::cout << "BRDF Diffuse" << std::endl;
+        std::vector<float> rgb;
+        return rgb;
     }
+    
+    
+    
     ~BRDFDiffuse() {}
     
     friend class BRDF;

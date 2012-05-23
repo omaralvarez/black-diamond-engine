@@ -72,6 +72,8 @@ public:
     
     void get_normals();
     
+    void get_radius();
+    
     void get_normals_accel();
     
 };

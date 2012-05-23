@@ -22,7 +22,7 @@ class MonteCarlo {
     
 public:
     MonteCarlo() {
-        n_samples = 30;
+        n_samples = 10;
         //todo.resize(0);
     }
     

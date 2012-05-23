@@ -377,9 +377,9 @@ void Render::shading(Ray &ray) {
         
         float m_dot_s = v_s.dot(normal);
         if (m_dot_s > 0.001f) { //Cuidado deberia comparar con 0;
-            ray.hit.r = fminf(ray.hit.r + m_dot_s * ray.hit.mat.diffuse[0],255); 
-            ray.hit.g = fminf(ray.hit.g + m_dot_s * ray.hit.mat.diffuse[1],255); 
-            ray.hit.b = fminf(ray.hit.b + m_dot_s * ray.hit.mat.diffuse[2],255); 
+            ray.hit.r = fminf(ray.hit.r + m_dot_s * ray.hit.mat.diffuse[0],1.f); 
+            ray.hit.g = fminf(ray.hit.g + m_dot_s * ray.hit.mat.diffuse[1],1.f); 
+            ray.hit.b = fminf(ray.hit.b + m_dot_s * ray.hit.mat.diffuse[2],1.f); 
         }
         
         //Specular contribution.
@@ -387,11 +387,11 @@ void Render::shading(Ray &ray) {
         float m_dot_h = h.dot(normal);
         if (m_dot_h > 0.001f) { //Cuidado deberia comparar con 0;
             float phong = powf(m_dot_h, ray.hit.mat.exp);
-            ray.hit.r = fminf(ray.hit.r + phong * ray.hit.mat.specular[0],255); 
-            ray.hit.g = fminf(ray.hit.g + phong * ray.hit.mat.specular[1],255); 
-            ray.hit.b = fminf(ray.hit.b + phong * ray.hit.mat.specular[2],255); 
+            ray.hit.r = fminf(ray.hit.r + phong * ray.hit.mat.specular[0],1.f); 
+            ray.hit.g = fminf(ray.hit.g + phong * ray.hit.mat.specular[1],1.f); 
+            ray.hit.b = fminf(ray.hit.b + phong * ray.hit.mat.specular[2],1.f); 
         }
-        
+         
         //Hit av.
         //float av_r=0,av_g=0,av_b=0;
         //float w_r=0,w_g=0,w_b=0;
@@ -468,7 +468,7 @@ void Render::shading(Ray &ray) {
         ray.hit.b = fminf(av_b/w_b,255);
         //------
         */
-   // } //Ultimo corchete para old illumination model.
+   //} //Ultimo corchete para old illumination model.
     
     /*float weight_mc = (rgb[0] + rgb[1] + rgb[2])/3.f;
     float weight_hs = (ray.hit.r + ray.hit.g + ray.hit.b)/3.f;
@@ -622,9 +622,9 @@ void Render::get_kd_ray_hits() {
     
     for (int i = 0; i < x_res; i++) 
         for (int j = 0; j < y_res; j++) {
-            pix_vec[x_res-i-1][y_res-j-1][0] = rays[i][j].hit.r; //Cuidao en get pixel res!!! falta el menos 1. Y puede dar bad_Acces en el extremo.
-            pix_vec[x_res-i-1][y_res-j-1][1] = rays[i][j].hit.g;
-            pix_vec[x_res-i-1][y_res-j-1][2] = rays[i][j].hit.b;
+            pix_vec[x_res-i-1][y_res-j-1][0] = rays[i][j].hit.r*255.f;
+            pix_vec[x_res-i-1][y_res-j-1][1] = rays[i][j].hit.g*255.f;
+            pix_vec[x_res-i-1][y_res-j-1][2] = rays[i][j].hit.b*255.f;
         }   
     
     

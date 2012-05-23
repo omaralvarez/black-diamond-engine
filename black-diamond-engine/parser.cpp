@@ -240,8 +240,7 @@ std::vector<Surfel> Parser::parse_data_file_v002(std::string filePath, float rad
             normal = translation(normal);*/
             
             //BRDF *p = new BRDFDiffuse();
-            
-            data.push_back(Surfel(new_p.x,new_p.y,new_p.z,0,0,0,radius,Material(a,d,s,exp,em),normal)); //Blender -temp_z
+            data.push_back(Surfel(new_p.x,new_p.y,new_p.z,0,0,0,radius,Material(a,d,s,exp,em),normal));
             
         }
         
