@@ -22,7 +22,7 @@ public:
         
 	} TSamplingMethod;
     
-	Sampler() { _method = RANDOM; }
+	Sampler() { _method = IMPORTANCE; }
     
 	void compute(bdm::Point center, bdm::Vector normal, std::vector<bdm::Vector> &samples);
 	inline void setMethod(TSamplingMethod sm) { _method = sm; _storedSamples.resize(0); }

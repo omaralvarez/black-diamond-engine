@@ -31,6 +31,15 @@ namespace bdm {
             return *this;
         }
         
+        inline Vector operator-(Vector v) {
+            return Vector(x - v.x, y - v.y, z - v.z);
+        }
+        
+        inline Vector operator-=(Vector v) {
+            x -= v.x; y -= v.y; z -= v.z;
+            return *this;
+        }
+        
         inline Vector operator-() {
             return Vector(-x,-y,-z);
         }

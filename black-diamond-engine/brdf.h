@@ -12,30 +12,39 @@
 #include <vector>
 #include <iostream>
 #include "vector.h"
-#include "surfel.h"
-
-class Surfel;
 
 class BRDF {
     
 public:
-    virtual std::vector<float> brdf(bdm::Vector sample, bdm::Vector view) = 0;
+    virtual float diffuse(bdm::Vector sample, bdm::Vector normal) = 0;
+    virtual float specular(bdm::Vector sample, bdm::Vector view, bdm::Vector normal) = 0;
+    static BRDF* create(std::string type);
     virtual ~BRDF() {}
 };
 
-class BRDFDiffuse : public BRDF {
+class BRDFSimple : public BRDF {
 
 public:
     
-	std::vector<float> brdf(bdm::Vector sample, bdm::Vector view) {
-        //std::cout << "BRDF Diffuse" << std::endl;
-        std::vector<float> rgb;
-        return rgb;
+    //Compute diffuse reflection.
+	float diffuse(bdm::Vector sample, bdm::Vector normal) {
+        
+        float cos_t = sample.dot(normal);
+        
+        return cos_t;
+        
     }
     
-    
-    
-    ~BRDFDiffuse() {}
+    float specular(bdm::Vector sample, bdm::Vector view, bdm::Vector normal) {
+        
+        bdm::Vector h = (sample + (-(view))).normalize();
+        float cos_h = h.dot(normal);
+        float phong = powf(cos_h,50.f);
+        
+        return phong;
+    }
+
+    ~BRDFSimple() {}
     
     friend class BRDF;
     

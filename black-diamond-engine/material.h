@@ -19,7 +19,6 @@ public:
     float specular[3];
     float exp;
     float emit;
-    //BRDF *brdf;
     
     //Creates a default material.
     Material() {
@@ -48,6 +47,10 @@ public:
         emit = em;
 
     }
+    
+    /*~Material() {
+            //delete brdf;
+    }*/
     
 };
 

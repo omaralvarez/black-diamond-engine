@@ -15,6 +15,7 @@
 #define PI			3.14159265f
 #define TWO_PI		6.28318531f
 #define HALF_PI		1.57079633f
+#define IMPORTANCE_FACTOR 0.3f
 
 std::string Sampler::getMethodString() {
     
@@ -112,4 +113,32 @@ void Sampler::computeUniform(bdm::Point center, bdm::Vector normal, std::vector<
 }
 
 void Sampler::computeImportance(bdm::Point center, bdm::Vector normal, std::vector<bdm::Vector> &samples) {
+    
+    bdm::Vector p;
+	//osg::Matrix m = osg::Matrixd::rotate(osg::Vec3(0,0,1), normal);
+	float minDist = IMPORTANCE_FACTOR * TWO_PI/sqrt((float)samples.size());
+	for(unsigned int i=0; i<samples.size(); i++) {
+		p.x=1; p.y=1; p.z=1;
+		bool valid = false;
+		while(!valid) {
+			p.x = NORMALIZED_RAND*2.0f-1.0f;
+			p.z = NORMALIZED_RAND*2.0f-1.0f;
+			p.y = NORMALIZED_RAND;
+			if(p.length()>1) continue;
+			p.normalize();
+            
+			valid = true;
+            bdm::Transform t = t.rotate(bdm::Vector(0,1,0),normal);
+			p = t(p);
+			for(unsigned int j=0; j<i; j++) {
+				if((p-samples[j]).length()<minDist) {
+					valid = false;
+					break;
+				}
+			}
+		}
+        
+		samples[i] = p;
+	}
+    
 }
