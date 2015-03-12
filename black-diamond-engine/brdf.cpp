@@ -1,5 +1,5 @@
 /*
- *	ray.cpp
+ *	brdf.cpp
  *	black-diamond-engine
  *
  *	Created by Luis Omar Alvarez Mures on 2/13/12.
@@ -19,4 +19,11 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <iostream>
+#include "brdf.h"
+
+//BRDF Factory.
+BRDF* BRDF::create(std::string type) {
+    if ( type == "BRDF_SIMPLE" ) return new BRDFSimple();
+    //if ( type == "BRDF_OTHER_TYPE" ) return new BRDFOtherType();
+    return NULL;
+}

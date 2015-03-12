@@ -1,24 +1,40 @@
-//
-//  memoryarena.h
-//  black-diamond-engine
-//
-//  Created by Luis Omar Alvarez Mures on 2/14/12.
-//  Copyright (c) 2012 UDC. All rights reserved.
-//
+/*
+ *	memoryarena.h
+ *	black-diamond-engine
+ *
+ *	Created by Luis Omar Alvarez Mures on 2/13/12.
+ *	Copyright (c) 2012
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #ifndef black_diamond_engine_memoryarena_h
 #define black_diamond_engine_memoryarena_h
 
 #include <vector>
+#include <stdint.h>
+#include <cstdlib>
 
+//Memory management for k-d tree creation.
 class MemoryArena {
     
-    u_int32_t cur_block_pos, block_size;
+    uint32_t cur_block_pos, block_size;
     char *current_block;
     std::vector<char *> used_blocks, available_blocks;
     
 public:
-    MemoryArena(u_int32_t bs = 32768) {
+    MemoryArena(uint32_t bs = 32768) {
         block_size = bs;
         cur_block_pos = 0;
         current_block = (char *)alloc_aligned(block_size);
@@ -38,7 +54,7 @@ public:
         
     }
     
-    void *c_alloc(u_int32_t sz) {
+    void *c_alloc(uint32_t sz) {
         
         sz = ((sz+7) & (~7));
         if (cur_block_pos + sz > block_size) {

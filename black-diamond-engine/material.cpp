@@ -1,5 +1,5 @@
 /*
- *	ray.cpp
+ *	material.cpp
  *	black-diamond-engine
  *
  *	Created by Luis Omar Alvarez Mures on 2/13/12.
@@ -18,5 +18,3 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
-#include <iostream>

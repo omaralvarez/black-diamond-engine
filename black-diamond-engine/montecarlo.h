@@ -1,5 +1,5 @@
 /*
- *	ray.cpp
+ *	montecarlo.h
  *	black-diamond-engine
  *
  *	Created by Luis Omar Alvarez Mures on 2/13/12.
@@ -19,4 +19,28 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <iostream>
+#ifndef black_diamond_engine_montecarlo_h
+#define black_diamond_engine_montecarlo_h
+
+#include "sampler.h"
+#include "surfel.h"
+#include "scene.h"
+#include <vector>
+
+class MonteCarlo {
+    
+    int n_samples;
+    //Sampler sampler;
+    //std::vector<MonteCarlo *> todo;
+    
+public:
+    MonteCarlo() {
+        n_samples = 60;
+        //todo.resize(0);
+    }
+    
+    std::vector<float> integrate(Scene *s, Ray *view, int level); 
+    
+};
+
+#endif

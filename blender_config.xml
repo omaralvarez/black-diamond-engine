@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<scene>
+	<camera p_x="3.350586" p_y="-3.283203" p_z="-2.358398" d_x="-0.654862" d_y="0.610666" d_z="0.445245" up_x="-0.317370" up_y="0.312469" up_z="-0.895343"  hither="0.100000" yon="100.000000" angle_x="0.857556" angle_y="0.503380"/>
+	<render width="640" height="360" surfel_radius="0.009700" AA="false" normal_est="true" est_accel="false" r_func="2" max_dist="0.100000" min_dist="0.000100" kd_accel="true" kd_nodes="1000"/>
+	<data d_path="/Users/osurfer3/Dropbox/PFC/Datasets/custom_bde_datasets/blender.bde"/>
+</scene>

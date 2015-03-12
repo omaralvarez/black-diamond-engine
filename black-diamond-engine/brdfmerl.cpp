@@ -1,5 +1,5 @@
 /*
- *	ray.cpp
+ *	brdfmerl.cpp
  *	black-diamond-engine
  *
  *	Created by Luis Omar Alvarez Mures on 2/13/12.

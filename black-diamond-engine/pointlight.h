@@ -1,5 +1,5 @@
 /*
- *	parser.h
+ *	pointlight.h
  *	black-diamond-engine
  *
  *	Created by Luis Omar Alvarez Mures on 2/13/12.
@@ -19,27 +19,45 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef black_diamond_engine_parser_h
-#define black_diamond_engine_parser_h
+#ifndef black_diamond_engine_pointlight_h
+#define black_diamond_engine_pointlight_h
 
-#include <string>
-#include <vector>
+#include "light.h"
 #include "point.h"
-#include "render.h"
-#include "tinyxml.h"
-#include "surfel.h"
-#include "bdesettings.h"
+#include "vector.h"
+#include "ray.h"
 
-extern BDESettings settings;
-
-class Parser {
+class PointLight : public Light {
+    
+    float intensity;
     
 public:
-    Parser();
-    Render parse_config(char* config_path);
-    std::vector<Surfel> parse_data_file(std::string file_name, float radius);
-    std::vector<Surfel> parse_data_file_v002(std::string file_name, float radius);
-    std::vector<PointLight> parse_lights_file(std::string file_name);
+    bdm::Point light_pos;
+    
+    PointLight() {
+        
+        light_pos = bdm::Point(0,0,0);
+        intensity = 0;
+        
+    }
+    
+    PointLight(bdm::Point p,float intens) {
+        
+        light_pos = p;
+        intensity = intens;
+        
+    }
+    
+    float sample_l(bdm::Point p, float p_epsilon, float time, bdm::Vector wi, float pdf);
+    
+    float power() {
+        return 4.f * PI * intensity;
+    }
+    bool is_delta_light() {
+        return true;
+    }
+    
+    bool intersect(Ray *ray);
     
 };
 

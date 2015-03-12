@@ -1,5 +1,5 @@
 /*
- *	ray.cpp
+ *	light.cpp
  *	black-diamond-engine
  *
  *	Created by Luis Omar Alvarez Mures on 2/13/12.
@@ -20,3 +20,7 @@
 */
 
 #include <iostream>
+#include "light.h"
+#include "ray.h"
+
+

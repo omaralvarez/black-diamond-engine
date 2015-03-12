@@ -9,10 +9,14 @@
 /* Begin PBXBuildFile section */
 		60105DF014C59D100007540B /* parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105DEF14C59D100007540B /* parser.cpp */; };
 		60105DF914C59D8F0007540B /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105DF814C59D8F0007540B /* camera.cpp */; };
-		60105DFC14C59DED0007540B /* light_source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105DFB14C59DED0007540B /* light_source.cpp */; };
 		60105E0114C59EAD0007540B /* render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105E0014C59EAD0007540B /* render.cpp */; };
 		60105E0414C59EDE0007540B /* image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60105E0314C59EDE0007540B /* image.cpp */; };
+		601696D915601673001B8B65 /* brdf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 601696D815601673001B8B65 /* brdf.cpp */; };
 		607EF30314C33BAA00D801C9 /* scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 607EF30214C33BAA00D801C9 /* scene.cpp */; };
+		608EFCDD14F8089000DDF4F6 /* pointlight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608EFCDC14F8089000DDF4F6 /* pointlight.cpp */; };
+		608EFCE014F8180100DDF4F6 /* light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608EFCDF14F8180100DDF4F6 /* light.cpp */; };
+		608EFCE314F92E7100DDF4F6 /* material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608EFCE214F92E7000DDF4F6 /* material.cpp */; };
+		608EFCE91516060F00DDF4F6 /* bdesettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608EFCE81516060F00DDF4F6 /* bdesettings.cpp */; };
 		60A22A3D14DB0A5300D2ABBC /* libblack-diamond-math.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60A22A3C14DB0A4700D2ABBC /* libblack-diamond-math.a */; };
 		60A22A4C14DC375F00D2ABBC /* surfel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60A22A4B14DC375F00D2ABBC /* surfel.cpp */; };
 		60E8BC4A14D02CCB00FC9E57 /* tinystr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E8BC4414D02CCB00FC9E57 /* tinystr.cpp */; };
@@ -21,6 +25,9 @@
 		60E8BC4D14D02CCB00FC9E57 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60E8BC4914D02CCB00FC9E57 /* tinyxmlparser.cpp */; };
 		60EA722214B76B2100D2F3B3 /* bde.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60EA722114B76B2100D2F3B3 /* bde.cpp */; };
 		60EA722414B76B2100D2F3B3 /* black_diamond_engine.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60EA722314B76B2100D2F3B3 /* black_diamond_engine.1 */; };
+		60EAD99B156E983B002B98D6 /* brdfmerl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60EAD99A156E983B002B98D6 /* brdfmerl.cpp */; };
+		60EC98F6153F0F2100358780 /* sampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60EC98F5153F0F2100358780 /* sampler.cpp */; };
+		60EC98FA153F11A800358780 /* montecarlo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60EC98F9153F11A800358780 /* montecarlo.cpp */; };
 		60F7A43814E02A790026075E /* ray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60F7A43714E02A790026075E /* ray.cpp */; };
 		60F7A43C14E9804F0026075E /* aggregate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60F7A43B14E9804F0026075E /* aggregate.cpp */; };
 		60F7A44014E9822F0026075E /* bbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60F7A43F14E9822F0026075E /* bbox.cpp */; };
@@ -57,13 +64,21 @@
 		60105DF114C59D260007540B /* parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parser.h; sourceTree = "<group>"; };
 		60105DF714C59D860007540B /* camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = camera.h; sourceTree = "<group>"; };
 		60105DF814C59D8F0007540B /* camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = camera.cpp; sourceTree = "<group>"; };
-		60105DFB14C59DED0007540B /* light_source.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = light_source.cpp; sourceTree = "<group>"; };
-		60105DFD14C59DFA0007540B /* light_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = light_source.h; sourceTree = "<group>"; };
 		60105DFF14C59EA40007540B /* render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = render.h; sourceTree = "<group>"; };
 		60105E0014C59EAD0007540B /* render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = render.cpp; sourceTree = "<group>"; };
 		60105E0314C59EDE0007540B /* image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
 		60105E0514C59EE80007540B /* image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
+		601696D815601673001B8B65 /* brdf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = brdf.cpp; sourceTree = "<group>"; };
+		601696DA1560167E001B8B65 /* brdf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = brdf.h; sourceTree = "<group>"; };
 		607EF30214C33BAA00D801C9 /* scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scene.cpp; sourceTree = "<group>"; };
+		608EFCDB14F8088400DDF4F6 /* pointlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pointlight.h; sourceTree = "<group>"; };
+		608EFCDC14F8089000DDF4F6 /* pointlight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pointlight.cpp; sourceTree = "<group>"; };
+		608EFCDE14F817F200DDF4F6 /* light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = light.h; sourceTree = "<group>"; };
+		608EFCDF14F8180100DDF4F6 /* light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = light.cpp; sourceTree = "<group>"; };
+		608EFCE214F92E7000DDF4F6 /* material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = material.cpp; sourceTree = "<group>"; };
+		608EFCE414F92E7C00DDF4F6 /* material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = material.h; sourceTree = "<group>"; };
+		608EFCE71516060100DDF4F6 /* bdesettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bdesettings.h; sourceTree = "<group>"; };
+		608EFCE81516060F00DDF4F6 /* bdesettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bdesettings.cpp; sourceTree = "<group>"; };
 		60A22A3414DB0A4600D2ABBC /* black-diamond-math.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "black-diamond-math.xcodeproj"; path = "black-diamond-math/black-diamond-math.xcodeproj"; sourceTree = "<group>"; };
 		60A22A4B14DC375F00D2ABBC /* surfel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = surfel.cpp; sourceTree = "<group>"; };
 		60A22A4D14DC376F00D2ABBC /* surfel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = surfel.h; sourceTree = "<group>"; };
@@ -76,6 +91,12 @@
 		60EA721D14B76B2100D2F3B3 /* black-diamond-engine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "black-diamond-engine"; sourceTree = BUILT_PRODUCTS_DIR; };
 		60EA722114B76B2100D2F3B3 /* bde.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bde.cpp; sourceTree = "<group>"; };
 		60EA722314B76B2100D2F3B3 /* black_diamond_engine.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; name = black_diamond_engine.1; path = "black-diamond-engine/black_diamond_engine.1"; sourceTree = "<group>"; };
+		60EAD999156E982B002B98D6 /* brdfmerl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = brdfmerl.h; sourceTree = "<group>"; };
+		60EAD99A156E983B002B98D6 /* brdfmerl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = brdfmerl.cpp; sourceTree = "<group>"; };
+		60EC98F5153F0F2100358780 /* sampler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sampler.cpp; sourceTree = "<group>"; };
+		60EC98F7153F0F2C00358780 /* sampler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sampler.h; sourceTree = "<group>"; };
+		60EC98F8153F119600358780 /* montecarlo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = montecarlo.h; sourceTree = "<group>"; };
+		60EC98F9153F11A800358780 /* montecarlo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = montecarlo.cpp; sourceTree = "<group>"; };
 		60F7A43614E02A6E0026075E /* ray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ray.h; sourceTree = "<group>"; };
 		60F7A43714E02A790026075E /* ray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ray.cpp; sourceTree = "<group>"; };
 		60F7A43B14E9804F0026075E /* aggregate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = aggregate.cpp; sourceTree = "<group>"; };
@@ -113,8 +134,8 @@
 			isa = PBXGroup;
 			children = (
 				60E8BC4314D02CCA00FC9E57 /* tools */,
-				60105DEF14C59D100007540B /* parser.cpp */,
 				60105DF114C59D260007540B /* parser.h */,
+				60105DEF14C59D100007540B /* parser.cpp */,
 			);
 			name = parser;
 			sourceTree = "<group>";
@@ -128,13 +149,15 @@
 			name = camera;
 			sourceTree = "<group>";
 		};
-		60105DFA14C59DD00007540B /* light_source */ = {
+		60105DFA14C59DD00007540B /* light */ = {
 			isa = PBXGroup;
 			children = (
-				60105DFB14C59DED0007540B /* light_source.cpp */,
-				60105DFD14C59DFA0007540B /* light_source.h */,
+				608EFCDE14F817F200DDF4F6 /* light.h */,
+				608EFCDF14F8180100DDF4F6 /* light.cpp */,
+				608EFCDB14F8088400DDF4F6 /* pointlight.h */,
+				608EFCDC14F8089000DDF4F6 /* pointlight.cpp */,
 			);
-			name = light_source;
+			name = light;
 			sourceTree = "<group>";
 		};
 		60105DFE14C59E960007540B /* render */ = {
@@ -149,10 +172,32 @@
 		60105E0214C59ED00007540B /* image */ = {
 			isa = PBXGroup;
 			children = (
-				60105E0314C59EDE0007540B /* image.cpp */,
 				60105E0514C59EE80007540B /* image.h */,
+				60105E0314C59EDE0007540B /* image.cpp */,
 			);
 			name = image;
+			sourceTree = "<group>";
+		};
+		608EFCE514F92E8300DDF4F6 /* material */ = {
+			isa = PBXGroup;
+			children = (
+				60EAD999156E982B002B98D6 /* brdfmerl.h */,
+				60EAD99A156E983B002B98D6 /* brdfmerl.cpp */,
+				601696DA1560167E001B8B65 /* brdf.h */,
+				601696D815601673001B8B65 /* brdf.cpp */,
+				608EFCE414F92E7C00DDF4F6 /* material.h */,
+				608EFCE214F92E7000DDF4F6 /* material.cpp */,
+			);
+			name = material;
+			sourceTree = "<group>";
+		};
+		608EFCE6151605CC00DDF4F6 /* settings */ = {
+			isa = PBXGroup;
+			children = (
+				608EFCE71516060100DDF4F6 /* bdesettings.h */,
+				608EFCE81516060F00DDF4F6 /* bdesettings.cpp */,
+			);
+			name = settings;
 			sourceTree = "<group>";
 		};
 		60A22A3514DB0A4600D2ABBC /* Products */ = {
@@ -210,14 +255,28 @@
 				60F7A43914E02A7E0026075E /* ray */,
 				60105E0214C59ED00007540B /* image */,
 				60105DFE14C59E960007540B /* render */,
-				60105DFA14C59DD00007540B /* light_source */,
+				60EC98F4153F0F0600358780 /* integrators */,
+				608EFCE514F92E8300DDF4F6 /* material */,
+				60105DFA14C59DD00007540B /* light */,
 				60105DF614C59D750007540B /* camera */,
+				608EFCE6151605CC00DDF4F6 /* settings */,
 				60105DEE14C59CCF0007540B /* parser */,
 				60105DED14C59C200007540B /* scene */,
 				60A22A4A14DC374400D2ABBC /* surfel */,
 				60A22A3414DB0A4600D2ABBC /* black-diamond-math.xcodeproj */,
 			);
 			path = "black-diamond-engine";
+			sourceTree = "<group>";
+		};
+		60EC98F4153F0F0600358780 /* integrators */ = {
+			isa = PBXGroup;
+			children = (
+				60EC98F8153F119600358780 /* montecarlo.h */,
+				60EC98F9153F11A800358780 /* montecarlo.cpp */,
+				60EC98F7153F0F2C00358780 /* sampler.h */,
+				60EC98F5153F0F2100358780 /* sampler.cpp */,
+			);
+			name = integrators;
 			sourceTree = "<group>";
 		};
 		60F7A43914E02A7E0026075E /* ray */ = {
@@ -315,7 +374,6 @@
 				607EF30314C33BAA00D801C9 /* scene.cpp in Sources */,
 				60105DF014C59D100007540B /* parser.cpp in Sources */,
 				60105DF914C59D8F0007540B /* camera.cpp in Sources */,
-				60105DFC14C59DED0007540B /* light_source.cpp in Sources */,
 				60105E0114C59EAD0007540B /* render.cpp in Sources */,
 				60105E0414C59EDE0007540B /* image.cpp in Sources */,
 				60E8BC4A14D02CCB00FC9E57 /* tinystr.cpp in Sources */,
@@ -328,6 +386,14 @@
 				60F7A44014E9822F0026075E /* bbox.cpp in Sources */,
 				60F7A44214E993990026075E /* kdtreeaccel.cpp in Sources */,
 				60F7A44814EAB4E40026075E /* memoryarena.cpp in Sources */,
+				608EFCDD14F8089000DDF4F6 /* pointlight.cpp in Sources */,
+				608EFCE014F8180100DDF4F6 /* light.cpp in Sources */,
+				608EFCE314F92E7100DDF4F6 /* material.cpp in Sources */,
+				608EFCE91516060F00DDF4F6 /* bdesettings.cpp in Sources */,
+				60EC98F6153F0F2100358780 /* sampler.cpp in Sources */,
+				60EC98FA153F11A800358780 /* montecarlo.cpp in Sources */,
+				601696D915601673001B8B65 /* brdf.cpp in Sources */,
+				60EAD99B156E983B002B98D6 /* brdfmerl.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,89 +403,67 @@
 		60EA722514B76B2100D2F3B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_OPENMP_SUPPORT = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				ENABLE_OPENMP_SUPPORT = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
-				WARNING_CFLAGS = "$(OTHER_CFLAGS)";
+				USER_HEADER_SEARCH_PATHS = "/Users/osurfer3/Dropbox/PFC/black-diamond-engine/black-diamond-engine/black-diamond-math";
 			};
 			name = Debug;
 		};
 		60EA722614B76B2100D2F3B3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_OPENMP_SUPPORT = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ENABLE_OPENMP_SUPPORT = NO;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
-				WARNING_CFLAGS = "$(OTHER_CFLAGS)";
+				USER_HEADER_SEARCH_PATHS = "/Users/osurfer3/Dropbox/PFC/black-diamond-engine/black-diamond-engine/black-diamond-math";
 			};
 			name = Release;
 		};
 		60EA722814B76B2100D2F3B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ENABLE_OPENMP_SUPPORT = YES;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
-				HEADER_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_CPLUSPLUSFLAGS = (
-					"-H",
-					"$(OTHER_CFLAGS)",
+				ENABLE_OPENMP_SUPPORT = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_LDFLAGS = (
+					"-lboost_system",
+					"-lboost_timer",
+					"-lpng",
 				);
-				OTHER_LDFLAGS = "-lpng";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "/Users/osurfer3/Dropbox/PFC/black-diamond-engine/black-diamond-engine/black-diamond-math/";
 			};
 			name = Debug;
 		};
 		60EA722914B76B2100D2F3B3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ENABLE_OPENMP_SUPPORT = YES;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
-				HEADER_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_CPLUSPLUSFLAGS = (
-					"-H",
-					"$(OTHER_CFLAGS)",
+				ENABLE_OPENMP_SUPPORT = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_LDFLAGS = (
+					"-lboost_system",
+					"-lboost_timer",
+					"-lpng",
 				);
-				OTHER_LDFLAGS = "-lpng";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "/Users/osurfer3/Dropbox/PFC/black-diamond-engine/black-diamond-engine/black-diamond-math/";
 			};
 			name = Release;
 		};

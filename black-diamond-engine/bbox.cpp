@@ -1,14 +1,28 @@
-//
-//  bbox.cpp
-//  black-diamond-engine
-//
-//  Created by Luis Omar Alvarez Mures on 2/13/12.
-//  Copyright (c) 2012 UDC. All rights reserved.
-//
+/*
+ *	bbox.cpp
+ *	black-diamond-engine
+ *
+ *	Created by Luis Omar Alvarez Mures on 2/13/12.
+ *	Copyright (c) 2012
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #include <iostream>
 #include "bbox.h"
 
+//Returns new bounding box that contains the point p.
 BBox BBox::uni(bdm::Point p){
     
     BBox ret = BBox(); //Remember this used to be called with a BBox, not creating one.
@@ -25,6 +39,7 @@ BBox BBox::uni(bdm::Point p){
     
 }
 
+//Returns new bounding box that covers the two bounding boxes.
 BBox BBox::uni(BBox b2) {
     
     BBox ret = BBox(); //Remember this used to be called with a BBox, not creating one.
@@ -41,6 +56,7 @@ BBox BBox::uni(BBox b2) {
     
 }
 
+//Returns true if bounding boxes overlap.
 bool BBox::overlaps (BBox b) {
     
     bool x = (p_max.x >= b.p_min.x) && (p_min.x <= b.p_max.x);
@@ -51,6 +67,7 @@ bool BBox::overlaps (BBox b) {
     
 }
 
+//Returns longest axis.
 int BBox::maximum_extent() {
     
     bdm::Vector diag = p_max - p_min;
@@ -61,15 +78,16 @@ int BBox::maximum_extent() {
     
 }
 
-bool BBox::intersect_p(Ray ray, float *hit0, float *hit1) {
+//Returns true if the ray intersects with the bounding box.
+bool BBox::intersect_p(Ray *ray, float *hit0, float *hit1) {
     
-    float t0 = ray.mint, t1 = ray.maxt;
+    float t0 = ray->mint, t1 = ray->maxt;
         
     for (int i = 0; i < 3; i++) {
         
-        float inv_ray_dir = 1.f / ray.d[i];
-        float tnear = (p_min[i] - ray.o[i]) * inv_ray_dir;
-        float tfar  = (p_max[i] - ray.o[i]) * inv_ray_dir;
+        float inv_ray_dir = 1.f / ray->d[i];
+        float tnear = (p_min[i] - ray->o[i]) * inv_ray_dir;
+        float tfar  = (p_max[i] - ray->o[i]) * inv_ray_dir;
         
         if (tnear > tfar) std::swap(tnear,tfar);
         t0 = tnear > t0 ? tnear : t0;
