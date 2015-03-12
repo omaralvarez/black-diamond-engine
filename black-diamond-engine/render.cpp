@@ -1,10 +1,23 @@
-//
-//  render.cpp
-//  black-diamond-engine
-//
-//  Created by Luis Omar Alvarez Mures on 1/17/12.
-//  Copyright (c) 2012 UDC. All rights reserved.
-//
+/*
+ *	render.cpp
+ *	black-diamond-engine
+ *
+ *	Created by Luis Omar Alvarez Mures on 2/13/12.
+ *	Copyright (c) 2012
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #include "render.h"
 #include "point.h"
@@ -16,6 +29,7 @@
 #include <iostream>
 #include <vector>
 #include <boost/timer/timer.hpp>
+#include "brdfmerl.h"
 
 extern BDESettings settings;
 
@@ -226,42 +240,24 @@ void Render::get_rays() {
 //====TODO==== Hay que actualizarlo para que funcione con materiales.
 void Render::get_ray_hits() {
     
+    boost::timer::auto_cpu_timer t;
+    
     for (int i = 0; i < x_res; i++){ 
         #pragma omp parallel for
         for (int j = 0; j < y_res; j++) { 
             for (int k = 0; k < s.cloud.size(); k++) {
                 
-                //Checks for intersections with a sphere with radius equal to the surfels radius.
-                float A = rays[i][j].d.dot(rays[i][j].d);
-                float B = (rays[i][j].o - s.cloud[k]).dot(rays[i][j].d);
-                float C = (rays[i][j].o - s.cloud[k]).dot(rays[i][j].o - s.cloud[k]) - powf(s.cloud[k].radius,2.f);
+                //std::cout<<s.cloud[k].x<<std::endl;
+                s.cloud[k].intersect(&rays[i][j]);
                 
-                float disc = B*B - A*C;
-                
-                if (disc < 0.f) {
-                    //std::cout << "Ray miss" << std::endl;
-                } else {
-                    
-                    float root = sqrtf(disc);
-                    float t;
-                    
-                    if (root >=0 && root < 0.0000001) t = -B/A;
-                    else {
-                        t = (-B - root)/A; //En principio la t mas pequeña deberia ser siempre esta. Pero hay que comprobarlo.
-                        
-                        //float t2 = (-B + root)/A; 
-                        
-                        //std::cout << t1 << " " << t2 << std::endl;
-                    }
-                    
-                    if (t < rays[i][j].t_hit) {
-                        rays[i][j].hit = s.cloud[k];
-                        rays[i][j].t_hit = t;
-                    }
-                    
-                }
-                    
             }
+            
+            if (rays[i][j].t_hit != INFINITY) {
+
+                shading(rays[i][j]);
+                
+            }
+            
         }
     }
     std::vector<std::vector<std::vector<short> > > pix_vec;
@@ -276,9 +272,9 @@ void Render::get_ray_hits() {
     
     for (int i = 0; i < x_res; i++) {
         for (int j = 0; j < y_res; j++) {
-            pix_vec[x_res-i-1][y_res-j-1][0] = rays[i][j].hit.r; //Cuidao en get pixel res!!! falta el menos 1. Y puede dar bad_Acces en el extremo.
-            pix_vec[x_res-i-1][y_res-j-1][1] = rays[i][j].hit.g;
-            pix_vec[x_res-i-1][y_res-j-1][2] = rays[i][j].hit.b;
+            pix_vec[x_res-i-1][y_res-j-1][0] = rays[i][j].hit.r*255.f;
+            pix_vec[x_res-i-1][y_res-j-1][1] = rays[i][j].hit.g*255.f;
+            pix_vec[x_res-i-1][y_res-j-1][2] = rays[i][j].hit.b*255.f;
         }   
     }
     
@@ -289,12 +285,48 @@ void Render::get_ray_hits() {
     
     im->write_png_file(f_name);
     
+    delete im;
+    
 }
 
 //This function takes care of the shading of the material.
 void Render::shading(Ray &ray) {
+    //Normal weight overlapping.
+    /*bdm::Vector av_norm = ray.hit.normal;
+     
+     for (int i = 0; i < ray.hitlist.size(); i++) {
+     
+     float real_dist = (ray.hit - ray(ray.hitlist_t[i])).length();
+     if (real_dist > ray.hit.radius*3) continue;
+     if (ray.hit.normal.dot(ray.hitlist[i].normal) < 0.7f) continue;
+     
+     av_norm += ray.hitlist[i].normal;
+     av_norm *= 0.5f;
+     
+     }
+     
+     normal = av_norm;*/
+    //Normal weighted overlap no cost
+    /*bdm::Vector av_norm = bdm::Vector(0.f,0.f,0.f);
+    float av_sum = 0.f;
     
-    if (ray.hit.mat.emit) {
+    for (int i = 0; i < ray.hitlist.size(); i++) {
+        
+        float real_dist = (ray.hit - ray(ray.hitlist_t[i])).length();
+        if (real_dist > ray.hit.radius*2.f) continue;
+        if (ray.hit.normal.dot(ray.hitlist[i].normal) < 0.2f) continue;
+        
+        float dn = (hit_point - ray.hitlist[i]).length();
+        float rn = ray.hitlist[i].radius;
+        
+        av_norm += ray.hitlist[i].normal*fabsf(1.f-(dn/rn));
+        av_sum += fabsf(1.f-(dn/rn));
+        
+    }
+    
+    normal = av_norm/av_sum;*/
+    
+    /*if (ray.hit.mat.emit) {
         
         ray.hit.r = ray.hit.mat.diffuse[0];
         ray.hit.g = ray.hit.mat.diffuse[1];
@@ -310,7 +342,7 @@ void Render::shading(Ray &ray) {
         ray.hit.g = rgb[1];
         ray.hit.b = rgb[2];
         
-    }
+    }*/
     /*float av_r=0,av_g=0,av_b=0;
     float w_r=0,w_g=0,w_b=0;
     std::vector<float> rgb(3);
@@ -352,7 +384,7 @@ void Render::shading(Ray &ray) {
     //Old illumination model.
     //---------------------------------------------------
     
-    /*bdm::Point hit_point = ray(ray.t_hit);
+    bdm::Point hit_point = ray(ray.t_hit);
     
     //Ambient contribution.
     //ray.hit.r = ray.hit.mat.ambient[0];
@@ -363,15 +395,36 @@ void Render::shading(Ray &ray) {
         
         VisibilityTester vis;
         //std::cout << s.lights[k].light_pos.x << " " << s.lights[k].light_pos.y << " " << s.lights[k].light_pos.z << std::endl;
-        vis.set_segment(hit_point, 0.5f, s.lights[k].light_pos, 0.f, ray.t_hit);//Antes era hit_p,0.||hit_p,settings.min_dist
-        if (!vis.unoccluded(s)) continue; //If shadow continue.
+        if (settings.kd_accel){
+            vis.set_segment(hit_point, 0.5f, s.lights[k].light_pos, 0.f, ray.t_hit);
+            if (!vis.unoccluded(s)) continue; //If shadow continue.
+        } 
         
         //Diffuse contribution.
         bdm::Vector v_s = (s.lights[k].light_pos - hit_point).normalize();
         bdm::Vector normal;
         if(!settings.normal_est) normal = (hit_point - ray.hit).normalize(); //Sphere normal.
         else normal = ray.hit.normal; //Estimated normal.
-         
+        
+        bdm::Vector av_norm = bdm::Vector(0.f,0.f,0.f);
+        float av_sum = 0.f;
+        
+        for (int i = 0; i < ray.hitlist.size(); i++) {
+            
+            float real_dist = (ray.hit - ray(ray.hitlist_t[i])).length();
+            if (real_dist > ray.hit.radius*2.f) continue;
+            if (ray.hit.normal.dot(ray.hitlist[i].normal) < 0.95f) continue;
+            
+            float dn = (hit_point - ray.hitlist[i]).length();
+            float rn = ray.hitlist[i].radius;
+            
+            av_norm += ray.hitlist[i].normal*fabsf(1.f-(dn/rn));
+            av_sum += fabsf(1.f-(dn/rn));
+            
+        }
+        
+        normal = av_norm/av_sum;
+        
         //std::cout << ray.hit.normal.x << " " << ray.hit.normal.y << " " << ray.hit.normal.z << std::endl;
         //std::cout << s.cloud[0].normal.x << " " << s.cloud[0].normal.y << " " << s.cloud[0].normal.z << std::endl;
         
@@ -391,7 +444,12 @@ void Render::shading(Ray &ray) {
             ray.hit.g = fminf(ray.hit.g + phong * ray.hit.mat.specular[1],1.f); 
             ray.hit.b = fminf(ray.hit.b + phong * ray.hit.mat.specular[2],1.f); 
         }
-         
+        /*BRDFMERL b;
+        std::vector<float> rgb = b.brdf(ray.d, ray.d, ray.hit.normal, "/Users/osurfer3/Downloads/gold-metallic-paint.binary");
+        ray.hit.r = rgb[0];
+        ray.hit.g = rgb[1];
+        ray.hit.b = rgb[2];*/
+    
         //Hit av.
         //float av_r=0,av_g=0,av_b=0;
         //float w_r=0,w_g=0,w_b=0;
@@ -468,7 +526,7 @@ void Render::shading(Ray &ray) {
         ray.hit.b = fminf(av_b/w_b,255);
         //------
         */
-   //} //Ultimo corchete para old illumination model.
+   } //Ultimo corchete para old illumination model.
     
     /*float weight_mc = (rgb[0] + rgb[1] + rgb[2])/3.f;
     float weight_hs = (ray.hit.r + ray.hit.g + ray.hit.b)/3.f;
@@ -608,6 +666,7 @@ void Render::get_kd_ray_hits() {
                 rays[i][j] = hit;
             }
         }
+        
     }
     std::vector<std::vector<std::vector<short> > > pix_vec;
     
@@ -634,5 +693,7 @@ void Render::get_kd_ray_hits() {
     Image *im = new Image(f_name,x_res,y_res,pix_vec);
     
     im->write_png_file(f_name);
+    
+    delete im;
     
 }

@@ -1,12 +1,23 @@
-//
-//  parser.cpp
-//  black-diamond-engine
-//
-//  Created by Luis Omar Alvarez Mures on 1/17/12.
-//  Copyright (c) 2012 UDC. All rights reserved.
-//
-//  Class in charge of parsing data files and config files.
-
+/*
+ *	parser.cpp
+ *	black-diamond-engine
+ *
+ *	Created by Luis Omar Alvarez Mures on 2/13/12.
+ *	Copyright (c) 2012
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #include <iostream>
 #include <fstream>
@@ -240,7 +251,8 @@ std::vector<Surfel> Parser::parse_data_file_v002(std::string filePath, float rad
             normal = translation(normal);*/
             
             //BRDF *p = new BRDFDiffuse();
-            data.push_back(Surfel(new_p.x,new_p.y,new_p.z,0,0,0,radius,Material(a,d,s,exp,em),normal));
+            if (em) data.push_back(Surfel(new_p.x,new_p.y,new_p.z,0,0,0,1,Material(a,d,s,exp,em),normal));
+            else data.push_back(Surfel(new_p.x,new_p.y,new_p.z,0,0,0,radius,Material(a,d,s,exp,em),normal));
             
         }
         

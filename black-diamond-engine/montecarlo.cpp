@@ -1,15 +1,29 @@
-//
-//  montecarlo.cpp
-//  black-diamond-engine
-//
-//  Created by Luis Omar Alvarez Mures on 4/18/12.
-//  Copyright (c) 2012 UDC. All rights reserved.
-//
+/*
+ *	montecarlo.cpp
+ *	black-diamond-engine
+ *
+ *	Created by Luis Omar Alvarez Mures on 2/13/12.
+ *	Copyright (c) 2012
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #include <iostream>
 #include "montecarlo.h"
 #include "ray.h"
 #include "brdf.h"
+#include "brdfmerl.h"
 
 //Cambiar escena a puntero. Surfel puntero tambien.
 std::vector<float> MonteCarlo::integrate(Scene *s, Ray *view, int level) {
@@ -22,6 +36,7 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Ray *view, int level) {
     static Sampler sampler;
     sampler.compute(view->hit, view->hit.normal, samples);
     BRDF *brdf = BRDF::create("BRDF_SIMPLE");
+    //static BRDFMERL b;
     
     /*brdf->diffuse(bdm::Vector());
     brdf->specular(bdm::Vector(),bdm::Vector());*/
@@ -45,6 +60,7 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Ray *view, int level) {
                 rgb[1] = ray.hit.mat.diffuse[1] * dif_ref * ray.hit.mat.emit;
                 rgb[2] = ray.hit.mat.diffuse[2] * dif_ref * ray.hit.mat.emit;
                 
+                //rgb = b.brdf(ray.d, view->d, view->hit.normal, "/Users/osurfer3/Downloads/gold-metallic-paint.binary");
                 
                 float phong = brdf->specular(ray.d, view->d, view->hit.normal);
                  
@@ -62,8 +78,7 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Ray *view, int level) {
             
         } else {
 
-        //If the ray doesn't intersect with anything ambient contribution.
-            //std::cout << "Nothing." << std::endl;
+            //If the ray doesn't intersect with anything ambient contribution.
             rgb[0] = view->hit.mat.ambient[0];
             rgb[1] = view->hit.mat.ambient[1];
             rgb[2] = view->hit.mat.ambient[2];
@@ -86,9 +101,9 @@ std::vector<float> MonteCarlo::integrate(Scene *s, Ray *view, int level) {
     sum_rgb[1] *= view->hit.mat.diffuse[1];
     sum_rgb[2] *= view->hit.mat.diffuse[2];
     
-    /*sum_rgb[0] = fminf(sum_rgb[0], 1.f);
+    sum_rgb[0] = fminf(sum_rgb[0], 1.f);
     sum_rgb[1] = fminf(sum_rgb[1], 1.f);
-    sum_rgb[2] = fminf(sum_rgb[2], 1.f);*/
+    sum_rgb[2] = fminf(sum_rgb[2], 1.f);
     
     delete brdf;
     

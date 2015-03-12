@@ -1,10 +1,23 @@
-//
-//  bde.cpp
-//  black-diamond-engine
-//
-//  Created by Luis Omar Alvarez Mures on 1/6/12.
-//  Copyright (c) 2012 UDC. All rights reserved.
-//
+/*
+ *	bde.cpp
+ *	black-diamond-engine
+ *
+ *	Created by Luis Omar Alvarez Mures on 2/13/12.
+ *	Copyright (c) 2012
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #ifdef _OPENMP
 #include <omp.h>
@@ -61,7 +74,7 @@ int main (int argc, const char * argv[]) {
     /*for (int i=0; i<renderer.s.cloud.size(); i++) {
         cout  << renderer.s.cloud[i].x << " " << renderer.s.cloud[i].y << " " << renderer.s.cloud[i].z << endl;
     }*/
-    cout << "Size after filtering: " << renderer.s.cloud.size() << endl;
+    std::cout << "Size after filtering: " << renderer.s.cloud.size() << std::endl;
     //Def call: int icost = 80, int scost = 1,  float ebonus = 0.5f, int maxp = 1,int maxDepth = -1
     //renderer.s.kd_tree = kd_tree;
     
